@@ -13,16 +13,19 @@
 # itself costs a few syscalls: `read -t` against a descriptor that can never
 # deliver input.
 #
-# SIGNAL OPT-IN. `read -t` is used only in a process that names
-# FM_SLEEP_SIGPREFIX and arms flag-file traps for its stop signals
-# (`trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM`, likewise .int/.hup/.quit):
-# a fatal signal interrupting read -t re-raises through kill_shell, which
-# this bash build can fault, and an 'exit' inside a handler takes the same
-# path. The flag survives even a trap fired inside a command substitution
-# subshell, and fm_sleep_signal_check exits through the ordinary path with
-# the matching 128+sig status (overridable per signal via
-# FM_SLEEP_SIGEXIT_<sig>). A process without the prefix keeps external sleep,
-# so library code is safe under every caller disposition.
+# SIGNAL OPT-IN. `read -t` is used only in the process that armed it with
+# fm_sleep_arm <prefix>, which names FM_SLEEP_SIGPREFIX and installs flag-file
+# traps for HUP, TERM, INT and QUIT: a fatal signal interrupting read -t
+# re-raises through kill_shell, which this bash build can fault, and an
+# 'exit' inside a handler takes the same path. The flag survives even a trap
+# fired inside a command substitution subshell, and fm_sleep_signal_check
+# exits through the ordinary path with the matching 128+sig status
+# (overridable per signal via FM_SLEEP_SIGEXIT_<sig>). The opt-in is bound to
+# the arming shell's BASH_SUBSHELL level: a subshell, background job or
+# command substitution inherits the prefix but not the caught traps, so it
+# keeps external sleep unless it arms again itself. A process that never
+# arms keeps external sleep, so library code is safe under every caller
+# disposition.
 #
 # MECHANISM. A private FIFO at FM_SLEEP_FIFO (default
 # ${TMPDIR:-/tmp}/fm-sleep.<uid>.fifo) is opened O_RDWR, which makes its read
@@ -31,34 +34,37 @@
 # each call, so no descriptor is ever held across a child spawn - bash marks
 # no ordinary descriptor close-on-exec, and leaking one into every child is
 # not acceptable. The FIFO is shared per user and lazily created; every
-# anomaly (missing path, foreign file, unavailable descriptor, a shell that
-# rejects the requested precision) falls back to external sleep rather than
-# failing or shortening the wait. A stray same-user write to the FIFO ends a
-# wait early exactly like a signal ends sleep early; nothing in this repo
-# writes to it, and the file is user-private by creation.
+# anomaly (a path held by anything but a FIFO, an uncreatable path, an
+# unavailable descriptor, a shell that rejects the requested precision) falls
+# back to external sleep rather than failing, shortening the wait, or
+# touching the foreign file. A stray same-user write to the FIFO ends a wait
+# early exactly like a signal ends sleep early; nothing in this repo writes to
+# it, and the file is user-private by creation.
 #
 # BASH SUPPORT. Integer waits run fork-free on every supported Bash,
 # including stock macOS Bash 3.2. Fractional waits need a shell whose
-# `read -t` accepts a decimal timeout; the first fractional call per process
-# probes that once, and on a refusal (stock 3.2 accepts only integers) the
-# call takes the sanctioned external-sleep fallback instead of rounding the
-# interval, which would change the caller's timing contract.
+# `read -t` accepts a decimal timeout, which Bash gained in 4.0; the
+# capability is settled once per process from BASH_VERSINFO, and on an
+# integer-only shell (stock 3.2 rejects a decimal as an invalid timeout) a
+# fractional call takes the sanctioned external-sleep fallback instead of
+# rounding the interval, which would change the caller's timing contract.
 #
 # SET -U / SET -E SAFE. Every global is read with a default, and the
 # timing-out `read` - whose nonzero status is the normal path - is always
 # consumed, so a caller under `set -e` waits exactly as it did with `sleep`.
 # The no-fork path returns 0; the fallback path propagates external sleep's
 # own status, so `sleep` and `fm_sleep` stay interchangeable in `&&`, `||`,
-# and errexit contexts.
+# and errexit contexts. Both paths check the stop flags after the wait.
 #
 # Per-process state, none exported:
-#   _FM_SLEEP_FRAC   '' unprobed, 1 fractions accepted, 0 integers only
-#   _FM_SLEEP_FD     descriptor number bound for the current wait
+#   _FM_SLEEP_FRAC       1 fractions accepted, 0 integers only
+#   _FM_SLEEP_FD         descriptor number bound for the current wait
+#   _FM_SLEEP_ARMED_AT   BASH_SUBSHELL level fm_sleep_arm ran at, '' unarmed
 
 # Source-idempotent: backend adapters source this file lazily at dispatch time,
 # so without a guard a late `. fm-sleep-lib.sh` would redefine fm_sleep over an
 # override a caller deliberately installed (tests rely on this) and reset the
-# per-process probe state.
+# per-process state.
 if [ -n "${_FM_SLEEP_LIB_SOURCED:-}" ]; then
   return 0
 fi
@@ -71,7 +77,7 @@ _FM_SLEEP_LIB_SOURCED=1
 # the {var} token but cannot execute it - use fixed fd 42, and only after
 # proving it closed so an occupied descriptor forces the external fallback
 # rather than being silently retargeted mid-call.
-if [ -z "${FM_SLEEP_FIXED_FD:-}" ] && { [ "${BASH_VERSINFO[0]}" -gt 4 ] || { [ "${BASH_VERSINFO[0]}" -eq 4 ] && [ "${BASH_VERSINFO[1]:-0}" -ge 1 ]; }; }; then
+if [ "${BASH_VERSINFO[0]}" -gt 4 ] || { [ "${BASH_VERSINFO[0]}" -eq 4 ] && [ "${BASH_VERSINFO[1]:-0}" -ge 1 ]; }; then
   _fm_sleep_open() {
     # The 2>/dev/null lives on the group, not the exec: an error redirect on a
     # bare exec would permanently retarget the shell's own stderr.
@@ -90,6 +96,12 @@ else
     exec 42<&-
   }
 fi
+if [ "${BASH_VERSINFO[0]}" -ge 4 ]; then
+  _FM_SLEEP_FRAC=1
+else
+  _FM_SLEEP_FRAC=0
+fi
+_FM_SLEEP_ARMED_AT=
 
 # 0 when <fd> is closed in this shell. /dev/fd is one stat on macOS and
 # Linux; where it is absent the only fork-free-safe alternative is a subshell
@@ -104,91 +116,79 @@ _fm_sleep_fd_free() {
 }
 
 # Create the shared never-readable FIFO once; it outlives any one caller and
-# is recreated the next call if removed. rm and mkfifo fork only on this cold
-# path - typically once per boot per user - and only ever inside a call that
-# was already going to wait.
-_fm_sleep_make_fifo() {
-  rm -f -- "$FM_SLEEP_FIFO" 2>/dev/null || true
-  ( umask 077; mkfifo "$FM_SLEEP_FIFO" ) 2>/dev/null || return 1
-  [ -p "$FM_SLEEP_FIFO" ]
-}
-
+# is recreated the next call if removed. mkfifo forks only on this cold path -
+# typically once per boot per user - and only ever inside a call that was
+# already going to wait. It never replaces an existing path: anything but a
+# FIFO there fails the check and the call falls back to external sleep, and a
+# concurrent creator's FIFO satisfies it.
 _fm_sleep_open_wait_target() {
   [ -n "${FM_SLEEP_FIFO:-}" ] || FM_SLEEP_FIFO="${TMPDIR:-/tmp}/fm-sleep.${UID:-0}.fifo"
-  [ -p "$FM_SLEEP_FIFO" ] || _fm_sleep_make_fifo || return 1
+  if [ ! -p "$FM_SLEEP_FIFO" ]; then
+    ( umask 077; mkfifo "$FM_SLEEP_FIFO" ) 2>/dev/null
+    [ -p "$FM_SLEEP_FIFO" ] || return 1
+  fi
   _fm_sleep_open
 }
 
-# Probe once whether this shell's `read -t` accepts a decimal timeout. The
-# probe reads the already-open wait descriptor inside one command
-# substitution, so it costs a single fork on the first fractional call per
-# process and nothing after. Stock 3.2 answers "invalid timeout
-# specification" instantly while capable shells just time out, so the verdict
-# keys on the diagnostic text.
-_fm_sleep_frac_probe() {
-  local _fm_s_probe
-  _fm_s_probe=$(read -r -t 0.02 -u "$_FM_SLEEP_FD" 2>&1)
-  case "$_fm_s_probe" in
-    *invalid*) _FM_SLEEP_FRAC=0; return 1 ;;
-    *) _FM_SLEEP_FRAC=1; return 0 ;;
+# Wait <seconds> in-shell and return 0, or return 1 without waiting when this
+# call must take external sleep: the process has not armed at this subshell
+# level, the argument is not a plain non-negative decimal (external sleep
+# keeps its own validation and diagnostics), the shell cannot honor a
+# fraction, or the FIFO or a descriptor is unavailable.
+_fm_sleep_in_shell() {
+  [ -n "${FM_SLEEP_SIGPREFIX:-}" ] && [ "${_FM_SLEEP_ARMED_AT:-}" = "$BASH_SUBSHELL" ] || return 1
+  case "$1" in
+    ''|*.*.*|*[!0-9.]*|.|*.) return 1 ;;
+    *.*) [ "$_FM_SLEEP_FRAC" = 1 ] || return 1 ;;
   esac
+  _fm_sleep_open_wait_target || return 1
+  read -r -t "$1" -u "$_FM_SLEEP_FD" 2>/dev/null || :
+  _fm_sleep_close
 }
 
 fm_sleep() {
-  local _fm_s_secs=${1-}
+  local _fm_s_rc=0
   fm_sleep_signal_check
-  # The in-shell wait is only signal-safe when this process opts in by naming
-  # a flag prefix and arming flag-file traps for its stop signals; without it,
-  # a fatal signal interrupting `read -t` re-raises through kill_shell, which
-  # this bash build can fault. Callers that do not opt in keep external sleep.
-  [ -n "${FM_SLEEP_SIGPREFIX:-}" ] || {
-    command sleep "$_fm_s_secs"
-    return
-  }
-  # Only a plain non-negative decimal can go through `read -t`; anything else
-  # stays with external sleep so its validation and diagnostics are unchanged.
-  case "$_fm_s_secs" in
-    ''|*.*.*|*[!0-9.]*|.|*.)
-      command sleep "$_fm_s_secs"
-      return
-      ;;
-  esac
-  # A fractional request on a shell already proven integer-only short-
-  # circuits to the fallback without opening anything.
-  case "$_fm_s_secs" in
-    *.*)
-      case "${_FM_SLEEP_FRAC:-}" in
-        0)
-          command sleep "$_fm_s_secs"
-          return
-          ;;
-      esac
-      ;;
-  esac
-  _fm_sleep_open_wait_target || {
-    command sleep "$_fm_s_secs"
-    return
-  }
-  case "$_fm_s_secs" in
-    *.*)
-      _fm_sleep_frac_probe || {
-        _fm_sleep_close
-        command sleep "$_fm_s_secs"
-        return
-      }
-      ;;
-  esac
-  read -r -t "$_fm_s_secs" -u "$_FM_SLEEP_FD" 2>/dev/null || :
-  _fm_sleep_close
+  if ! _fm_sleep_in_shell "${1-}"; then
+    command sleep "${1-}" || _fm_s_rc=$?
+  fi
   fm_sleep_signal_check
-  return 0
+  return "$_fm_s_rc"
 }
 
-# Callers that must not die inside the wait point FM_SLEEP_SIGPREFIX at a
-# per-process file prefix and arm flag-file traps like
-#   trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-# for each fatal signal. The handler is a bare builtin writing a file, so it
-# takes effect even when bash runs the pending trap inside a command
+# fm_sleep_arm <prefix>: opt this shell into the in-shell wait. Stale flags
+# under <prefix> (a recycled pid's leftovers) are swept first.
+fm_sleep_arm() {
+  FM_SLEEP_SIGPREFIX=$1
+  _FM_SLEEP_ARMED_AT=$BASH_SUBSHELL
+  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null || true
+  fm_sleep_trap_flags
+}
+
+# Re-install the flag-file traps after a window that temporarily replaced
+# them, keeping the prefix and any flag already raised.
+fm_sleep_trap_flags() {
+  trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+}
+
+# fm_sleep_disarm: the teardown half. The prefix is cleared before any
+# cleanup that can reach fm_sleep, so a flag left by the signal that ended
+# the wait does not re-exit the teardown; the traps are restored to the
+# default so a late signal kills promptly instead of dropping a flag under an
+# empty prefix as a stray `.term` file; and the flag files are removed.
+fm_sleep_disarm() {
+  local _fm_s_prefix=${FM_SLEEP_SIGPREFIX:-}
+  FM_SLEEP_SIGPREFIX=
+  _FM_SLEEP_ARMED_AT=
+  trap - HUP TERM INT QUIT
+  [ -z "$_fm_s_prefix" ] || rm -f "$_fm_s_prefix".* 2>/dev/null || true
+}
+
+# The traps fm_sleep_arm installs are a bare builtin writing a file, so they
+# take effect even when bash runs the pending trap inside a command
 # substitution subshell, and this check then exits through the ordinary path
 # with the conventional 128+sig status. Either `exit` inside the handler or
 # the untrapped disposition can crash this bash build (kill_shell faulting
@@ -196,11 +196,6 @@ fm_sleep() {
 # normal-flow exit is the only signal-safe wait shape. Signal delivery is
 # still exact: the file appears the moment the signal lands, and it is
 # noticed no later than the end of the wait already in flight.
-# Teardown paths clear FM_SLEEP_SIGPREFIX before any cleanup that can reach
-# fm_sleep, disarm the flag traps (a signal during teardown then kills
-# promptly through the restored default disposition instead of dropping a
-# flag under an empty prefix as a stray `.term` file), and remove the flag
-# files.
 fm_sleep_signal_check() {
   [ -n "${FM_SLEEP_SIGPREFIX:-}" ] || return 0
   [ -f "$FM_SLEEP_SIGPREFIX.term" ] && exit "${FM_SLEEP_SIGEXIT_term:-143}"

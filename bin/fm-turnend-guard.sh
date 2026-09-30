@@ -129,14 +129,8 @@ done
 # is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
 # fm_sleep checks the flags after every wait and exits through the ordinary
 # path with the same 128+sig statuses.
-FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-turnend-sig.$$"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-# shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
-trap 'sigprefix=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; rm -f "$sigprefix".* 2>/dev/null' EXIT
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+trap 'trap - EXIT; fm_sleep_disarm' EXIT
+fm_sleep_arm "${TMPDIR:-/tmp}/fm-turnend-sig.$$"
 
 # Read the whole turn-end hook payload once; never block on unreadable/absent
 # stdin.

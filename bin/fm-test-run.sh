@@ -169,8 +169,11 @@ if [ -f "$ROOT/bin/fm-sleep-lib.sh" ]; then
   . "$ROOT/bin/fm-sleep-lib.sh"
 else
   # Fixtures copy this runner into a bare repository; degrade to external
-  # sleep and inert flag checks there.
+  # sleep, the ordinary fatal stop dispositions, and inert flag checks there.
   fm_sleep() { sleep "$1"; }
+  fm_sleep_arm() { :; }
+  # shellcheck disable=SC2329 # Invoked by cleanup_run from the EXIT trap.
+  fm_sleep_disarm() { :; }
   fm_sleep_signal_check() { :; }
 fi
 
@@ -2372,8 +2375,8 @@ declare -a WORKER_SCRIPTS=()
 # Invoked indirectly by the EXIT trap below.
 # shellcheck disable=SC2329
 cleanup_run() {
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT HUP TERM INT QUIT
+  trap - EXIT
+  fm_sleep_disarm
   rm -rf "$RUN_TMP"
 }
 
@@ -2384,11 +2387,7 @@ trap cleanup_run EXIT
 # is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
 # fm_sleep checks the flags after every wait and exits through the ordinary
 # path with the same 128+sig statuses.
-FM_SLEEP_SIGPREFIX="$RUN_TMP/sig.$$"
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+fm_sleep_arm "$RUN_TMP/sig.$$"
 
 RUN_ID="fm-test-run-${RUN_STARTED_MS}-$$"
 TOTAL=0

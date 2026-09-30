@@ -3156,7 +3156,6 @@ pass "the laptop client builds the right remote command and survives a chatty lo
 LAPTOP="$TMP_ROOT/laptop"
 mkdir -p "$LAPTOP"
 cp "$ROOT/bin/fm-voice-client.py" "$ROOT/bin/fm_voice_frame.py" "$LAPTOP/"
-cp "$ROOT/bin/fm-sleep-lib.sh" "$LAPTOP/"
 
 set +e
 copied_out=$(cd "$LAPTOP" && env -u PYTHONPATH python3 ./fm-voice-client.py --help 2>&1)
@@ -3172,7 +3171,6 @@ assert_contains "$copied_out" 'fm-voice-client.py' \
 SHORT="$TMP_ROOT/laptop-missing-companion"
 mkdir -p "$SHORT"
 cp "$ROOT/bin/fm-voice-client.py" "$SHORT/"
-cp "$ROOT/bin/fm-sleep-lib.sh" "$SHORT/"
 set +e
 short_out=$(cd "$SHORT" && env -u PYTHONPATH python3 ./fm-voice-client.py --help 2>&1)
 short_code=$?
@@ -3807,7 +3805,6 @@ mkdir -p "$E2E/bin" "$E2E/laptop" "$E2E/desktop-home" "$E2E/laptop-home" \
 
 # The laptop holds the two files the guide says to copy, and nothing else.
 cp "$ROOT/bin/fm-voice-client.py" "$ROOT/bin/fm_voice_frame.py" "$E2E/laptop/"
-cp "$ROOT/bin/fm-sleep-lib.sh" "$E2E/laptop/"
 
 cat > "$E2E/home/data/backlog.md" <<EOF
 # Backlog

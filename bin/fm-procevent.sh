@@ -265,12 +265,7 @@ STATE="${FM_STATE_OVERRIDE:-$FM_HOME/state}"
 # is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
 # fm_sleep checks the flags after every wait and exits through the ordinary
 # path with the same 128+sig statuses, so a TERM'd runner still reports 143.
-FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-procevent-sig.$$"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+fm_sleep_arm "${TMPDIR:-/tmp}/fm-procevent-sig.$$"
 
 die() { printf 'error: %s\n' "$1" >&2; exit 1; }
 usage() { sed -n '2,/^set -u$/p' "${BASH_SOURCE[0]}" | sed '$d; s/^# \{0,1\}//'; exit 2; }
@@ -1099,10 +1094,8 @@ cmd_start() {
   # broken only by KILL. On contention, leave the generation-bound claim for
   # the stopper or subsequent reconciliation to reclaim.
   release_start_claim() {
-    local sigprefix=${FM_SLEEP_SIGPREFIX:-}
-    FM_SLEEP_SIGPREFIX=
-    trap - EXIT HUP TERM INT QUIT
-    [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true
+    trap - EXIT
+    fm_sleep_disarm
     extension_lifecycle_lock_release 2>/dev/null || true
     [ -z "$STAGED_OUTPUT" ] || rm -f -- "$STAGED_OUTPUT"
     fm_procevent_source_lock_try_acquire "$CLAIM_ID" 2>/dev/null || return 0

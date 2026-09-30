@@ -2121,10 +2121,7 @@ fm_active_check_stop() {
 # conventional 129/143 statuses, and INT keeps its exit-1 status.
 watcher_stop_signals() {
   FM_SLEEP_SIGEXIT_int=1
-  trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+  fm_sleep_trap_flags
 }
 
 run_check_capture() {
@@ -2508,10 +2505,8 @@ watcher_cleanup() {
   local cleanup_status=0 owns_lock=0 transition=release-lock
   # Drop the flag prefix first: helpers below can reach fm_sleep, and a flag
   # left by the signal that ended the wait must not re-exit this teardown.
-  local sigprefix=${FM_SLEEP_SIGPREFIX:-}
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT HUP TERM INT QUIT
-  rm -f "$sigprefix".* 2>/dev/null
+  trap - EXIT
+  fm_sleep_disarm
   pr_poll_publish_release || cleanup_status=1
   pr_poll_control_release || cleanup_status=1
   if [ "$(cat "$WATCH_LOCK/pid" 2>/dev/null || true)" = "${WATCHER_PID:-}" ]; then
@@ -2532,9 +2527,8 @@ watcher_cleanup() {
   fi
   return "$cleanup_status"
 }
-FM_SLEEP_SIGPREFIX="$STATE/.watcher-sig.${BASHPID:-$$}"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
 trap watcher_cleanup EXIT
+fm_sleep_arm "$STATE/.watcher-sig.${BASHPID:-$$}"
 watcher_stop_signals
 # This watcher's own pid, as recorded in the lock by fm_lock_claim (which writes
 # ${BASHPID:-$$} from this same main shell). Read directly, never via a command

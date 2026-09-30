@@ -1229,17 +1229,15 @@ _fm_lock_acquire_wait_handoff() {  # <lockdir> <caller-pid>
   # every wait and exits through the ordinary path with the same 143 status.
   # fm_lock_release only acts while the pid record still names this helper,
   # so a release after the handoff is a no-op.
-  local FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-lock-sig.$$" \
-    FM_SLEEP_SIGEXIT_int=143
-  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-  trap '_FM_LOCK_EXIT_RC=$?; _FM_LOCK_SIGP=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; rm -f "$_FM_LOCK_SIGP".* 2>/dev/null; fm_lock_release "$lockdir"; exit "$_FM_LOCK_EXIT_RC"' EXIT
-  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM INT
+  local FM_SLEEP_SIGPREFIX FM_SLEEP_SIGEXIT_int=143
+  trap '_FM_LOCK_EXIT_RC=$?; trap - EXIT; fm_sleep_disarm; fm_lock_release "$lockdir"; exit "$_FM_LOCK_EXIT_RC"' EXIT
+  fm_sleep_arm "${TMPDIR:-/tmp}/fm-lock-sig.$$"
   # Every non-exit return must drop the traps this function armed: traps are
   # process-global, so surviving flag traps would write to whatever prefix the
-  # caller restores (or ./term in its cwd) while silently consuming TERM/INT.
+  # caller restores (or ./term in its cwd) while silently consuming signals.
   _fm_lock_handoff_restore() {
-    trap - TERM INT EXIT
-    rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+    trap - EXIT
+    fm_sleep_disarm
   }
   fm_lock_acquire_wait "$lockdir" || { _fm_lock_handoff_restore; return 1; }
   if [ -L "$lockdir" ]; then

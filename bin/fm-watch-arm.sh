@@ -427,25 +427,15 @@ attach_and_wait() {
 # substitution subshell. Teardown that must run lives in the EXIT trap.
 # shellcheck disable=SC2329 # Invoked by the EXIT trap below.
 arm_attached_on_exit() {
-  local rc=$? signal sigprefix=$FM_SLEEP_SIGPREFIX
-  # Drop the flag prefix before any fm_sleep in cleanup can see a flag left by
-  # the signal that ended the wait and re-exit out of this teardown path, and
-  # disarm the traps so a late signal kills promptly instead of writing a flag
-  # under an empty prefix.
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT HUP TERM INT QUIT
-  rm -f "$sigprefix".* 2>/dev/null
+  local rc=$? signal
+  trap - EXIT
+  fm_sleep_disarm
   signal=$(cycle_signal_name "$rc")
   [ "$signal" = none ] || cycle_log_append "$rc" "$signal" arm-interrupted none
   exit "$rc"
 }
 
-FM_SLEEP_SIGPREFIX="$STATE/.arm-sig.$ARM_PID"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+fm_sleep_arm "$STATE/.arm-sig.$ARM_PID"
 trap arm_attached_on_exit EXIT
 
 watch_output_has_wake() {
@@ -575,13 +565,9 @@ cleanup_child() {
 
 # shellcheck disable=SC2329 # Invoked by the EXIT trap below.
 arm_child_on_exit() {
-  local rc=$? signal sigprefix=$FM_SLEEP_SIGPREFIX
-  # Drop the flag prefix before the fm_sleep in the child-teardown loop can
-  # see a flag left by the signal that ended the wait and re-exit out of this
-  # teardown path, and disarm the traps so a late signal kills promptly
-  # instead of writing a flag under an empty prefix.
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT HUP TERM INT QUIT
+  local rc=$? signal
+  trap - EXIT
+  fm_sleep_disarm
   signal=$(cycle_signal_name "$rc")
   if [ -n "$child" ] && fm_pid_alive "$child"; then
     # The watcher installs its own cleanup traps only after acquiring and
@@ -601,14 +587,9 @@ arm_child_on_exit() {
   fi
   [ "$signal" = none ] || cycle_log_append "$rc" "$signal" arm-interrupted none
   cleanup_child
-  rm -f "$sigprefix".* 2>/dev/null
   exit "$rc"
 }
 
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 trap arm_child_on_exit EXIT
 
 child_out=$(mktemp "$STATE/.watch-arm-output.XXXXXX") || {
@@ -742,7 +723,7 @@ while :; do
   fm_sleep 0.2
 done
 
-trap - HUP TERM INT QUIT
+fm_sleep_disarm
 print_watch_output "$child_out"
 cleanup_child
 wait "$child" 2>/dev/null

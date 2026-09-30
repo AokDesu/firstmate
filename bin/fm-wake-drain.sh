@@ -813,16 +813,14 @@ print_status_presentation() {  # [<deduped-raw-rows>]
 
 # shellcheck disable=SC2317,SC2329 # Invoked by trap handlers below.
 cleanup() {
-  local status=$? sigprefix=${FM_SLEEP_SIGPREFIX:-}
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT INT TERM QUIT
-  [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true
+  local status=$?
+  trap - EXIT
+  fm_sleep_disarm
   [ -z "$DRAIN_TMP" ] || rm -f -- "$DRAIN_TMP" 2>/dev/null || true
   [ -z "$DRAIN_VIEW_TMP" ] || rm -f -- "$DRAIN_VIEW_TMP" 2>/dev/null || true
   if [ "$DRAIN_LOCK_HELD" = true ]; then
     fm_lock_release "$FM_WAKE_QUEUE_LOCK"
   fi
-  rm -f "$sigprefix".* 2>/dev/null
   exit "$status"
 }
 
@@ -831,12 +829,8 @@ cleanup() {
 # which this bash build can fault while read -t is the interrupted builtin
 # (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags after
 # every wait and exits through the ordinary path with the same statuses.
-FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-drain-sig.$$"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
 trap cleanup EXIT
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+fm_sleep_arm "${TMPDIR:-/tmp}/fm-drain-sig.$$"
 
 if [ -n "$ACK_THROUGH" ]; then
   fm_lock_acquire_wait "$FM_WAKE_QUEUE_LOCK"

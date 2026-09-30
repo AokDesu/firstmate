@@ -133,13 +133,9 @@ TMP=$(mktemp -d "${TMPDIR:-/tmp}/fm-remote-delta.XXXXXX") || die "cannot create 
 # which this bash build can fault while read -t is the interrupted builtin
 # (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flag after
 # every wait and exits through the ordinary path with the same 75 status.
-FM_SLEEP_SIGPREFIX="$TMP/sig.$$"
 FM_SLEEP_SIGEXIT_term=75
-trap 'FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; rm -rf -- "$TMP"' EXIT
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+trap 'trap - EXIT; fm_sleep_disarm; rm -rf -- "$TMP"' EXIT
+fm_sleep_arm "$TMP/sig.$$"
 : > "$TMP/empty"
 EMPTY_HASH=$(sha256_file "$TMP/empty")
 START=$(date +%s)

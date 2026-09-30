@@ -911,13 +911,8 @@ fm_afk_launch_main() {
   # which this bash build can fault while read -t is the interrupted builtin
   # (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags after
   # every wait and exits through the ordinary path with the same statuses.
-  FM_SLEEP_SIGPREFIX="$FM_AFK_LAUNCH_STATE/.afk-launch-sig.$$"
-  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-  # shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
-  trap 'sigprefix=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; trap - EXIT INT TERM QUIT; fm_afk_launch_lock_release; rm -f "$sigprefix".* 2>/dev/null' EXIT
-  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+  trap 'trap - EXIT; fm_sleep_disarm; fm_afk_launch_lock_release' EXIT
+  fm_sleep_arm "$FM_AFK_LAUNCH_STATE/.afk-launch-sig.$$"
   fm_afk_launch_lock_acquire || return 1
   case "${1:-start}" in
     enter) shift; fm_afk_launch_enter "$@" ;;
@@ -934,7 +929,8 @@ fm_afk_launch_main() {
   esac
   result=$?
   fm_afk_launch_lock_release || result=1
-  trap - EXIT INT TERM QUIT
+  trap - EXIT
+  fm_sleep_disarm
   return "$result"
 }
 

@@ -1868,15 +1868,11 @@ fm_super_main() {
   # in fm-watch.sh). fm_sleep checks the flag files after every wait and exits
   # through the ordinary path; the EXIT trap then runs this teardown. TERM and
   # INT keep the daemon's conventional clean exit-0 status.
-  FM_SLEEP_SIGPREFIX="$STATE/.supervise-sig.$$"
   FM_SLEEP_SIGEXIT_term=0
   FM_SLEEP_SIGEXIT_int=0
-  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
   cleanup() {
-    local sigprefix=$FM_SLEEP_SIGPREFIX
-    FM_SLEEP_SIGPREFIX=
-    trap - EXIT TERM INT QUIT
-    rm -f "$sigprefix".* 2>/dev/null
+    trap - EXIT
+    fm_sleep_disarm
     wedge_alarm_stop_active_notifier
     escalate_flush "$STATE" 2>/dev/null || true
     if [ -n "${WATCHER_PID:-}" ]; then
@@ -1892,9 +1888,7 @@ fm_super_main() {
     exit 0
   }
   trap cleanup EXIT
-  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+  fm_sleep_arm "$STATE/.supervise-sig.$$"
 
   # --- crash-loop guard -----------------------------------------------------
   local crash_times=() backoff_secs=$CRASH_NORMAL_SLEEP

@@ -383,8 +383,8 @@ fm_supervision_engine_turn() {
   ) </dev/null >"$result" 2>"$errors" &
   watched=$!
   recorded=
-  snap_second=-1
   while fm_pid_alive "$watched"; do
+    snap_second=$SECONDS
     # The bounded process is this shell's unreaped child, so its pid cannot
     # be recycled here; its identity is refreshed until the subshell's exec
     # into the watchdog has settled.
@@ -396,12 +396,12 @@ fm_supervision_engine_turn() {
       fi
     fi
     _fm_engine_snapshot_descendants "$watched" "$ledger"
-    snap_second=$SECONDS
     # Between the wall-second snapshots the engine's exit is probed at a
     # tenth of a second: the turn closes promptly when the engine dies. The
     # probes run until the clock's second ticks over rather than a fixed
-    # count, so a stalled scan cannot compound the gap between snapshots
-    # into one that spans a descendant's whole linked lifetime.
+    # count, anchored to the second the scan began, so a stalled scan cannot
+    # compound the gap between snapshots into one that spans a descendant's
+    # whole linked lifetime.
     while [ "$SECONDS" = "$snap_second" ] && fm_pid_alive "$watched"; do
       fm_sleep 0.1
     done

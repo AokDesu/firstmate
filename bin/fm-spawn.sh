@@ -496,13 +496,9 @@ FM_HOME="${FM_HOME:-${FM_ROOT_OVERRIDE:-$FM_ROOT}}"
 # is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
 # fm_sleep checks the flags after every wait and exits through the ordinary
 # path with the same 128+sig statuses. The deferred-signal window below
-# re-arms its own dispositions explicitly, so this does not change it.
-FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-spawn-sig.$$"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+# installs its own dispositions and ends by disarming, which restores the
+# default dispositions for the rest of the run as before.
+fm_sleep_arm "${TMPDIR:-/tmp}/fm-spawn-sig.$$"
 
 resolve_directory_input() {
   local name=$1 path=$2 resolved raw_bytes
@@ -1248,14 +1244,9 @@ parse_orca_worktree_result() {
 }
 
 spawn_abort_cleanup() {
-  local status=$? sigprefix=${FM_SLEEP_SIGPREFIX:-}
-  # Drop the flag prefix before cleanup helpers can reach fm_sleep and a flag
-  # left by the signal that ended the wait re-exits this teardown path, and
-  # disarm the traps so a late signal kills promptly instead of writing a
-  # flag under an empty prefix.
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT HUP TERM INT QUIT
-  [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true
+  local status=$?
+  trap - EXIT
+  fm_sleep_disarm
   if [ "$RELAUNCH_REPLACEMENT_PENDING" = 1 ] &&
     [ "$SPAWN_META_PUBLISH_STARTED" = 1 ] &&
     [ -n "$SPAWN_META_TMP" ] &&
@@ -5433,6 +5424,7 @@ if [ "$SPAWN_META_LOCK_HELD" != 1 ]; then
   fm_lock_acquire_wait "$SPAWN_META_LOCK"
   SPAWN_META_LOCK_HELD=1
 fi
+fm_sleep_signal_check
 SPAWN_DEFERRED_SIGNAL=
 if [ "$BACKLOG_TRANSITION" = 1 ]; then
   trap 'SPAWN_DEFERRED_SIGNAL=HUP' HUP
@@ -5468,7 +5460,7 @@ if [ "$SPAWN_BACKLOG_COMMIT_STATUS" -ne 0 ]; then
     echo "error: task $ID was republished but its backlog item could not be moved to In flight ($FM_BACKLOG_TRANSITION_ERROR); fix the backlog and re-run the relaunch" >&2
   fi
 fi
-trap - HUP INT TERM
+fm_sleep_disarm
 if [ "$SPAWN_BACKLOG_COMMIT_STATUS" -ne 0 ]; then
   exit "$SPAWN_BACKLOG_COMMIT_STATUS"
 fi

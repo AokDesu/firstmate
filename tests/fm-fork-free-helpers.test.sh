@@ -245,6 +245,7 @@ export FM_SLEEP_FIFO="$FIFO"
 now() { perl -MTime::HiRes=time -e 'printf "%.3f\n", time'; }
 elapsed() { perl -e 'printf "%.3f", $ARGV[0] - $ARGV[1]' "$1" "$2"; }
 shim_calls() { grep -c . "$LOG" 2>/dev/null || true; }
+nap() { perl -e 'select(undef, undef, undef, 0.05)'; }
 
 # Without the signal-safety opt-in the helper keeps external sleep: a process
 # that never arms flag-file traps must not sit in `read -t` when a fatal
@@ -255,12 +256,22 @@ fm_sleep 1 || printf 'unwired fm_sleep 1 returned nonzero\n'
 
 # Opt in: flag prefix plus flag-file traps, the only signal-safe shape.
 SIGP=$5
-export FM_SLEEP_SIGPREFIX="$SIGP"
-rm -f "$SIGP".* 2>/dev/null
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT 2>/dev/null || true
+fm_sleep_arm "$SIGP"
+
+# The opt-in belongs to the arming shell alone: a background job inherits
+# the prefix but not the caught traps, so its wait must go external and a
+# TERM aimed at it must end it at once through the default disposition.
+mark=$(shim_calls)
+before=$(now)
+( fm_sleep 5 ) >/dev/null 2>&1 & inherited=$!
+while [ "$(shim_calls)" = "$mark" ] && kill -0 "$inherited" 2>/dev/null; do nap; done
+kill -TERM "$inherited" 2>/dev/null
+wait "$inherited" 2>/dev/null
+after=$(now)
+[ "$(shim_calls)" = $((mark + 1)) ] || printf 'inherited opt-in waited in-shell\n'
+[ "$(perl -e 'print(($ARGV[0]-$ARGV[1]) < 3 ? 1 : 0)' "$after" "$before")" = 1 ] \
+  || printf 'TERM to an inheriting subshell took %ss\n' "$(elapsed "$after" "$before")"
+[ ! -e "$SIGP.term" ] || printf 'inheriting subshell wrote the parent flag\n'
 
 # A pending flag exits through the ordinary path with the conventional
 # status: write the TERM flag and ask fm_sleep to wait; the process must be
@@ -273,6 +284,20 @@ trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT 2>/dev/null || true
 wait "$flag_waiter" && printf 'flag wait returned success\n' || {
   flag_rc=$?
   [ "$flag_rc" -eq 143 ] || printf 'flag wait exited %s, not 143\n' "$flag_rc"
+}
+rm -f "$SIGP".*
+
+# A flag raised while the external fallback sleeps is honored when it
+# returns, with the same status as the in-shell path. The subshell's wait
+# takes the fallback because it did not arm itself.
+(
+  ( nap; : > "$SIGP.term" ) &
+  fm_sleep 1
+  printf 'fallback flag check did not exit\n'
+) & flag_waiter=$!
+wait "$flag_waiter" && printf 'fallback flag wait returned success\n' || {
+  flag_rc=$?
+  [ "$flag_rc" -eq 143 ] || printf 'fallback flag wait exited %s, not 143\n' "$flag_rc"
 }
 rm -f "$SIGP".*
 : > "$LOG"
@@ -288,18 +313,17 @@ before=$(now); fm_sleep 1; after=$(now)
 fm_sleep 0 || printf 'fm_sleep 0 returned nonzero\n'
 [ "$(shim_calls)" = 0 ] || printf 'zero wait used external sleep\n'
 
-# Three fractional waits keep their combined timing contract. The first one
-# probes the shell once; the verdict then decides the shim count: 0 when
-# `read -t` takes decimals, one external sleep per call on integer-only
-# shells like stock 3.2.
+# Three fractional waits keep their combined timing contract. The shell's
+# decimal support decides the shim count: 0 when `read -t` takes decimals,
+# one external sleep per call on integer-only shells like stock 3.2.
 before=$(now); fm_sleep 0.2; fm_sleep 0.2; fm_sleep 0.2; after=$(now)
 [ "$(perl -e 'print(($ARGV[0]-$ARGV[1]) >= 0.5 ? 1 : 0)' "$after" "$before")" = 1 ] \
   || printf '3x fm_sleep 0.2 returned after %ss\n' "$(elapsed "$after" "$before")"
-case "${_FM_SLEEP_FRAC:-}" in
-  1) [ "$(shim_calls)" = 0 ] || printf 'fraction-capable shell still forked\n' ;;
-  0) [ "$(shim_calls)" = 3 ] || printf 'integer-only shell ran %s external sleeps for 3 waits\n' "$(shim_calls)" ;;
-  *) printf 'fraction capability never probed\n' ;;
-esac
+if [ "${BASH_VERSINFO[0]}" -ge 4 ]; then
+  [ "$(shim_calls)" = 0 ] || printf 'fraction-capable shell still forked\n'
+else
+  [ "$(shim_calls)" = 3 ] || printf 'integer-only shell ran %s external sleeps for 3 waits\n' "$(shim_calls)"
+fi
 
 # The fallback path still honors busy-descriptor safety: pin fd 42, which
 # old-Bash shells would otherwise claim, and the wait must go external.
@@ -338,6 +362,23 @@ fds_after=$(ls /dev/fd 2>/dev/null | sort -n)
 rm -f "$FIFO"
 fm_sleep 0 || printf 'fifo recreation failed\n'
 [ -p "$FIFO" ] || printf 'wait FIFO not recreated\n'
+
+# A foreign file at the FIFO path is never replaced: the wait falls back to
+# external sleep and the file keeps its content.
+rm -f "$FIFO"
+printf 'keep\n' > "$FIFO"
+mark=$(shim_calls)
+fm_sleep 0 || printf 'fm_sleep over a foreign file returned nonzero\n'
+[ "$(shim_calls)" = $((mark + 1)) ] || printf 'foreign file at the FIFO path did not force external sleep\n'
+[ -f "$FIFO" ] && [ "$(cat "$FIFO")" = keep ] || printf 'foreign file at the FIFO path was replaced\n'
+rm -f "$FIFO"
+
+# Disarm restores external sleep and the default dispositions.
+fm_sleep_disarm
+mark=$(shim_calls)
+fm_sleep 0 || printf 'disarmed fm_sleep 0 returned nonzero\n'
+[ "$(shim_calls)" = $((mark + 1)) ] || printf 'disarmed caller did not use external sleep\n'
+[ -z "$(trap -p TERM)" ] || printf 'disarm left the TERM trap armed\n'
 SH
   run_everywhere "sleep helper" "$script" "$shim" "$log" "$TMP_ROOT/sleep-fifo" "$TMP_ROOT/sleep-sig"
   pass "fm_sleep waits the requested interval, forks no process where the shell supports it, and stays set -e/-u safe"

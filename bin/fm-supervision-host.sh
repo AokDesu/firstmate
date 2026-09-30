@@ -382,10 +382,9 @@ stop_engine_turn() {
 
 # shellcheck disable=SC2329 # Invoked by the EXIT trap.
 cleanup() {
-  local rc=$? f sigprefix=$FM_SLEEP_SIGPREFIX
-  FM_SLEEP_SIGPREFIX=
-  trap - EXIT HUP TERM INT QUIT
-  rm -f "$sigprefix".* 2>/dev/null
+  local rc=$? f
+  trap - EXIT
+  fm_sleep_disarm
   if [ "$ENGINE_RUNNING" -eq 1 ]; then
     stop_engine_turn
   fi
@@ -901,16 +900,11 @@ handle_wake() {  # <reason-lines>
   # instead of after the whole turn; the cleanup stops the engine.
   (
     # A subshell resets caught traps to fatal defaults but inherits
-    # FM_SLEEP_SIGPREFIX, so fm_sleep must not read the parent's prefix here:
-    # point it at this turn's own flag files and arm the flag traps afresh.
-    FM_SLEEP_SIGPREFIX="$result.engine-sig"
-    rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
-    # shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
-    trap 'sigprefix=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; rm -f "$sigprefix".* 2>/dev/null' EXIT
-    trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-    trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-    trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-    trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+    # FM_SLEEP_SIGPREFIX, so the turn's probe loop would keep external sleep
+    # and answer the parent's flags: point it at this turn's own flag files
+    # and arm the flag traps afresh.
+    trap 'trap - EXIT; fm_sleep_disarm' EXIT
+    fm_sleep_arm "$result.engine-sig"
     export FM_HOME STATE
     [ -z "${FM_STATE_OVERRIDE:-}" ] || export FM_STATE_OVERRIDE
     [ -z "${FM_CONFIG_OVERRIDE:-}" ] || export FM_CONFIG_OVERRIDE
@@ -1014,13 +1008,8 @@ fi
 # kill_shell, which this bash build can fault while read -t is the interrupted
 # builtin (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags
 # after every wait and exits through the ordinary path with the same statuses.
-FM_SLEEP_SIGPREFIX="$STATE/.supervision-host-sig.$$"
-rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
 trap cleanup EXIT
-trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
-trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
-trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
-trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+fm_sleep_arm "$STATE/.supervision-host-sig.$$"
 activate || { echo "supervision-host stood down: the host record could not be written"; exit 0; }
 log_line "start	gen=$GEN	primary=$PRIMARY"
 
