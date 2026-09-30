@@ -34,20 +34,21 @@
 # each call, so no descriptor is ever held across a child spawn - bash marks
 # no ordinary descriptor close-on-exec, and leaking one into every child is
 # not acceptable. The FIFO is shared per user and lazily created; every
-# anomaly (a path held by anything but a FIFO, an uncreatable path, an
-# unavailable descriptor, a shell that rejects the requested precision) falls
-# back to external sleep rather than failing, shortening the wait, or
-# touching the foreign file. A stray same-user write to the FIFO ends a wait
-# early exactly like a signal ends sleep early; nothing in this repo writes to
-# it, and the file is user-private by creation.
+# anomaly (a path held by anything but a FIFO, a FIFO another user owns or
+# can open, an uncreatable path, an unavailable descriptor, a shell that
+# rejects the requested precision) falls back to external sleep rather than
+# failing, shortening the wait, or touching the foreign file. A stray
+# same-user write to the FIFO ends a wait early exactly like a signal ends
+# sleep early; nothing in this repo writes to it, and the file is
+# user-private by creation.
 #
 # BASH SUPPORT. Integer waits run fork-free on every supported Bash,
 # including stock macOS Bash 3.2. Fractional waits need a shell whose
-# `read -t` accepts a decimal timeout, which Bash gained in 4.0; the
-# capability is settled once per process from BASH_VERSINFO, and on an
-# integer-only shell (stock 3.2 rejects a decimal as an invalid timeout) a
-# fractional call takes the sanctioned external-sleep fallback instead of
-# rounding the interval, which would change the caller's timing contract.
+# `read -t` accepts a decimal timeout; the first fractional call per process
+# probes that once, in-shell against the wait descriptor, and caches the
+# verdict either way. On a refusal (stock 3.2 accepts only integers) the call
+# takes the sanctioned external-sleep fallback instead of rounding the
+# interval, which would change the caller's timing contract.
 #
 # SET -U / SET -E SAFE. Every global is read with a default, and the
 # timing-out `read` - whose nonzero status is the normal path - is always
@@ -57,7 +58,8 @@
 # and errexit contexts. Both paths check the stop flags after the wait.
 #
 # Per-process state, none exported:
-#   _FM_SLEEP_FRAC       1 fractions accepted, 0 integers only
+#   _FM_SLEEP_FRAC       '' unprobed, 1 fractions accepted, 0 integers only
+#   _FM_SLEEP_FIFO_SEEN  "ok|bad <path>": the wait FIFO's privacy verdict
 #   _FM_SLEEP_FD         descriptor number bound for the current wait
 #   _FM_SLEEP_ARMED_AT   BASH_SUBSHELL level fm_sleep_arm ran at, '' unarmed
 
@@ -96,11 +98,8 @@ else
     exec 42<&-
   }
 fi
-if [ "${BASH_VERSINFO[0]}" -ge 4 ]; then
-  _FM_SLEEP_FRAC=1
-else
-  _FM_SLEEP_FRAC=0
-fi
+_FM_SLEEP_FRAC=
+_FM_SLEEP_FIFO_SEEN=
 _FM_SLEEP_ARMED_AT=
 
 # 0 when <fd> is closed in this shell. /dev/fd is one stat on macOS and
@@ -118,16 +117,44 @@ _fm_sleep_fd_free() {
 # Create the shared never-readable FIFO once; it outlives any one caller and
 # is recreated the next call if removed. mkfifo forks only on this cold path -
 # typically once per boot per user - and only ever inside a call that was
-# already going to wait. It never replaces an existing path: anything but a
-# FIFO there fails the check and the call falls back to external sleep, and a
-# concurrent creator's FIFO satisfies it.
+# already going to wait. It never replaces an existing path: only a FIFO
+# this user owns and no one else can open is used, and anything else falls
+# back to external sleep. A FIFO this process did not create has its mode
+# read once, before any descriptor is open, and the verdict is kept.
 _fm_sleep_open_wait_target() {
+  local _fm_s_fifo
   [ -n "${FM_SLEEP_FIFO:-}" ] || FM_SLEEP_FIFO="${TMPDIR:-/tmp}/fm-sleep.${UID:-0}.fifo"
-  if [ ! -p "$FM_SLEEP_FIFO" ]; then
-    ( umask 077; mkfifo "$FM_SLEEP_FIFO" ) 2>/dev/null
-    [ -p "$FM_SLEEP_FIFO" ] || return 1
+  _fm_s_fifo=$FM_SLEEP_FIFO
+  if [ ! -p "$_fm_s_fifo" ] && ( umask 077; mkfifo "$_fm_s_fifo" ) 2>/dev/null; then
+    _FM_SLEEP_FIFO_SEEN="ok $_fm_s_fifo"
   fi
+  [ -p "$_fm_s_fifo" ] && [ -O "$_fm_s_fifo" ] || return 1
+  case "${_FM_SLEEP_FIFO_SEEN:-}" in
+    "ok $_fm_s_fifo") ;;
+    "bad $_fm_s_fifo") return 1 ;;
+    *)
+      case $(ls -ld -- "$_fm_s_fifo" 2>/dev/null) in
+        prw-------[\ @.]*) _FM_SLEEP_FIFO_SEEN="ok $_fm_s_fifo" ;;
+        *) _FM_SLEEP_FIFO_SEEN="bad $_fm_s_fifo"; return 1 ;;
+      esac
+      ;;
+  esac
   _fm_sleep_open
+}
+
+# Probe once per process, on the first fractional call and against the
+# already-open wait descriptor, whether `read -t` accepts a decimal timeout. A
+# capable shell times out with a status above 128; stock 3.2 rejects the
+# timeout at once with status 1, the same status its own integer timeouts
+# return, so only the capable verdict is positive evidence.
+_fm_sleep_frac_probe() {
+  local _fm_s_rc=0
+  read -r -t 0.001 -u "$_FM_SLEEP_FD" 2>/dev/null || _fm_s_rc=$?
+  if [ "$_fm_s_rc" -gt 128 ]; then
+    _FM_SLEEP_FRAC=1
+  else
+    _FM_SLEEP_FRAC=0
+  fi
 }
 
 # Wait <seconds> in-shell and return 0, or return 1 without waiting when this
@@ -139,9 +166,15 @@ _fm_sleep_in_shell() {
   [ -n "${FM_SLEEP_SIGPREFIX:-}" ] && [ "${_FM_SLEEP_ARMED_AT:-}" = "$BASH_SUBSHELL" ] || return 1
   case "$1" in
     ''|*.*.*|*[!0-9.]*|.|*.) return 1 ;;
-    *.*) [ "$_FM_SLEEP_FRAC" = 1 ] || return 1 ;;
+    *.*) [ "${_FM_SLEEP_FRAC:-}" != 0 ] || return 1 ;;
   esac
   _fm_sleep_open_wait_target || return 1
+  case "$1" in
+    *.*)
+      [ -n "${_FM_SLEEP_FRAC:-}" ] || _fm_sleep_frac_probe
+      [ "$_FM_SLEEP_FRAC" = 1 ] || { _fm_sleep_close; return 1; }
+      ;;
+  esac
   read -r -t "$1" -u "$_FM_SLEEP_FD" 2>/dev/null || :
   _fm_sleep_close
 }
@@ -150,7 +183,7 @@ fm_sleep() {
   local _fm_s_rc=0
   fm_sleep_signal_check
   if ! _fm_sleep_in_shell "${1-}"; then
-    command sleep "${1-}" || _fm_s_rc=$?
+    sleep "${1-}" || _fm_s_rc=$?
   fi
   fm_sleep_signal_check
   return "$_fm_s_rc"

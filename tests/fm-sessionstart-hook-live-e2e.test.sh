@@ -177,7 +177,6 @@ SH
       cp "$ROOT/.pi/extensions/lib/fm-operational-input.ts" \
         "$ROOT/.pi/extensions/lib/fm-sessionstart-supervisor.mjs" "$lab/.pi/extensions/lib/"
       cp "$ROOT/bin/fm-operational-input.sh" "$lab/bin/"
-      cp "$ROOT/bin/fm-sleep-lib.sh" "$lab/bin/"
       printf '%s\n' '{"compaction":{"keepRecentTokens":200}}' > "$lab/.pi/settings.json"
       ;;
   esac

@@ -81,7 +81,6 @@ install_scripts() {
   done
   cp "$ROOT/bin/fm-arm-command-policy.mjs" "$dir/bin/fm-arm-command-policy.mjs"
   cp "$ROOT/bin/fm-cd-command-policy.mjs" "$dir/bin/fm-cd-command-policy.mjs"
-  cp "$ROOT/bin/fm-sleep-lib.sh" "$dir/bin"
   cp -R "$ROOT/docs/supervision-protocols" "$dir/docs/supervision-protocols"
   chmod +x "$dir"/bin/*.sh
 }

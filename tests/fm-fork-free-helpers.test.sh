@@ -337,13 +337,22 @@ if [ "${BASH_VERSINFO[0]}" -lt 4 ] || { [ "${BASH_VERSINFO[0]}" -eq 4 ] && [ "${
   [ "$(shim_calls)" = $((mark + 1)) ] || printf 'pinned fd 42 did not force the external fallback\n'
 fi
 
-# Under set -e the normal timeout path must not kill the caller.
-out=$( ( set -e; fm_sleep 0.05; printf ok ) )
-[ "$out" = ok ] || printf 'fm_sleep under set -e killed the caller\n'
-
-# set -u callers get the same defaults-based behavior.
-out=$( ( set -u; fm_sleep 0.05; printf ok ) )
-[ "$out" = ok ] || printf 'fm_sleep under set -u failed\n'
+# Under set -e the normal timeout path must not kill the caller, and set -u
+# callers get the same defaults-based behavior. Each subshell arms itself so
+# the in-shell read path is the one exercised: the integer wait never forks,
+# and the fractional one forks only where the shell cannot take decimals.
+if [ "${BASH_VERSINFO[0]}" -ge 4 ]; then frac_forks=0; else frac_forks=1; fi
+for opt in e u; do
+  mark=$(shim_calls)
+  before=$(now)
+  out=$( ( set "-$opt"; fm_sleep_arm "$SIGP.$opt"; fm_sleep 1; fm_sleep 0.05; printf ok ) )
+  after=$(now)
+  [ "$out" = ok ] || printf 'fm_sleep under set -%s failed\n' "$opt"
+  [ "$(shim_calls)" = $((mark + frac_forks)) ] \
+    || printf 'set -%s waits ran %s external sleeps, not %s\n' "$opt" "$(($(shim_calls) - mark))" "$frac_forks"
+  [ "$(perl -e 'print(($ARGV[0]-$ARGV[1]) >= 0.95 ? 1 : 0)' "$after" "$before")" = 1 ] \
+    || printf 'set -%s waits returned after %ss\n' "$opt" "$(elapsed "$after" "$before")"
+done
 
 # Garbage input keeps external sleep's own validation: nonzero status,
 # one shim call, no wait.
@@ -372,6 +381,17 @@ fm_sleep 0 || printf 'fm_sleep over a foreign file returned nonzero\n'
 [ "$(shim_calls)" = $((mark + 1)) ] || printf 'foreign file at the FIFO path did not force external sleep\n'
 [ -f "$FIFO" ] && [ "$(cat "$FIFO")" = keep ] || printf 'foreign file at the FIFO path was replaced\n'
 rm -f "$FIFO"
+
+# A FIFO others can open is refused the same way and left as it is.
+FM_SLEEP_FIFO="$FIFO.open"
+mkfifo "$FM_SLEEP_FIFO"
+chmod 0666 "$FM_SLEEP_FIFO"
+mark=$(shim_calls)
+fm_sleep 0 || printf 'fm_sleep over an open FIFO returned nonzero\n'
+[ "$(shim_calls)" = $((mark + 1)) ] || printf 'FIFO open to others did not force external sleep\n'
+[ -p "$FM_SLEEP_FIFO" ] || printf 'FIFO open to others was replaced\n'
+rm -f "$FM_SLEEP_FIFO"
+FM_SLEEP_FIFO=$FIFO
 
 # Disarm restores external sleep and the default dispositions.
 fm_sleep_disarm

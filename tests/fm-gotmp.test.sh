@@ -65,30 +65,23 @@ SH
   ln -s "$ROOT/bin/fm-cursor-lib.sh" "$fake/bin/fm-cursor-lib.sh"
   ln -s "$ROOT/bin/fm-composer-lib.sh" "$fake/bin/fm-composer-lib.sh"
   ln -s "$ROOT/bin/fm-nm-run-lib.sh" "$fake/bin/fm-nm-run-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-lock-lib.sh: teardown sources it for the shared lock-staleness proof.
   ln -s "$ROOT/bin/fm-lock-lib.sh" "$fake/bin/fm-lock-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-lease-lib.sh: teardown sources it for the supervision lease guard.
   ln -s "$ROOT/bin/fm-lease-lib.sh" "$fake/bin/fm-lease-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # Lifecycle serialization, status presentation retirement, and shared adapter
   # ownership are sourced by teardown.
   ln -s "$ROOT/bin/fm-control-lib.sh" "$fake/bin/fm-control-lib.sh"
   ln -s "$ROOT/bin/fm-classify-lib.sh" "$fake/bin/fm-classify-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-timeout-lib.sh: the shared hard bound fm-classify-lib.sh sources for the
   # wedge detector's bounded worktree write probe.
   ln -s "$ROOT/bin/fm-timeout-lib.sh" "$fake/bin/fm-timeout-lib.sh"
   ln -s "$ROOT/bin/fm-wake-lib.sh" "$fake/bin/fm-wake-lib.sh"
   ln -s "$ROOT/bin/fm-path-lib.sh" "$fake/bin/fm-path-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-gate-refuse-lib.sh: teardown sources it before any fleet mutation.
   ln -s "$ROOT/bin/fm-gate-refuse-lib.sh" "$fake/bin/fm-gate-refuse-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-pr-lib.sh: teardown uses its canonical task-ID validator for poll cleanup.
   ln -s "$ROOT/bin/fm-pr-lib.sh" "$fake/bin/fm-pr-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-public-followup-lib.sh (and the fm-x-lib.sh and fm-env-lib.sh it
   # sources): teardown sources it for the relay-activation gate on the
   # promised-public-reply check. None does anything in this fixture, which has
@@ -98,17 +91,14 @@ SH
   ln -s "$ROOT/bin/fm-env-lib.sh" "$fake/bin/fm-env-lib.sh"
   ln -s "$ROOT/bin/fm-secondmate-registry-lib.sh" "$fake/bin/fm-secondmate-registry-lib.sh"
   ln -s "$ROOT/bin/fm-secondmate-parent-lib.sh" "$fake/bin/fm-secondmate-parent-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # Receiver-wake retirement sources the pending-reply library, which in turn
   # requires the marker helper even for this ordinary-task teardown fixture.
   ln -s "$ROOT/bin/fm-pending-reply-lib.sh" "$fake/bin/fm-pending-reply-lib.sh"
   ln -s "$ROOT/bin/fm-marker-lib.sh" "$fake/bin/fm-marker-lib.sh"
   ln -s "$ROOT/bin/fm-operational-input.sh" "$fake/bin/fm-operational-input.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # Ordinary teardown reports any final ledger outcome before removing records.
   ln -s "$ROOT/bin/fm-inactive-reconcile.sh" "$fake/bin/fm-inactive-reconcile.sh"
   ln -s "$ROOT/bin/fm-parent-channel-lib.sh" "$fake/bin/fm-parent-channel-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-guard.sh: stub (teardown calls it with `|| true`).
   cat > "$fake/bin/fm-guard.sh" <<'SH'
 #!/usr/bin/env bash
@@ -132,7 +122,6 @@ fm_tasks_axi_compatible() { return 1; }
 fm_backlog_backend_manual() { return 1; }
 SH
   ln -s "$ROOT/bin/fm-backlog-transition-lib.sh" "$fake/bin/fm-backlog-transition-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # Meta with a nonexistent worktree so the dirty/treehouse blocks skip.
   cat > "$fake/state/$id.meta" <<META
 window=fakeses:fm-$id
@@ -186,24 +175,19 @@ SH
   ln -s "$ROOT/bin/fm-composer-lib.sh" "$fake/bin/fm-composer-lib.sh"
   ln -s "$ROOT/bin/fm-nm-run-lib.sh" "$fake/bin/fm-nm-run-lib.sh"
   ln -s "$ROOT/bin/fm-lock-lib.sh" "$fake/bin/fm-lock-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-lease-lib.sh: teardown sources it for the supervision lease guard.
   ln -s "$ROOT/bin/fm-lease-lib.sh" "$fake/bin/fm-lease-lib.sh"
   ln -s "$ROOT/bin/fm-control-lib.sh" "$fake/bin/fm-control-lib.sh"
   ln -s "$ROOT/bin/fm-classify-lib.sh" "$fake/bin/fm-classify-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-timeout-lib.sh: the shared hard bound fm-classify-lib.sh sources for the
   # wedge detector's bounded worktree write probe.
   ln -s "$ROOT/bin/fm-timeout-lib.sh" "$fake/bin/fm-timeout-lib.sh"
   ln -s "$ROOT/bin/fm-wake-lib.sh" "$fake/bin/fm-wake-lib.sh"
   ln -s "$ROOT/bin/fm-path-lib.sh" "$fake/bin/fm-path-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-gate-refuse-lib.sh: teardown sources it before any fleet mutation.
   ln -s "$ROOT/bin/fm-gate-refuse-lib.sh" "$fake/bin/fm-gate-refuse-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-pr-lib.sh: teardown uses its canonical task-ID validator for poll cleanup.
   ln -s "$ROOT/bin/fm-pr-lib.sh" "$fake/bin/fm-pr-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # fm-public-followup-lib.sh (and the fm-x-lib.sh and fm-env-lib.sh it
   # sources): teardown sources it for the relay-activation gate on the
   # promised-public-reply check. None does anything in this fixture, which has
@@ -218,7 +202,6 @@ SH
   ln -s "$ROOT/bin/fm-operational-input.sh" "$fake/bin/fm-operational-input.sh"
   ln -s "$ROOT/bin/fm-inactive-reconcile.sh" "$fake/bin/fm-inactive-reconcile.sh"
   ln -s "$ROOT/bin/fm-parent-channel-lib.sh" "$fake/bin/fm-parent-channel-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   cat > "$fake/bin/fm-guard.sh" <<'SH'
 #!/usr/bin/env bash
 exit 0
@@ -237,7 +220,6 @@ fm_tasks_axi_compatible() { return 1; }
 fm_backlog_backend_manual() { return 1; }
 SH
   ln -s "$ROOT/bin/fm-backlog-transition-lib.sh" "$fake/bin/fm-backlog-transition-lib.sh"
-  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$fake/bin"
   # No tasktmp= line at all.
   cat > "$fake/state/$id.meta" <<META
 window=fakeses:fm-$id
