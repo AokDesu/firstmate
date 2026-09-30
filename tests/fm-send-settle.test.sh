@@ -65,8 +65,11 @@ run_send() {
   local fb=$1 log=$2 home; shift 2
   home="$TMP_ROOT/home-$RANDOM"; mkdir -p "$home/state"
   : > "$log"
+  # FM_SLEEP_FIFO on a missing parent forces fm_sleep's external-sleep fallback
+  # so the wait still reaches the logging shim instead of timing out in-shell.
   env "$@" PATH="$fb:$PATH" \
     FM_ROOT_OVERRIDE="$home" FM_HOME="$home" FM_SLEEP_LOG="$log" \
+    FM_SLEEP_FIFO="$home/no-such-dir/fifo" \
     "$SEND" "sess:win" "hello captain" 2>/dev/null
 }
 

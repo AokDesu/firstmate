@@ -12,6 +12,8 @@ FM_WAKE_QUEUE_LOCK="${FM_WAKE_QUEUE_LOCK:-$STATE/.wake-queue.lock}"
 FM_LOCK_STALE_AFTER="${FM_LOCK_STALE_AFTER:-2}"
 # shellcheck source=bin/fm-path-lib.sh
 . "$FM_WAKE_LIB_DIR/fm-path-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_WAKE_LIB_DIR/fm-sleep-lib.sh"
 # Resolved once at source time: fm_pid_identity and fm_path_mtime run inside 0.2s
 # confirm and 0.5s attach polls, and forking uname per call is a measurable cost on
 # the platform (Git Bash/MSYS) that already pays the highest fork price.
@@ -1194,7 +1196,7 @@ fm_lock_try_acquire() {
 fm_lock_acquire_wait() {
   local lockdir=$1
   while ! fm_lock_try_acquire "$lockdir"; do
-    sleep 0.1
+    fm_sleep 0.1
   done
 }
 
@@ -1207,7 +1209,7 @@ fm_lock_acquire_wait_max() {  # <lockdir> <max-seconds>
   deadline=$((SECONDS + seconds))
   while ! fm_lock_try_acquire "$lockdir"; do
     [ "$SECONDS" -lt "$deadline" ] || return 1
-    sleep 0.1
+    fm_sleep 0.1
   done
 }
 
@@ -1219,25 +1221,46 @@ _fm_lock_acquire_wait_handoff() {  # <lockdir> <caller-pid>
   local lockdir=$1 caller_pid=$2 ownerdir current back
   case "$caller_pid" in ''|*[!0-9]*) return 1 ;; esac
   fm_pid_alive "$caller_pid" || return 1
-  trap 'fm_lock_release "$lockdir"; exit 143' TERM INT
-  fm_lock_acquire_wait "$lockdir" || return 1
+  # The lock release runs from the EXIT trap, and the signal traps only drop
+  # a flag file: an 'exit' inside a handler that fires during an interrupted
+  # in-shell wait re-raises through kill_shell, which this bash build can
+  # fault while read -t is the interrupted builtin (see fm-watch-arm.sh and
+  # watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags after
+  # every wait and exits through the ordinary path with the same 143 status.
+  # fm_lock_release only acts while the pid record still names this helper,
+  # so a release after the handoff is a no-op.
+  local FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-lock-sig.$$" \
+    FM_SLEEP_SIGEXIT_int=143
+  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+  trap '_FM_LOCK_EXIT_RC=$?; _FM_LOCK_SIGP=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; rm -f "$_FM_LOCK_SIGP".* 2>/dev/null; fm_lock_release "$lockdir"; exit "$_FM_LOCK_EXIT_RC"' EXIT
+  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM INT
+  # Every non-exit return must drop the traps this function armed: traps are
+  # process-global, so surviving flag traps would write to whatever prefix the
+  # caller restores (or ./term in its cwd) while silently consuming TERM/INT.
+  _fm_lock_handoff_restore() {
+    trap - TERM INT EXIT
+    rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+  }
+  fm_lock_acquire_wait "$lockdir" || { _fm_lock_handoff_restore; return 1; }
   if [ -L "$lockdir" ]; then
     ownerdir=$(fm_lock_link_owner "$lockdir" 2>/dev/null) || {
       fm_lock_release "$lockdir"
+      _fm_lock_handoff_restore
       return 1
     }
   else
     ownerdir=$lockdir
   fi
-  fm_current_pid current || { fm_lock_release "$lockdir"; return 1; }
+  fm_current_pid current || { fm_lock_release "$lockdir"; _fm_lock_handoff_restore; return 1; }
   back=$(cat "$ownerdir/pid" 2>/dev/null || true)
   if [ "$back" != "$current" ] \
     || ! printf '%s\n' "$caller_pid" > "$ownerdir/pid" 2>/dev/null \
     || [ "$(cat "$ownerdir/pid" 2>/dev/null || true)" != "$caller_pid" ]; then
     fm_lock_release "$lockdir"
+    _fm_lock_handoff_restore
     return 1
   fi
-  trap - TERM INT
+  _fm_lock_handoff_restore
 }
 
 # fm_lock_acquire_wait_bounded <lockdir> <positive-seconds>
@@ -1811,7 +1834,7 @@ fm_autoarm_write_owned() {  # <state-dir> <gen> <outcome> [marker-file] [session
   i=0
   while ! fm_lock_try_acquire "$lock"; do
     [ "$i" -lt 20 ] || return 1
-    sleep 0.02
+    fm_sleep 0.02
     i=$((i + 1))
   done
   if ! fm_autoarm_ledger_read "$state" \
@@ -1963,7 +1986,7 @@ fm_autoarm_release_abandoned() {  # <state-dir> [grace]
     fi
     i=0
     while [ "$i" -lt 20 ] && fm_pid_alive "$lock_pid"; do
-      sleep 0.05
+      fm_sleep 0.05
       i=$((i + 1))
     done
   fi
@@ -2650,7 +2673,7 @@ fm_wake_print_annotations() {  # <deduped-raw-rows> [<presentation-snapshot>]
   case "${FM_WAKE_ENRICH_TEST_DELAY:-0}" in
     0) ;;
     ''|*[!0-9]*) ;;
-    *) sleep "$FM_WAKE_ENRICH_TEST_DELAY" ;;
+    *) fm_sleep "$FM_WAKE_ENRICH_TEST_DELAY" ;;
   esac
 
   while IFS=$(printf '\t') read -r status_key mode; do

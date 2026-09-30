@@ -164,6 +164,15 @@ RUN_STARTED_MS=$(now_ms)
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 1
+# shellcheck source=bin/fm-sleep-lib.sh
+if [ -f "$ROOT/bin/fm-sleep-lib.sh" ]; then
+  . "$ROOT/bin/fm-sleep-lib.sh"
+else
+  # Fixtures copy this runner into a bare repository; degrade to external
+  # sleep and inert flag checks there.
+  fm_sleep() { sleep "$1"; }
+  fm_sleep_signal_check() { :; }
+fi
 
 MODE=
 LIST_ONLY=0
@@ -2363,10 +2372,23 @@ declare -a WORKER_SCRIPTS=()
 # Invoked indirectly by the EXIT trap below.
 # shellcheck disable=SC2329
 cleanup_run() {
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT HUP TERM INT QUIT
   rm -rf "$RUN_TMP"
 }
 
 trap cleanup_run EXIT
+
+# Stop signals only drop flag files: an in-trap exit or the fatal default both
+# re-raise through kill_shell, which this bash build can fault while read -t
+# is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
+# fm_sleep checks the flags after every wait and exits through the ordinary
+# path with the same 128+sig statuses.
+FM_SLEEP_SIGPREFIX="$RUN_TMP/sig.$$"
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
 RUN_ID="fm-test-run-${RUN_STARTED_MS}-$$"
 TOTAL=0
@@ -2541,7 +2563,11 @@ else
     idx=${WORKER_IDX[$slot]}
     script=${WORKER_SCRIPTS[$slot]}
     set +e
+    fm_sleep_signal_check
     wait "$pid"
+    # A stop signal inside wait returns >128 with the worker still running;
+    # honor our own flag and exit rather than misrecording it as a test rc.
+    fm_sleep_signal_check
     set -e
     unset 'WORKER_PIDS[slot]'
     unset 'WORKER_IDX[slot]'
@@ -2591,7 +2617,7 @@ else
           return
         fi
       done
-      sleep 0.01
+      fm_sleep 0.01
     done
   }
 
@@ -2615,7 +2641,8 @@ else
     printf 'FM_TEST_BEGIN %s %s family=%s expected_gate_skip=%s\n' \
       "$(now_iso)" "$script" "$family" "$expected"
     (
-      trap - EXIT HUP INT TERM
+      trap - EXIT HUP INT TERM QUIT
+      FM_SLEEP_SIGPREFIX=
       set +e
       export TMPDIR="$work/tmp"
       export TMP="$work/tmp"

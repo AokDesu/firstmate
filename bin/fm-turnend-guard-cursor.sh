@@ -92,6 +92,8 @@ case "$LOCK_ATTEMPTS" in ''|*[!0-9]*|0) LOCK_ATTEMPTS=50 ;; esac
 
 # shellcheck source=bin/fm-primary-scope-lib.sh
 . "$SCRIPT_DIR/fm-primary-scope-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-supervision-lib.sh
 . "$SCRIPT_DIR/fm-supervision-lib.sh"
 # shellcheck source=bin/fm-wake-lib.sh
@@ -135,7 +137,7 @@ lock_acquire_bounded() {  # <lock>
   while [ "$attempt" -lt "$LOCK_ATTEMPTS" ]; do
     fm_lock_try_acquire "$lock" && return 0
     attempt=$((attempt + 1))
-    [ "$attempt" -lt "$LOCK_ATTEMPTS" ] && sleep 0.1
+    [ "$attempt" -lt "$LOCK_ATTEMPTS" ] && fm_sleep 0.1
   done
   return 1
 }
@@ -319,7 +321,19 @@ if fm_supervision_host_enabled "$CONFIG" cursor; then
 fi
 
 # Never leave an arm child or its capture file behind, on any exit path.
-trap '[ -n "$ARM_PID" ] && kill "$ARM_PID" 2>/dev/null; [ -n "$ARM_OUT" ] && rm -f "$ARM_OUT" 2>/dev/null; :' EXIT
+# shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
+trap 'sigprefix=${FM_SLEEP_SIGPREFIX:-}; FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true; [ -n "$ARM_PID" ] && kill "$ARM_PID" 2>/dev/null; [ -n "$ARM_OUT" ] && rm -f "$ARM_OUT" 2>/dev/null; :' EXIT
+# Stop signals only drop flag files: an in-trap exit or the fatal default both
+# re-raise through kill_shell, which this bash build can fault while read -t
+# is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
+# fm_sleep checks the flags after every wait and exits through the ordinary
+# path with the same 128+sig statuses.
+FM_SLEEP_SIGPREFIX="$STATE/.cursor-park-sig.$$"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
 attempt=0
 while [ "$attempt" -lt "$ARM_ATTEMPTS" ]; do
@@ -341,7 +355,7 @@ while [ "$attempt" -lt "$ARM_ATTEMPTS" ]; do
       STAND_DOWN=1
       break
     fi
-    sleep "$POLL"
+    fm_sleep "$POLL"
   done
   if [ "$STAND_DOWN" -eq 1 ]; then
     kill "$ARM_PID" 2>/dev/null

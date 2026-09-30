@@ -77,6 +77,8 @@ FM_HOME="${FM_HOME:-${FM_ROOT_OVERRIDE:-$FM_ROOT}}"
 # every backend so the decision cannot drift.
 # shellcheck source=bin/fm-composer-lib.sh
 . "$FM_BACKEND_HERDR_ROOT/bin/fm-composer-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_BACKEND_HERDR_ROOT/bin/fm-sleep-lib.sh"
 
 # Shared, backend-neutral normalized-transition shape and the single-owner
 # status->action policy table (bin/fm-transition-lib.sh). This adapter's event
@@ -1343,7 +1345,7 @@ fm_backend_herdr_death_close_pane() {  # <session> <pane-id> <shell-pid> [guard-
   while [ "$attempt" -lt "$max_attempts" ]; do
     presence=$(fm_backend_herdr_pane_presence_state "$session" "$pane_id")
     [ "$presence" = dead ] && return 0
-    sleep 0.05
+    fm_sleep 0.05
     attempt=$((attempt + 1))
   done
   # SIGKILL escalation revalidates exact pane ownership, not just the pid: a
@@ -1358,7 +1360,7 @@ fm_backend_herdr_death_close_pane() {  # <session> <pane-id> <shell-pid> [guard-
   while [ "$attempt" -lt "$max_attempts" ]; do
     presence=$(fm_backend_herdr_pane_presence_state "$session" "$pane_id")
     [ "$presence" = dead ] && return 0
-    sleep 0.05
+    fm_sleep 0.05
     attempt=$((attempt + 1))
   done
   return 1
@@ -1401,7 +1403,7 @@ fm_backend_herdr_pane_idle_shell_pid() {  # <session> <pane-id>
     fi
     attempt=$((attempt + 1))
     [ "$attempt" -lt "$max_attempts" ] || return 1
-    sleep 0.1
+    fm_sleep 0.1
   done
 }
 
@@ -1665,7 +1667,7 @@ fm_backend_herdr_server_ensure() {  # <session>
   for i in $(seq 1 20); do
     running=$(fm_backend_herdr_cli "$session" status --json 2>/dev/null | jq -r '.server.running // false' 2>/dev/null)
     [ "$running" = "true" ] && return 0
-    sleep 0.5
+    fm_sleep 0.5
   done
   echo "error: herdr server for session '$session' did not report running within 10s" >&2
   return 1
@@ -2121,7 +2123,7 @@ fm_backend_herdr_pane_process_state() {  # <session> <pane_id>
     [ "$verdict" = other ] || break
     attempt=$((attempt + 1))
     [ "$attempt" -lt "$max_attempts" ] || break
-    sleep 0.1
+    fm_sleep 0.1
   done
   printf '%s' "$verdict"
 }
@@ -3439,7 +3441,7 @@ fm_backend_herdr_send_text_submit() {  # <target> <text> <retries> <enter-sleep>
     [ -z "${content//[$' \t\r\n\v\f']/}" ] || { printf 'send-failed'; return 0; }
   fi
   fm_backend_herdr_send_literal "$target" "$text" || { printf 'send-failed'; return 0; }
-  sleep "$settle"
+  fm_sleep "$settle"
   if [ "$proof" = 1 ]; then
     if ! content=$(fm_backend_herdr_composer_content "$target") \
       || ! fm_backend_herdr_composer_payload_shown "$text" "$content"; then
@@ -3470,7 +3472,7 @@ fm_backend_herdr_send_text_submit() {  # <target> <text> <retries> <enter-sleep>
         printf 'send-failed'
         return 0
       fi
-      sleep "$sleep_s"
+      fm_sleep "$sleep_s"
       continue
     fi
     if [ "$baseline" = idle ]; then
@@ -3489,7 +3491,7 @@ fm_backend_herdr_send_text_submit() {  # <target> <text> <retries> <enter-sleep>
         *) printf '%s' "$verdict"; return 0 ;;
       esac
     else
-      sleep "$sleep_s"
+      fm_sleep "$sleep_s"
       verdict=$(fm_backend_herdr_composer_state "$target")
       if [ "$verdict" = pending ] && [ "$raw_status" != working ] \
         && [ "$footer_baseline" = idle ] \
@@ -3589,7 +3591,7 @@ fm_backend_herdr_kill() {  # <target>
         lock_held=1
         break
       fi
-      sleep 0.1
+      fm_sleep 0.1
       attempt=$((attempt + 1))
     done
   fi
@@ -3728,7 +3730,7 @@ fm_backend_herdr_wait_for_working() {  # <session> <pane_id> <budget-seconds> <p
   case "$interval" in ''|*[!0-9.]*) interval=0 ;; esac
   for ((i = 0; i < polls; i++)); do
     if [ "$polls" -eq 1 ] || [ "$i" -gt 0 ]; then
-      sleep "$interval"
+      fm_sleep "$interval"
     fi
     raw=$(fm_backend_herdr_agent_status_raw "$session" "$pane_id")
     bs=$(fm_backend_herdr_classify_submit_agent_status "$raw")

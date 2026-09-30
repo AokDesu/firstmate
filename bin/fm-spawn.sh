@@ -486,8 +486,23 @@ FM_HOME="${FM_HOME:-${FM_ROOT_OVERRIDE:-$FM_ROOT}}"
 
 # shellcheck source=bin/fm-tasks-axi-lib.sh
 . "$SCRIPT_DIR/fm-tasks-axi-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-backlog-transition-lib.sh
 . "$SCRIPT_DIR/fm-backlog-transition-lib.sh"
+
+# Stop signals only drop flag files: an in-trap exit or the fatal default both
+# re-raise through kill_shell, which this bash build can fault while read -t
+# is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
+# fm_sleep checks the flags after every wait and exits through the ordinary
+# path with the same 128+sig statuses. The deferred-signal window below
+# re-arms its own dispositions explicitly, so this does not change it.
+FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-spawn-sig.$$"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
 resolve_directory_input() {
   local name=$1 path=$2 resolved raw_bytes
@@ -1233,7 +1248,14 @@ parse_orca_worktree_result() {
 }
 
 spawn_abort_cleanup() {
-  local status=$?
+  local status=$? sigprefix=${FM_SLEEP_SIGPREFIX:-}
+  # Drop the flag prefix before cleanup helpers can reach fm_sleep and a flag
+  # left by the signal that ended the wait re-exits this teardown path, and
+  # disarm the traps so a late signal kills promptly instead of writing a
+  # flag under an empty prefix.
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT HUP TERM INT QUIT
+  [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true
   if [ "$RELAUNCH_REPLACEMENT_PENDING" = 1 ] &&
     [ "$SPAWN_META_PUBLISH_STARTED" = 1 ] &&
     [ -n "$SPAWN_META_TMP" ] &&
@@ -1393,7 +1415,7 @@ spawn_herdr_presentation_order_lock_acquire() {
       HERDR_PRESENTATION_ORDER_LOCK_HELD=1
       return 0
     fi
-    sleep 0.1
+    fm_sleep 0.1
     attempt=$((attempt + 1))
   done
   return 1
@@ -3882,7 +3904,7 @@ spawn_assert_agent_worktree() {
     if [ -n "$seen" ] && [ "$(real_path_or_raw "$seen")" = "$expected" ]; then
       return 0
     fi
-    [ "$i" -ge 20 ] || sleep 0.5
+    [ "$i" -ge 20 ] || fm_sleep 0.5
   done
   echo "error: task $ID's worker started in '${seen:-unknown}', not its recorded worktree '$WT'; refusing to continue outside the copy holding its work" >&2
   exit 1
@@ -3962,7 +3984,7 @@ kimi_wait_for_ready() {
     if [ -z "$pane" ]; then
       ready_captures=0
       i=$((i + 1))
-      [ "$i" -ge "$max" ] || sleep "$interval"
+      [ "$i" -ge "$max" ] || fm_sleep "$interval"
       continue
     fi
     if kimi_trust_dialog_is_visible "$pane"; then
@@ -4000,7 +4022,7 @@ kimi_wait_for_ready() {
       fi
     fi
     i=$((i + 1))
-    [ "$i" -ge "$max" ] || sleep "$interval"
+    [ "$i" -ge "$max" ] || fm_sleep "$interval"
   done
   if [ "$trust_still_visible" -eq 1 ]; then
     KIMI_READY_FAILURE_DETAIL="kimi trust dialog did not clear after selecting 'Trust this folder' on $trust_enters poll(s); saw 'Trust this folder?', the navigation hint, selected 'Trust this folder', and the negative Don't trust option"
@@ -4030,7 +4052,7 @@ kimi_wait_for_delivery() {
     pane=$(kimi_capture)
     kimi_delivery_is_confirmed "$pane" && return 0
     i=$((i + 1))
-    [ "$i" -ge "$max" ] || sleep "$interval"
+    [ "$i" -ge "$max" ] || fm_sleep "$interval"
   done
   return 1
 }
@@ -4070,7 +4092,7 @@ rovo_wait_for_ready() {
       return 0
     fi
     i=$((i + 1))
-    [ "$i" -ge "$max" ] || sleep "$interval"
+    [ "$i" -ge "$max" ] || fm_sleep "$interval"
   done
   return 1
 }
@@ -4098,7 +4120,7 @@ rovo_wait_for_delivery() {
     pane=$(rovo_capture)
     rovo_delivery_is_confirmed "$pane" && return 0
     i=$((i + 1))
-    [ "$i" -ge "$max" ] || sleep "$interval"
+    [ "$i" -ge "$max" ] || fm_sleep "$interval"
   done
   return 1
 }
@@ -4171,7 +4193,7 @@ agy_wait_for_working() {
       agy_pane_is_working "$pane" && return 0
     fi
     i=$((i + 1))
-    [ "$i" -ge "$max" ] || sleep "$interval"
+    [ "$i" -ge "$max" ] || fm_sleep "$interval"
   done
   return 1
 }
@@ -4194,7 +4216,7 @@ elif [ "$RELAUNCH" -eq 1 ]; then
   for _ in $(seq 1 10); do
     relaunch_seen=$(spawn_current_path "$WT_TARGET" || true)
     [ -z "$relaunch_seen" ] || [ "$(real_path_or_raw "$relaunch_seen")" != "$relaunch_wt_real" ] || break
-    sleep 0.5
+    fm_sleep 0.5
   done
   if [ -z "$relaunch_seen" ] || [ "$(real_path_or_raw "$relaunch_seen")" != "$relaunch_wt_real" ]; then
     if [ "$BACKEND" != herdr ]; then
@@ -4209,7 +4231,7 @@ elif [ "$RELAUNCH" -eq 1 ]; then
     for _ in $(seq 1 10); do
       relaunch_seen=$(spawn_current_path "$WT_TARGET" || true)
       [ -z "$relaunch_seen" ] || [ "$(real_path_or_raw "$relaunch_seen")" != "$relaunch_wt_real" ] || break
-      sleep 0.5
+      fm_sleep 0.5
     done
     if [ -z "$relaunch_seen" ] || [ "$(real_path_or_raw "$relaunch_seen")" != "$relaunch_wt_real" ]; then
       echo "error: task $ID's endpoint is in '${relaunch_seen:-unknown}' and did not return to its recorded worktree '$WT' when told to; refusing to relaunch an agent outside the copy holding its work" >&2
@@ -4270,7 +4292,7 @@ elif [ "$KIND" != secondmate ] && [ "$BACKEND" != orca ]; then
       candidate=""
       [ -z "$p" ] || last_reason=$SPAWN_WT_REASON
     fi
-    sleep 1
+    fm_sleep 1
   done
   if [ -z "$WT" ]; then
     echo "error: treehouse get did not enter an isolated worktree within 60s (last seen '${last_seen:-none}': $last_reason; spawning project '$PROJ_ABS'); inspect window $T" >&2
@@ -5323,10 +5345,10 @@ if ! (umask 077 && printf '%s\n' "$LAUNCH" >"$LAUNCH_STAGE" &&
   echo "error: could not stage the launch command at $LAUNCH_FILE" >&2
   exit 1
 fi
-sleep 0.3
+fm_sleep 0.3
 SPAWN_LAUNCH_SENT=1
 spawn_send_literal "$T" ". $(shell_quote "$LAUNCH_FILE")"
-sleep 0.3
+fm_sleep 0.3
 if [ "${HERDR_PROJECTED:-0}" -eq 1 ]; then
   HERDR_PROJECTION_ABORT_CLEANUP=0
   spawn_herdr_presentation_order_lock_release

@@ -170,6 +170,8 @@ FM_HOME="${FM_HOME:-${FM_ROOT_OVERRIDE:-$FM_ROOT}}"
 # corrected composer detection. Stale task rechecks use fm-backend.sh below.
 # shellcheck source=bin/fm-tmux-lib.sh
 . "$FM_DAEMON_DIR/fm-tmux-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_DAEMON_DIR/fm-sleep-lib.sh"
 
 # shellcheck source=bin/fm-backend.sh
 . "$FM_DAEMON_DIR/fm-backend.sh"
@@ -967,7 +969,7 @@ wedge_alarm_run_bounded() {
       log "wedge alarm: ${channel} notifier timed out after ${elapsed}s (limit ${timeout}s)"
       return 124
     fi
-    sleep 0.1
+    fm_sleep 0.1
   done
   if wait "$pid"; then rc=0; else rc=$?; fi
   WEDGE_ALARM_NOTIFIER_PID=
@@ -980,7 +982,7 @@ wedge_alarm_stop_active_notifier() {
   [ -n "$pid" ] || return 0
   WEDGE_ALARM_NOTIFIER_PID=
   kill -TERM "-$pid" 2>/dev/null || kill -TERM "$pid" 2>/dev/null || true
-  sleep 0.2
+  fm_sleep 0.2
   kill -KILL "-$pid" 2>/dev/null || kill -KILL "$pid" 2>/dev/null || true
   wait "$pid" 2>/dev/null || true
 }
@@ -1860,8 +1862,21 @@ fm_super_main() {
 
   # --- shutdown: flush buffered escalations, reap child, release lock -------
   local WATCHER_PID="" CUR_TMP=""
+  # Signal dispositions only drop a flag file: an in-trap exit re-raises
+  # through kill_shell, which this bash build can fault while read -t is the
+  # interrupted builtin (the crash family documented at watcher_stop_signals
+  # in fm-watch.sh). fm_sleep checks the flag files after every wait and exits
+  # through the ordinary path; the EXIT trap then runs this teardown. TERM and
+  # INT keep the daemon's conventional clean exit-0 status.
+  FM_SLEEP_SIGPREFIX="$STATE/.supervise-sig.$$"
+  FM_SLEEP_SIGEXIT_term=0
+  FM_SLEEP_SIGEXIT_int=0
+  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
   cleanup() {
-    trap - TERM INT
+    local sigprefix=$FM_SLEEP_SIGPREFIX
+    FM_SLEEP_SIGPREFIX=
+    trap - EXIT TERM INT QUIT
+    rm -f "$sigprefix".* 2>/dev/null
     wedge_alarm_stop_active_notifier
     escalate_flush "$STATE" 2>/dev/null || true
     if [ -n "${WATCHER_PID:-}" ]; then
@@ -1876,7 +1891,10 @@ fm_super_main() {
     log "daemon shutting down"
     exit 0
   }
-  trap cleanup TERM INT
+  trap cleanup EXIT
+  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
   # --- crash-loop guard -----------------------------------------------------
   local crash_times=() backoff_secs=$CRASH_NORMAL_SLEEP
@@ -1899,7 +1917,7 @@ fm_super_main() {
   }
 
   start_watcher() {
-    CUR_TMP=$(mktemp "${TMPDIR:-/tmp}/fm-watch.XXXXXX") || { log "error: mktemp failed; retrying in 5s"; sleep 5; return 1; }
+    CUR_TMP=$(mktemp "${TMPDIR:-/tmp}/fm-watch.XXXXXX") || { log "error: mktemp failed; retrying in 5s"; fm_sleep 5; return 1; }
     "$WATCH" >"$CUR_TMP" 2>>"$WATCH_ERR" &
     WATCHER_PID=$!
   }
@@ -1916,7 +1934,7 @@ fm_super_main() {
     if ! fm_backend_target_exists "$BACKEND" "$TARGET"; then
       log "warn: supervisor target '$TARGET' gone; backing off ${INJECT_FAIL_SLEEP}s, will retry"
       # Flush is pointless with no pane; preserve any buffered escalations.
-      sleep "$INJECT_FAIL_SLEEP"
+      fm_sleep "$INJECT_FAIL_SLEEP"
       continue
     fi
 
@@ -1937,7 +1955,7 @@ fm_super_main() {
           record_crash
           log "watcher exited rc=$rc reason='$reason'; restarting after ${backoff_secs}s"
           WATCHER_PID=""
-          sleep "$backoff_secs"
+          fm_sleep "$backoff_secs"
           continue
         fi
         # Non-wake stdout (e.g. a watcher singleton-collision "already running"
@@ -1947,7 +1965,7 @@ fm_super_main() {
         if ! is_wake_reason "$reason"; then
           log "watcher non-wake stdout, idling: $reason"
           WATCHER_PID=""
-          sleep "${HOUSEKEEPING_TICK:-$HOUSEKEEPING_TICK_DEFAULT}"
+          fm_sleep "${HOUSEKEEPING_TICK:-$HOUSEKEEPING_TICK_DEFAULT}"
           continue
         fi
         log "wake: $reason"
@@ -1964,7 +1982,7 @@ fm_super_main() {
     # to detect its exit (the kill -0 above) promptly and run housekeeping often
     # enough that batch flushes, stale rechecks, and the catch-all scan fire on
     # cadence. Gating keeps a large fleet cheap between ticks.
-    sleep 1
+    fm_sleep 1
     if [ "$(_file_age "$STATE/.subsuper-last-housekeep")" -ge "${FM_HOUSEKEEPING_TICK:-$HOUSEKEEPING_TICK_DEFAULT}" ]; then
       _now > "$STATE/.subsuper-last-housekeep"
       housekeeping "$STATE"

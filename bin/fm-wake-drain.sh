@@ -21,6 +21,8 @@ set -u
 SCRIPT_DIR="$(d=${BASH_SOURCE[0]%/*}; [ "$d" != "${BASH_SOURCE[0]}" ] || d=.; cd "${d:-/}" && pwd)"
 # shellcheck source=bin/fm-wake-lib.sh
 . "$SCRIPT_DIR/fm-wake-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-classify-lib.sh
 . "$SCRIPT_DIR/fm-classify-lib.sh"
 # shellcheck source=bin/fm-line-cap-lib.sh
@@ -811,18 +813,30 @@ print_status_presentation() {  # [<deduped-raw-rows>]
 
 # shellcheck disable=SC2317,SC2329 # Invoked by trap handlers below.
 cleanup() {
-  local status=$?
+  local status=$? sigprefix=${FM_SLEEP_SIGPREFIX:-}
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT INT TERM QUIT
+  [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true
   [ -z "$DRAIN_TMP" ] || rm -f -- "$DRAIN_TMP" 2>/dev/null || true
   [ -z "$DRAIN_VIEW_TMP" ] || rm -f -- "$DRAIN_VIEW_TMP" 2>/dev/null || true
   if [ "$DRAIN_LOCK_HELD" = true ]; then
     fm_lock_release "$FM_WAKE_QUEUE_LOCK"
   fi
+  rm -f "$sigprefix".* 2>/dev/null
   exit "$status"
 }
 
+# Flag-file dispositions, not in-trap exits: an 'exit' inside a handler that
+# fires during an interrupted in-shell wait re-raises through kill_shell,
+# which this bash build can fault while read -t is the interrupted builtin
+# (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags after
+# every wait and exits through the ordinary path with the same statuses.
+FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-drain-sig.$$"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
 trap cleanup EXIT
-trap 'exit 130' INT
-trap 'exit 143' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
 if [ -n "$ACK_THROUGH" ]; then
   fm_lock_acquire_wait "$FM_WAKE_QUEUE_LOCK"
@@ -1056,7 +1070,7 @@ ACK_THROUGH=$(printf '%s\n' "$RAW_ROWS" | awk -F '\t' '$2 ~ /^[0-9]+$/ && $2 > m
 case "${FM_WAKE_DRAIN_TEST_DELAY_BEFORE_COMMIT:-0}" in
   0) ;;
   ''|*[!0-9]*) ;;
-  *) sleep "$FM_WAKE_DRAIN_TEST_DELAY_BEFORE_COMMIT" ;;
+  *) fm_sleep "$FM_WAKE_DRAIN_TEST_DELAY_BEFORE_COMMIT" ;;
 esac
 if [ -n "$RAW_ROWS" ]; then
   printf '%s\n' "$RAW_ROWS" || exit "$?"

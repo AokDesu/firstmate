@@ -172,6 +172,9 @@
 # uses fm_composer_strip_ghost instead. Reads the styled text on stdin and prints
 # plain text (stdin-only, matching fm_composer_strip_ghost). The character class
 # includes ':' so an ITU colon-form SGR (38:2::r:g:b) is stripped whole, not left
+FM_COMPOSER_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_COMPOSER_LIB_DIR/fm-sleep-lib.sh"
 # with a dangling tail.
 fm_composer_strip_ansi() {
   local esc; esc=$(printf '\033')
@@ -1734,7 +1737,7 @@ fm_composer_submit_retry_core() {  # <send-key-fn> <state-fn> <target> <retries>
   local send_key_fn=$1 state_fn=$2 target=$3 retries=$4 sleep_s=$5 expected_label=${6:-} i=0 state
   while :; do
     "$send_key_fn" "$target" Enter "$expected_label" || true
-    sleep "$sleep_s"
+    fm_sleep "$sleep_s"
     state=$("$state_fn" "$target" "$expected_label")
     case "$state" in
       pending|pending-unproven) ;;

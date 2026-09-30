@@ -55,6 +55,8 @@ EOF
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=bin/fm-busy-lib.sh
 . "$SCRIPT_DIR/fm-busy-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 
 CMD=${1:-}
 case "$CMD" in
@@ -138,7 +140,7 @@ lock_acquire() {
       echo "error: busy-state lock timeout for $ID" >&2
       return 1
     fi
-    sleep 0.05
+    fm_sleep 0.05
   done
   return 0
 }

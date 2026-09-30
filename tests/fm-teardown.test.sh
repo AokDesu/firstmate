@@ -4140,6 +4140,7 @@ test_unreadable_startup_source_refuses_before_cleanup() {
   prepare_teardown_source_copy "$case_dir"
   rm -f "$case_dir/test-root/bin/fm-nm-run-lib.sh"
   cp "$ROOT/bin/fm-nm-run-lib.sh" "$case_dir/test-root/bin/fm-nm-run-lib.sh"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$case_dir/test-root/bin"
   chmod 000 "$case_dir/test-root/bin/fm-nm-run-lib.sh"
   if [ -r "$case_dir/test-root/bin/fm-nm-run-lib.sh" ]; then
     pass "unreadable startup source skipped: this user can read mode-000 files"

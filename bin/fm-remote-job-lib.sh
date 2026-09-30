@@ -83,6 +83,9 @@
 # bin/fm-remote-job-reap-orphans.sh uses it to reap workers that were already
 # orphaned that way.
 
+FM_REMOTE_JOB_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_REMOTE_JOB_LIB_DIR/fm-sleep-lib.sh"
 FM_REMOTE_JOB_LABEL=dev.firstmate.remote-job
 FM_REMOTE_JOB_MAX_BYTES=${FM_REMOTE_JOB_MAX_BYTES:-1048576}
 FM_REMOTE_JOB_QUEUE_TIMEOUT=${FM_REMOTE_JOB_QUEUE_TIMEOUT:-360}
@@ -733,7 +736,7 @@ fm_remote_job_wait() { # <account-home> <id>; honors FM_REMOTE_JOB_DISCONNECT_PR
         return 1
       fi
     fi
-    sleep "$FM_REMOTE_JOB_POLL_SECONDS"
+    fm_sleep "$FM_REMOTE_JOB_POLL_SECONDS"
   done
 }
 
@@ -969,7 +972,7 @@ fm_remote_job_stop_worker_tree() { # <pid>
   while { [ -n "$pgid" ] && kill -0 -- "-$pgid" 2>/dev/null || [ -z "$pgid" ] && kill -0 "$pid" 2>/dev/null; } \
     && [ "$i" -lt 50 ]; do
     i=$((i + 1))
-    sleep 0.1
+    fm_sleep 0.1
   done
   if [ -n "$pgid" ]; then
     kill -0 -- "-$pgid" 2>/dev/null || return 0
@@ -981,7 +984,7 @@ fm_remote_job_stop_worker_tree() { # <pid>
   while { [ -n "$pgid" ] && kill -0 -- "-$pgid" 2>/dev/null || [ -z "$pgid" ] && kill -0 "$pid" 2>/dev/null; } \
     && [ "$i" -lt 50 ]; do
     i=$((i + 1))
-    sleep 0.1
+    fm_sleep 0.1
   done
   if [ -n "$pgid" ]; then
     ! kill -0 -- "-$pgid" 2>/dev/null
@@ -1103,7 +1106,7 @@ fm_remote_job_wait_for_probe() { # <remote-root> <account-home>
   while [ "$i" -lt 200 ]; do
     fm_remote_job_probe "$account_home" && fm_remote_job_worker_identity_matches "$root" "$account_home" && return 0
     i=$((i + 1))
-    sleep 0.1
+    fm_sleep 0.1
   done
   return 1
 }

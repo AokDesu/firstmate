@@ -347,6 +347,8 @@ done
 unset _teardown_source
 # shellcheck source=bin/fm-tasks-axi-lib.sh
 . "$SCRIPT_DIR/fm-tasks-axi-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-backlog-transition-lib.sh
 . "$SCRIPT_DIR/fm-backlog-transition-lib.sh"
 # shellcheck source=bin/fm-backend.sh
@@ -1766,7 +1768,7 @@ cleanup_stale_lock_for_safety_check() {
   [ -n "$lock" ] && [ -e "$lock" ] || return 0
 
   echo "teardown: worktree safety check blocked by git lock $lock; waiting ${STALE_WORKTREE_LOCK_RETRY_WAIT_SECS}s and retrying (owning process may be exiting)" >&2
-  sleep "$STALE_WORKTREE_LOCK_RETRY_WAIT_SECS"
+  fm_sleep "$STALE_WORKTREE_LOCK_RETRY_WAIT_SECS"
 
   if [ ! -e "$lock" ]; then
     echo "teardown: worktree safety check lock cleared on its own; retrying safety checks" >&2
@@ -1814,7 +1816,7 @@ teardown_treehouse_return() {
   while [ "$attempt" -lt "$max_retries" ]; do
     attempt=$(( attempt + 1 ))
     echo "teardown: $label return failed with transient git lock ($lock_desc); waiting ${TREEHOUSE_RETURN_LOCK_RETRY_WAIT_SECS}s and retrying ($attempt/${max_retries})" >&2
-    sleep "$TREEHOUSE_RETURN_LOCK_RETRY_WAIT_SECS"
+    fm_sleep "$TREEHOUSE_RETURN_LOCK_RETRY_WAIT_SECS"
 
     if out=$( ( cd "$cd_dir" && treehouse return --force "$dir" ) 2>&1 ); then
       [ -n "$out" ] && printf '%s\n' "$out"
@@ -2158,7 +2160,7 @@ reap_task_backend_process_group() {  # <label>
   [ "$current_pgid" = "$pgid" ] || return 0
   echo "teardown: reaping leaked $label process group for $ID: $pgid" >&2
   kill -TERM -- "-$pgid" 2>/dev/null || true
-  sleep 1
+  fm_sleep 1
   if task_process_identity_matches "$leader" "$leader_start" \
      && [ "$(ps -o pgid= -p "$leader" 2>/dev/null | tr -d '[:space:]')" = "$pgid" ] \
      && kill -0 -- "-$pgid" 2>/dev/null; then
@@ -2226,7 +2228,7 @@ EOF
         kill -TERM "$pid" 2>/dev/null || true
       fi
     done
-    sleep 1
+    fm_sleep 1
     if ! task_pids_under_roots "$@"; then
       echo "REFUSED: cannot determine leaked processes under ${TASK_PIDS_FAILED_DIR:-<missing>} for $ID (lsof failed); preserving the worktree/tasktmp for manual inspection or retry." >&2
       return 1
@@ -3117,7 +3119,7 @@ $session	$lock_path"
       fi
       return 0
     fi
-    sleep 0.1
+    fm_sleep 0.1
     attempt=$((attempt + 1))
   done
   echo "error: herdr session presentation lock is contended for $task_id; nothing was changed - rerun teardown once the contention clears" >&2

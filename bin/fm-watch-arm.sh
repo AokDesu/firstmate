@@ -89,6 +89,8 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=bin/fm-gate-refuse-lib.sh
 . "$SCRIPT_DIR/fm-gate-refuse-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 if [ "${FM_GATE_REFUSE_BYPASS:-}" != 1 ]; then
   case "$SCRIPT_DIR/:$(cd "$SCRIPT_DIR" && pwd -P)/" in
     */.no-mistakes/worktrees/*)
@@ -198,7 +200,7 @@ cycle_log_append() {
   i=0
   while ! fm_lock_try_acquire "$CYCLE_LOG_LOCK"; do
     [ "$i" -lt 20 ] || return 0
-    sleep 0.02
+    fm_sleep 0.02
     i=$((i + 1))
   done
   printf 'arm_pid=%s\twatcher_pid=%s\torigin=%s\tstarted_at=%s\tended_at=%s\texit_code=%s\tsignal=%s\treason=%s\tbeacon_age=%s\tlock_before=%s\tlock_after=%s\tsuccessor=%s\n' \
@@ -247,7 +249,7 @@ cycle_mark_predecessor_successor() {
   i=0
   while ! fm_lock_try_acquire "$CYCLE_LOG_LOCK"; do
     [ "$i" -lt 20 ] || return 0
-    sleep 0.02
+    fm_sleep 0.02
     i=$((i + 1))
   done
   tmp="$CYCLE_LOG.link.$ARM_PID"
@@ -315,7 +317,7 @@ wait_for_healthy_successor() {
   while :; do
     healthy_watcher && return 0
     [ "$(date +%s)" -ge "$deadline" ] && return 1
-    sleep 0.2
+    fm_sleep 0.2
   done
 }
 
@@ -335,7 +337,7 @@ close_unobserved_cycle() {
       fail_unexplained_cycle
       return 1
     }
-    sleep 0.02
+    fm_sleep 0.02
     i=$((i + 1))
   done
   reason=
@@ -378,6 +380,7 @@ attached_holder_live() {
 attach_and_wait() {
   local attached_pid=$1 age
   while :; do
+    fm_sleep_signal_check
     if healthy_watcher; then
       if [ "$HEALTHY_PID" != "$attached_pid" ] || [ "$HEALTHY_IDENTITY" != "$cycle_watcher_identity" ]; then
         cycle_log_append unknown unknown lock-replaced "attached:$HEALTHY_PID"
@@ -385,13 +388,13 @@ attach_and_wait() {
         cycle_begin "$attached_pid" attached "$HEALTHY_IDENTITY"
         report_attached
       fi
-      sleep "$ATTACH_POLL"
+      fm_sleep "$ATTACH_POLL"
       continue
     fi
     if attached_holder_live "$attached_pid"; then
       age=$(fm_path_age "$BEAT")
       if [ "$age" -lt "$STALL_BOUND" ]; then
-        sleep "$ATTACH_POLL"
+        fm_sleep "$ATTACH_POLL"
         continue
       fi
       cycle_log_append unknown unknown attached-holder-stalled none
@@ -414,17 +417,36 @@ attach_and_wait() {
   done
 }
 
-# shellcheck disable=SC2329 # Invoked indirectly by the signal traps below.
-handle_attached_signal() {
-  local signal=$1 rc=$2
-  trap - HUP TERM INT
-  cycle_log_append "$rc" "$signal" arm-interrupted none
+# Signal dispositions only drop a flag file: a trapped signal that interrupts
+# an in-shell wait must neither run work nor exit inside the handler, because
+# bash re-raises through kill_shell on the in-trap exit and this build faults
+# while read -t is the interrupted builtin (the unwind/kill_shell crash family
+# documented at watcher_stop_signals). fm_sleep checks the flags after every
+# wait and exits through the ordinary path, so the observed status stays
+# 128+sig while the flag survives even a trap fired inside a command
+# substitution subshell. Teardown that must run lives in the EXIT trap.
+# shellcheck disable=SC2329 # Invoked by the EXIT trap below.
+arm_attached_on_exit() {
+  local rc=$? signal sigprefix=$FM_SLEEP_SIGPREFIX
+  # Drop the flag prefix before any fm_sleep in cleanup can see a flag left by
+  # the signal that ended the wait and re-exit out of this teardown path, and
+  # disarm the traps so a late signal kills promptly instead of writing a flag
+  # under an empty prefix.
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT HUP TERM INT QUIT
+  rm -f "$sigprefix".* 2>/dev/null
+  signal=$(cycle_signal_name "$rc")
+  [ "$signal" = none ] || cycle_log_append "$rc" "$signal" arm-interrupted none
   exit "$rc"
 }
 
-trap 'handle_attached_signal HUP 129' HUP
-trap 'handle_attached_signal TERM 143' TERM
-trap 'handle_attached_signal INT 130' INT
+FM_SLEEP_SIGPREFIX="$STATE/.arm-sig.$ARM_PID"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+trap arm_attached_on_exit EXIT
 
 watch_output_has_wake() {
   local out=$1
@@ -497,7 +519,7 @@ stop_home_watcher() {
     kill -TERM "$lock_pid" 2>/dev/null || true
     i=0
     while [ "$i" -lt 50 ] && fm_pid_alive "$lock_pid"; do
-      sleep 0.1
+      fm_sleep 0.1
       i=$((i + 1))
     done
     STOPPED_PID=$lock_pid
@@ -551,10 +573,16 @@ cleanup_child() {
   fi
 }
 
-# shellcheck disable=SC2329 # Invoked indirectly by the signal traps below.
-handle_arm_signal() {
-  local signal=$1 rc=$2
-  trap - HUP TERM INT
+# shellcheck disable=SC2329 # Invoked by the EXIT trap below.
+arm_child_on_exit() {
+  local rc=$? signal sigprefix=$FM_SLEEP_SIGPREFIX
+  # Drop the flag prefix before the fm_sleep in the child-teardown loop can
+  # see a flag left by the signal that ended the wait and re-exit out of this
+  # teardown path, and disarm the traps so a late signal kills promptly
+  # instead of writing a flag under an empty prefix.
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT HUP TERM INT QUIT
+  signal=$(cycle_signal_name "$rc")
   if [ -n "$child" ] && fm_pid_alive "$child"; then
     # The watcher installs its own cleanup traps only after acquiring and
     # publishing the home-bound lock identity. Do not TERM it in the middle of
@@ -563,22 +591,25 @@ handle_arm_signal() {
     # but never past the startup confirmation deadline.
     while fm_pid_alive "$child"; do
       if fm_watcher_lock_matches_pid "$STATE" "$WATCH" "$child" "$FM_HOME" \
-        || [ "$(date +%s)" -ge "$deadline" ]; then
+        || [ "$(date +%s)" -ge "${deadline:-0}" ]; then
         kill -TERM "$child" 2>/dev/null || true
         break
       fi
-      sleep 0.02
+      fm_sleep 0.02
     done
     wait "$child" 2>/dev/null || true
   fi
-  cycle_log_append "$rc" "$signal" arm-interrupted none
+  [ "$signal" = none ] || cycle_log_append "$rc" "$signal" arm-interrupted none
   cleanup_child
+  rm -f "$sigprefix".* 2>/dev/null
   exit "$rc"
 }
 
-trap 'handle_arm_signal HUP 129' HUP
-trap 'handle_arm_signal TERM 143' TERM
-trap 'handle_arm_signal INT 130' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
+trap arm_child_on_exit EXIT
 
 child_out=$(mktemp "$STATE/.watch-arm-output.XXXXXX") || {
   echo "watcher: FAILED - no live watcher with a fresh beacon"
@@ -677,29 +708,41 @@ while :; do
       else
         echo "watcher: started pid=$child (beacon fresh)"
       fi
+      # A flag landed during the confirm work above must be honored before
+      # parking in wait on a still-live child: the signal already fired once
+      # and nothing below consults the flag again.
+      fm_sleep_signal_check
       wait "$child"
       rc=$?
+      # A signal that lands inside wait returns >128 with the child still
+      # running; honor our own flag instead of misattributing a child reap,
+      # so the EXIT trap tears the live child down.
+      fm_sleep_signal_check
       owned_child_finished "$rc"
       exit $?
     fi
     # Another watcher won the singleton; our child stood down.
+    fm_sleep_signal_check
     wait "$child"
     rc=$?
+    fm_sleep_signal_check
     owned_child_finished "$rc"
     exit $?
   fi
   if [ "$child_done" -eq 0 ] && ! fm_pid_alive "$child"; then
+    fm_sleep_signal_check
     wait "$child"
     rc=$?
+    fm_sleep_signal_check
     child_done=1
     owned_child_finished "$rc"
     exit $?
   fi
   [ "$(date +%s)" -ge "$deadline" ] && break
-  sleep 0.2
+  fm_sleep 0.2
 done
 
-trap - HUP TERM INT
+trap - HUP TERM INT QUIT
 print_watch_output "$child_out"
 cleanup_child
 wait "$child" 2>/dev/null

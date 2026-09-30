@@ -452,6 +452,7 @@ install_omp_extension_fixture() {  # <repo>
   cp "$ROOT/.omp/extensions/fm-primary-turnend-guard.ts" "$ROOT/.omp/extensions/fm-primary-omp-watch.ts" "$repo/.omp/extensions/"
   cp "$ROOT/.pi/extensions/lib/fm-operational-input.ts" "$ROOT/.pi/extensions/lib/fm-sessionstart-supervisor.mjs" "$repo/.pi/extensions/lib/"
   cp "$ROOT/bin/fm-operational-input.sh" "$ROOT/bin/fm-supervision-engine-lib.sh" "$repo/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$repo/bin/"
   chmod +x "$repo/bin/fm-operational-input.sh"
   printf '{"name":"typebox","type":"module","exports":"./index.js"}\n' > "$repo/node_modules/typebox/package.json"
   printf 'export const Type = { Object(p) { return { type: "object", properties: p }; } };\n' > "$repo/node_modules/typebox/index.js"
@@ -591,7 +592,7 @@ test_watch_extension_runs_the_supervision_host() {  # [away|quiet]
     # Quiet mode's record is a present captain (bin/fm-afk-contract.sh AWAY OR
     # QUIET): the extension asks the record owner, so the same handback carries
     # no away note.
-    for f in fm-afk-contract.sh fm-classify-lib.sh fm-timeout-lib.sh; do cp "$ROOT/bin/$f" "$repo/bin/$f"; done
+    for f in fm-afk-contract.sh fm-classify-lib.sh fm-timeout-lib.sh fm-sleep-lib.sh; do cp "$ROOT/bin/$f" "$repo/bin/$f"; done
     FM_HOME="$home" FM_AFK_MODE=quiet "$ROOT/bin/fm-afk-contract.sh" enter --words 'keep routine wakes off my main' >/dev/null 2>&1 \
       || fail "fixture: could not record quiet mode"
   else

@@ -175,6 +175,8 @@ STATE="${FM_STATE_OVERRIDE:-$FM_HOME/state}"
 DATA="${FM_DATA_OVERRIDE:-$FM_HOME/data}"
 # shellcheck source=bin/fm-tasks-axi-lib.sh disable=SC1091
 . "$SCRIPT_DIR/fm-tasks-axi-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-backlog-transition-lib.sh disable=SC1091
 . "$SCRIPT_DIR/fm-backlog-transition-lib.sh"
 # shellcheck source=bin/fm-quota-axi-lib.sh disable=SC1091
@@ -362,7 +364,7 @@ fleet_sync() {
       rm -f "$tmp"
       return 0
     fi
-    sleep 1
+    fm_sleep 1
   done
   wait "$pid" 2>/dev/null || true
   [ "$monitor_was_on" -eq 1 ] || set +m 2>/dev/null || true

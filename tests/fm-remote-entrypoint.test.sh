@@ -13,6 +13,7 @@ REAL_BIN="$TMP_ROOT/real-root/bin"
 LOCAL_BIN="$TMP_ROOT/local-bin"
 mkdir -p "$REAL_BIN" "$LOCAL_BIN"
 cp "$ROOT/bin/fm-remote-entrypoint.sh" "$ROOT/bin/fm-remote-job-lib.sh" "$REAL_BIN/"
+cp "$ROOT/bin/fm-sleep-lib.sh" "$REAL_BIN/"
 chmod +x "$REAL_BIN/fm-remote-entrypoint.sh"
 ln -s "$REAL_BIN/fm-remote-entrypoint.sh" "$LOCAL_BIN/fm-remote-entrypoint.sh"
 

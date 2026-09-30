@@ -66,6 +66,8 @@ STALE_BANNER_MARKER="$STATE/.guard-watcher-stale-banner"
 
 # shellcheck source=bin/fm-wake-lib.sh
 . "$SCRIPT_DIR/fm-wake-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-tangle-lib.sh
 . "$SCRIPT_DIR/fm-tangle-lib.sh"
 # shellcheck source=bin/fm-supervision-lib.sh
@@ -124,7 +126,7 @@ fm_guard_claim_stale_banner() {
       return 1
     fi
     # Brief yield; 0.02s is fine on macOS/Linux sleep, fall back to 1s.
-    sleep 0.02 2>/dev/null || sleep 1
+    fm_sleep 0.02 2>/dev/null || fm_sleep 1
     i=$((i + 1))
   done
   # Contended past the spin budget: stay loud rather than dropping the alarm.

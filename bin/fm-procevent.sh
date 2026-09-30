@@ -249,6 +249,8 @@ STATE="${FM_STATE_OVERRIDE:-$FM_HOME/state}"
 
 # shellcheck source=bin/fm-pr-lib.sh
 . "$SCRIPT_DIR/fm-pr-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-wake-lib.sh
 . "$SCRIPT_DIR/fm-wake-lib.sh"
 # shellcheck source=bin/fm-procevent-lib.sh
@@ -257,6 +259,18 @@ STATE="${FM_STATE_OVERRIDE:-$FM_HOME/state}"
 . "$SCRIPT_DIR/fm-task-inbox-lib.sh"
 # shellcheck source=bin/fm-backend.sh
 . "$SCRIPT_DIR/fm-backend.sh"
+
+# Stop signals only drop flag files: an in-trap exit or the fatal default both
+# re-raise through kill_shell, which this bash build can fault while read -t
+# is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
+# fm_sleep checks the flags after every wait and exits through the ordinary
+# path with the same 128+sig statuses, so a TERM'd runner still reports 143.
+FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-procevent-sig.$$"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
 die() { printf 'error: %s\n' "$1" >&2; exit 1; }
 usage() { sed -n '2,/^set -u$/p' "${BASH_SOURCE[0]}" | sed '$d; s/^# \{0,1\}//'; exit 2; }
@@ -969,7 +983,7 @@ owner_lease_refresh() {
 owner_lease_keepalive() {  # <parent-pid> <parent-identity>
   local parent=$1 identity=$2 state
   while :; do
-    sleep 1
+    fm_sleep 1
     fm_procevent_pid_state "$parent" "$identity"
     state=$?
     case "$state" in
@@ -1085,6 +1099,10 @@ cmd_start() {
   # broken only by KILL. On contention, leave the generation-bound claim for
   # the stopper or subsequent reconciliation to reclaim.
   release_start_claim() {
+    local sigprefix=${FM_SLEEP_SIGPREFIX:-}
+    FM_SLEEP_SIGPREFIX=
+    trap - EXIT HUP TERM INT QUIT
+    [ -n "$sigprefix" ] && rm -f "$sigprefix".* 2>/dev/null || true
     extension_lifecycle_lock_release 2>/dev/null || true
     [ -z "$STAGED_OUTPUT" ] || rm -f -- "$STAGED_OUTPUT"
     fm_procevent_source_lock_try_acquire "$CLAIM_ID" 2>/dev/null || return 0
@@ -1237,10 +1255,13 @@ cmd_start() {
       "$CLAIM_TOKEN" "$runner" "$out" "$$" "$(fm_pid_identity "$$")" "$MAX_OUTPUT_BYTES" \
       "$launch_ready" -- "${ARGV[@]}" > "$launch_reply" &
     launch_pid=$!
-    while [ ! -s "$REG/$launch_ready" ] && kill -0 "$launch_pid" 2>/dev/null; do sleep 0.01; done
+    while [ ! -s "$REG/$launch_ready" ] && kill -0 "$launch_pid" 2>/dev/null; do fm_sleep 0.01; done
     fm_procevent_source_lock_release "$id" \
       || die "cannot release the source launch boundary: $id"
-    wait "$launch_pid" || {
+    launch_rc=0
+    wait "$launch_pid" || launch_rc=$?
+    fm_sleep_signal_check
+    [ "$launch_rc" -eq 0 ] || {
       rm -f -- "$REG/$launch_ready" "$launch_reply"
       die "cannot safely stage the extension result"
     }
@@ -1323,6 +1344,7 @@ EOF
     exec 4<&-
     wait "$launch_pid"
     rc=$?
+    fm_sleep_signal_check
     case "$bound_rc" in
       0) ;;
       3) truncated=1 ;;
@@ -1493,7 +1515,7 @@ start_owner_guard() {  # <source-id>
       [ "$value" = ready ]
       return $?
     fi
-    sleep 0.1
+    fm_sleep 0.1
   done
   rm -f -- "$ready"
   return 1
@@ -1557,7 +1579,7 @@ cmd_owner_watchdog() {  # <source-id> <runner-pid> <runner-identity> <ready-file
   printf 'ready\n' > "$ready" || die "cannot confirm owner guard initialization"
   trap - EXIT
   while :; do
-    sleep "$half"
+    fm_sleep "$half"
     fm_procevent_pid_state "$pid" "$identity"
     pid_state=$?
     case "$pid_state" in
@@ -1917,7 +1939,7 @@ confirm_launched_runners() {  # <source-id><TAB><registration-identity><TAB><lau
     pending=("${remaining[@]+"${remaining[@]}"}")
     [ "${#pending[@]}" -gt 0 ] || break
     [ "$SECONDS" -lt "$deadline" ] || break
-    sleep 0.05
+    fm_sleep 0.05
   done
   [ "${#pending[@]}" -eq 0 ] || printf '%s\n' "${pending[@]}"
 }
@@ -1986,7 +2008,7 @@ cmd_ensure_listening() {
       started_once=1
     fi
     [ "$SECONDS" -lt "$deadline" ] || break
-    sleep 0.05
+    fm_sleep 0.05
   done
   [ "$listening" -ne 3 ] || return 3
   printf 'error: listener is not running: %s\n' "$id" >&2
@@ -2040,7 +2062,7 @@ stop_runner_pid() {  # <pid> <identity>
   [ "$signal_state" -eq 0 ] || return "$signal_state"
   while [ "$i" -lt 20 ]; do
     kill -0 -"$pid" 2>/dev/null || return 0
-    sleep 0.1
+    fm_sleep 0.1
     i=$((i + 1))
   done
   runner_group_signal KILL "$pid" "$identity" proved
@@ -2049,7 +2071,7 @@ stop_runner_pid() {  # <pid> <identity>
   i=0
   while [ "$i" -lt 20 ]; do
     kill -0 -"$pid" 2>/dev/null || return 0
-    sleep 0.1
+    fm_sleep 0.1
     i=$((i + 1))
   done
   return 2

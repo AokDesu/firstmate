@@ -70,6 +70,9 @@ FM_ROOT=${FM_ROOT_OVERRIDE:-$(CDPATH='' cd "$SCRIPT_DIR/.." && pwd -P)}
 
 # shellcheck source=bin/fm-remote-job-lib.sh
 . "$SCRIPT_DIR/fm-remote-job-lib.sh"
+# This worker keeps external sleep, not fm_sleep: its signal handlers do real
+# conditional work inline, and a handler that runs during an interrupted
+# in-shell wait can abort or lose the exit (see fm-watch-arm.sh).
 
 WORKER_LOCK=
 WORKER_LOCK_HELD=0

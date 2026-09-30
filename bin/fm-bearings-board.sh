@@ -89,6 +89,8 @@
 set -eu
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 FM_ROOT="${FM_ROOT_OVERRIDE:-$(cd "$SCRIPT_DIR/.." && pwd)}"
 FM_HOME="${FM_HOME:-$FM_ROOT}"
 
@@ -351,7 +353,7 @@ await_source_owner() {  # <source-id>
   while [ "$i" -lt 50 ]; do
     owner=$(source_owner "$1")
     [ "$owner" != live ] || { printf '%s\n' "$owner"; return 0; }
-    sleep 0.1
+    fm_sleep 0.1
     i=$((i + 1))
   done
   printf '%s\n' "${owner:-none}"

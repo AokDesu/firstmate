@@ -47,6 +47,8 @@ _FM_TMUX_LIB_DIR=${BASH_SOURCE[0]%/*}
 [ "$_FM_TMUX_LIB_DIR" != "${BASH_SOURCE[0]}" ] || _FM_TMUX_LIB_DIR=.
 # shellcheck source=bin/fm-composer-lib.sh
 . "${_FM_TMUX_LIB_DIR:-/}/fm-composer-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "${_FM_TMUX_LIB_DIR:-/}/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-cursor-lib.sh
 . "${_FM_TMUX_LIB_DIR:-/}/fm-cursor-lib.sh"
 unset _FM_TMUX_LIB_DIR
@@ -248,7 +250,7 @@ fm_tmux_submit_enter_core() {  # <target> <retries> <enter-sleep> [baseline-idle
   local target=$1 retries=$2 sleep_s=$3 baseline_idle=${4:-} i=0 j state busy_state
   while :; do
     tmux send-keys -t "$target" Enter 2>/dev/null || true
-    sleep "$sleep_s"
+    fm_sleep "$sleep_s"
     state=$(fm_tmux_composer_state "$target")
     case "$state" in
       pending|pending-unproven) ;;
@@ -261,7 +263,7 @@ fm_tmux_submit_enter_core() {  # <target> <retries> <enter-sleep> [baseline-idle
               return 0
             fi
             j=$((j + 1))
-            [ "$j" -ge "$retries" ] || sleep "$sleep_s"
+            [ "$j" -ge "$retries" ] || fm_sleep "$sleep_s"
           done
         fi
         printf 'unknown'
@@ -297,6 +299,6 @@ fm_tmux_submit_core() {  # <target> <text> <retries> <enter-sleep> <settle>
     printf 'send-failed'
     return 0
   fi
-  sleep "$settle"
+  fm_sleep "$settle"
   fm_tmux_submit_enter_core "$target" "$retries" "$sleep_s" "$baseline_idle"
 }

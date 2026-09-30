@@ -106,6 +106,7 @@ first_settle() {  # <expected> <label> <harness|--explicit> <message> [selector-
   : > "$log"
   env FM_SEND_SETTLE=0 PATH="$fb:$PATH" \
     FM_ROOT_OVERRIDE="$home" FM_HOME="$home" FM_SLEEP_LOG="$log" \
+    FM_SLEEP_FIFO="$home/no-such-dir/fifo" \
     "$SEND" "$target" "$msg" 2>/dev/null; rc=$?
   expect_code 0 "$rc" "$label: send should succeed"
   first=$(head -1 "$log")
@@ -128,6 +129,7 @@ rides_inbox() {  # <label> <harness> <message>
   : > "$log"
   env FM_SEND_SETTLE=0 PATH="$fb:$PATH" \
     FM_ROOT_OVERRIDE="$home" FM_HOME="$home" FM_SLEEP_LOG="$log" \
+    FM_SLEEP_FIFO="$home/no-such-dir/fifo" \
     "$SEND" fm-popupcase "$msg" 2>/dev/null; rc=$?
   expect_code 0 "$rc" "$label: send should succeed"
   grep -qF -- "$msg" "$home/state/popupcase.inbox/001.msg" \

@@ -123,6 +123,7 @@ make_lab() {  # <harness> -> echoes lab dir
   ln -sf "$ROOT/bin/fm-timeout-lib.sh" "$lab/bin/fm-timeout-lib.sh"
   ln -sf "$ROOT/bin/fm-wake-lib.sh" "$lab/bin/fm-wake-lib.sh"
   ln -sf "$ROOT/bin/fm-session-lock-lib.sh" "$lab/bin/fm-session-lock-lib.sh"
+  ln -s "$ROOT/bin/fm-sleep-lib.sh" "$lab/bin"
   cat > "$lab/bin/fm-bootstrap.sh" <<'SH'
 #!/usr/bin/env bash
 # Outlives the hook on purpose: the marker can only appear if the worker was
@@ -176,6 +177,7 @@ SH
       cp "$ROOT/.pi/extensions/lib/fm-operational-input.ts" \
         "$ROOT/.pi/extensions/lib/fm-sessionstart-supervisor.mjs" "$lab/.pi/extensions/lib/"
       cp "$ROOT/bin/fm-operational-input.sh" "$lab/bin/"
+      cp "$ROOT/bin/fm-sleep-lib.sh" "$lab/bin/"
       printf '%s\n' '{"compaction":{"keepRecentTokens":200}}' > "$lab/.pi/settings.json"
       ;;
   esac
@@ -352,6 +354,7 @@ probe_pi_sessionstart_prerequisite() {
   cp "$ROOT/.pi/extensions/lib/fm-operational-input.ts" \
     "$ROOT/.pi/extensions/lib/fm-sessionstart-supervisor.mjs" "$project/.pi/extensions/lib/"
   cp "$ROOT/bin/fm-operational-input.sh" "$project/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$project/bin/"
   cat > "$project/bin/fm-turnend-guard.sh" <<'SH'
 #!/usr/bin/env bash
 exit 0

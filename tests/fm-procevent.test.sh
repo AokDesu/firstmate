@@ -4301,6 +4301,7 @@ for interval in 08 010; do
   pe_register "$HINTERVAL" lavish "interval-$interval" \
     -- "$QUIET_STUB" "$HINTERVAL/poll" >/dev/null
   PATH="$INTERVAL_BIN:$PATH" INTERVAL_SLEEP_LOG="$HINTERVAL/sleeps" \
+    FM_SLEEP_FIFO="$HINTERVAL/no-such-dir/fifo" \
     FM_PROCEVENT_OWNER_CHECK_SECONDS="$interval" \
     pe "$HINTERVAL" reconcile >/dev/null
   wait_for "$HINTERVAL/poll.descendant" \

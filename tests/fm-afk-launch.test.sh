@@ -1506,6 +1506,7 @@ unit_stop_confirms_daemon_exit() {
     . "$1"
     seq() { printf "1\n"; }
     sleep() { :; }
+    fm_sleep() { :; }
     kill() {
       command kill "$@"
       if [ "$1" = -TERM ]; then

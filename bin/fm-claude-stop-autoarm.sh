@@ -319,6 +319,10 @@ handle_autoarm_signal() {
   exit 0
 }
 
+# The waits in this script stay external sleep, not fm_sleep: this handler does
+# real work (child reap, ledger commits) and a signal that interrupts an
+# in-shell wait could run it inside the next command substitution's parse,
+# where it can abort or lose the exit (see fm-watch-arm.sh).
 trap 'handle_autoarm_signal HUP' HUP
 trap 'handle_autoarm_signal TERM' TERM
 trap 'handle_autoarm_signal INT' INT

@@ -19,6 +19,9 @@ set -eu
 
 FM_HOME=${FM_HOME:?FM_HOME is required}
 MAX_BYTES=${FM_REMOTE_DELTA_MAX_BYTES:-65536}
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 POLL_SECONDS=${FM_REMOTE_DELTA_POLL_SECONDS:-0.2}
 
 die() { printf 'error: %s\n' "$1" >&2; exit 1; }
@@ -125,8 +128,18 @@ case "$MAX_BYTES" in ''|*[!0-9]*|0) die "FM_REMOTE_DELTA_MAX_BYTES must be a pos
 
 LOG=$(resolve_log "$REL")
 TMP=$(mktemp -d "${TMPDIR:-/tmp}/fm-remote-delta.XXXXXX") || die "cannot create delta staging directory"
-trap 'rm -rf -- "$TMP"' EXIT
-trap 'exit 75' TERM
+# Flag-file disposition, not an in-trap exit: an 'exit' inside a handler that
+# fires during an interrupted in-shell wait re-raises through kill_shell,
+# which this bash build can fault while read -t is the interrupted builtin
+# (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flag after
+# every wait and exits through the ordinary path with the same 75 status.
+FM_SLEEP_SIGPREFIX="$TMP/sig.$$"
+FM_SLEEP_SIGEXIT_term=75
+trap 'FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; rm -rf -- "$TMP"' EXIT
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 : > "$TMP/empty"
 EMPTY_HASH=$(sha256_file "$TMP/empty")
 START=$(date +%s)
@@ -185,5 +198,5 @@ while :; do
   fi
   NOW=$(date +%s)
   [ $((NOW - START)) -lt "$WAIT" ] || exit 75
-  sleep "$POLL_SECONDS"
+  fm_sleep "$POLL_SECONDS"
 done

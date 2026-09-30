@@ -117,10 +117,26 @@ done
 
 # shellcheck source=bin/fm-supervision-lib.sh
 . "$SCRIPT_DIR/fm-supervision-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-primary-scope-lib.sh
 . "$SCRIPT_DIR/fm-primary-scope-lib.sh"
 # shellcheck source=bin/fm-hook-host-lib.sh
 . "$SCRIPT_DIR/fm-hook-host-lib.sh"
+
+# Stop signals only drop flag files: an in-trap exit or the fatal default both
+# re-raise through kill_shell, which this bash build can fault while read -t
+# is the interrupted builtin (see watcher_stop_signals in fm-watch.sh).
+# fm_sleep checks the flags after every wait and exits through the ordinary
+# path with the same 128+sig statuses.
+FM_SLEEP_SIGPREFIX="${TMPDIR:-/tmp}/fm-turnend-sig.$$"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+# shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
+trap 'sigprefix=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; rm -f "$sigprefix".* 2>/dev/null' EXIT
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 
 # Read the whole turn-end hook payload once; never block on unreadable/absent
 # stdin.
@@ -494,7 +510,7 @@ while [ "$i" -lt $((SYNC_WAIT_MS / 100)) ]; do
     fi
     exit 0
   fi
-  sleep 0.1
+  fm_sleep 0.1
   i=$((i + 1))
 done
 if autoarm_owns_recovery; then

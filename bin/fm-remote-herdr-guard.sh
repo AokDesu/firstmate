@@ -44,6 +44,8 @@ SCRIPT_DIR=${SCRIPT_SELF%/*}
 SCRIPT_DIR=$(CDPATH='' cd -- "$SCRIPT_DIR" && pwd -P)
 # shellcheck source=bin/fm-remote-herdr-owner-lib.sh
 . "$SCRIPT_DIR/fm-remote-herdr-owner-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 
 usage() { sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
 [ "$#" -eq 2 ] || usage
@@ -101,7 +103,7 @@ while [ "$i" -lt "$STOP_WAIT_TENTHS" ]; do
     log "session $SESSION released its socket after $i tenths of a second"
     start_server
   fi
-  sleep 0.1
+  fm_sleep 0.1
   i=$((i + 1))
 done
 log "the foreign server for session $SESSION did not release its socket within $STOP_WAIT_TENTHS tenths of a second; exiting 1 so launchd retries"

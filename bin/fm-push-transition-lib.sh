@@ -9,6 +9,8 @@ FM_PUSH_TRANSITION_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # shellcheck source=bin/fm-wake-lib.sh
 . "$FM_PUSH_TRANSITION_LIB_DIR/fm-wake-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_PUSH_TRANSITION_LIB_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-classify-lib.sh
 . "$FM_PUSH_TRANSITION_LIB_DIR/fm-classify-lib.sh"
 # shellcheck source=bin/fm-backend.sh
@@ -49,7 +51,7 @@ watch_delivery_publish() {
   i=0
   while ! fm_lock_try_acquire "$WATCH_DELIVERY_LOCK"; do
     [ "$i" -lt 20 ] || return 0
-    sleep 0.02
+    fm_sleep 0.02
     i=$((i + 1))
   done
   ident=$(watch_delivery_clean_identity "$FM_WATCH_DELIVERY_IDENTITY")
@@ -147,7 +149,7 @@ handle_push_transition() {  # <backend> <session> <record>
   local backend=$1 session=$2 record=$3 pane_id to window task reason span_record rest surface_end='' surface_ident=''
   pane_id=$(fm_transition_pane_id "$record")
   to=$(fm_transition_to_status "$record")
-  [ -n "$pane_id" ] || { sleep 1; return; }
+  [ -n "$pane_id" ] || { fm_sleep 1; return; }
   window="$session:$pane_id"
   task=$(window_to_task "$window" "$STATE")
   # A declared wait already names the human this transition would report: an

@@ -225,6 +225,124 @@ SH
   pass "classify stat helpers resolve the kernel name once per process"
 }
 
+test_sleep_helper_waits_without_forking() {
+  local script="$TMP_ROOT/sleep.sh" shim="$TMP_ROOT/sleep-shim" log="$TMP_ROOT/sleep.log"
+  mkdir -p "$shim"
+  cat > "$shim/sleep" <<SH
+#!/bin/sh
+printf 'sleep %s\n' "\$*" >> "$log"
+exec $(command -v sleep) "\$@"
+SH
+  chmod +x "$shim/sleep"
+  cat > "$script" <<'SH'
+PATH="$2:$PATH"
+LOG=$3
+FIFO=$4
+: > "$LOG"
+export FM_SLEEP_FIFO="$FIFO"
+. "$1/bin/fm-sleep-lib.sh"
+
+now() { perl -MTime::HiRes=time -e 'printf "%.3f\n", time'; }
+elapsed() { perl -e 'printf "%.3f", $ARGV[0] - $ARGV[1]' "$1" "$2"; }
+shim_calls() { grep -c . "$LOG" 2>/dev/null || true; }
+
+# Without the signal-safety opt-in the helper keeps external sleep: a process
+# that never arms flag-file traps must not sit in `read -t` when a fatal
+# signal can arrive (the kill_shell fault documented in the lib).
+mark=$(shim_calls)
+fm_sleep 1 || printf 'unwired fm_sleep 1 returned nonzero\n'
+[ "$(shim_calls)" = $((mark + 1)) ] || printf 'unwired caller did not use external sleep\n'
+
+# Opt in: flag prefix plus flag-file traps, the only signal-safe shape.
+SIGP=$5
+export FM_SLEEP_SIGPREFIX="$SIGP"
+rm -f "$SIGP".* 2>/dev/null
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT 2>/dev/null || true
+
+# A pending flag exits through the ordinary path with the conventional
+# status: write the TERM flag and ask fm_sleep to wait; the process must be
+# gone with status 143 before the wait elapses.
+(
+  : > "$SIGP.term"
+  fm_sleep 5
+  printf 'flag check did not exit\n'
+) & flag_waiter=$!
+wait "$flag_waiter" && printf 'flag wait returned success\n' || {
+  flag_rc=$?
+  [ "$flag_rc" -eq 143 ] || printf 'flag wait exited %s, not 143\n' "$flag_rc"
+}
+rm -f "$SIGP".*
+: > "$LOG"
+
+fds_before=$(ls /dev/fd 2>/dev/null | sort -n)
+
+# Integer waits run in-shell on every supported Bash: zero shim calls,
+# elapsed not shorter than the request minus clock slop.
+before=$(now); fm_sleep 1; after=$(now)
+[ "$(perl -e 'print(($ARGV[0]-$ARGV[1]) >= 0.9 ? 1 : 0)' "$after" "$before")" = 1 ] \
+  || printf 'fm_sleep 1 returned after %ss\n' "$(elapsed "$after" "$before")"
+[ "$(shim_calls)" = 0 ] || printf 'integer wait used external sleep\n'
+fm_sleep 0 || printf 'fm_sleep 0 returned nonzero\n'
+[ "$(shim_calls)" = 0 ] || printf 'zero wait used external sleep\n'
+
+# Three fractional waits keep their combined timing contract. The first one
+# probes the shell once; the verdict then decides the shim count: 0 when
+# `read -t` takes decimals, one external sleep per call on integer-only
+# shells like stock 3.2.
+before=$(now); fm_sleep 0.2; fm_sleep 0.2; fm_sleep 0.2; after=$(now)
+[ "$(perl -e 'print(($ARGV[0]-$ARGV[1]) >= 0.5 ? 1 : 0)' "$after" "$before")" = 1 ] \
+  || printf '3x fm_sleep 0.2 returned after %ss\n' "$(elapsed "$after" "$before")"
+case "${_FM_SLEEP_FRAC:-}" in
+  1) [ "$(shim_calls)" = 0 ] || printf 'fraction-capable shell still forked\n' ;;
+  0) [ "$(shim_calls)" = 3 ] || printf 'integer-only shell ran %s external sleeps for 3 waits\n' "$(shim_calls)" ;;
+  *) printf 'fraction capability never probed\n' ;;
+esac
+
+# The fallback path still honors busy-descriptor safety: pin fd 42, which
+# old-Bash shells would otherwise claim, and the wait must go external.
+if [ "${BASH_VERSINFO[0]}" -lt 4 ] || { [ "${BASH_VERSINFO[0]}" -eq 4 ] && [ "${BASH_VERSINFO[1]}" -lt 1 ]; }; then
+  mark=$(shim_calls)
+  exec 42<>"$FIFO"
+  before=$(now); fm_sleep 1; after=$(now)
+  exec 42<&-
+  [ "$(perl -e 'print(($ARGV[0]-$ARGV[1]) >= 0.9 ? 1 : 0)' "$after" "$before")" = 1 ] \
+    || printf 'pinned-fd fallback returned after %ss\n' "$(elapsed "$after" "$before")"
+  [ "$(shim_calls)" = $((mark + 1)) ] || printf 'pinned fd 42 did not force the external fallback\n'
+fi
+
+# Under set -e the normal timeout path must not kill the caller.
+out=$( ( set -e; fm_sleep 0.05; printf ok ) )
+[ "$out" = ok ] || printf 'fm_sleep under set -e killed the caller\n'
+
+# set -u callers get the same defaults-based behavior.
+out=$( ( set -u; fm_sleep 0.05; printf ok ) )
+[ "$out" = ok ] || printf 'fm_sleep under set -u failed\n'
+
+# Garbage input keeps external sleep's own validation: nonzero status,
+# one shim call, no wait.
+mark=$(shim_calls)
+if fm_sleep bogus 2>/dev/null; then printf 'fm_sleep bogus succeeded\n'; fi
+[ "$(shim_calls)" = $((mark + 1)) ] || printf 'invalid input did not reach external sleep\n'
+
+# No descriptor may outlive a call: /dev/fd identical before and after.
+fds_after=$(ls /dev/fd 2>/dev/null | sort -n)
+[ "$fds_before" = "$fds_after" ] || printf 'descriptor set changed: <%s> vs <%s>\n' "$fds_before" "$fds_after"
+
+# The FIFO persists for the next caller and a missing one is recreated;
+# use an integer wait since a fraction-proven-incapable shell falls back
+# before ever touching the FIFO.
+[ -p "$FIFO" ] || printf 'wait FIFO missing after calls\n'
+rm -f "$FIFO"
+fm_sleep 0 || printf 'fifo recreation failed\n'
+[ -p "$FIFO" ] || printf 'wait FIFO not recreated\n'
+SH
+  run_everywhere "sleep helper" "$script" "$shim" "$log" "$TMP_ROOT/sleep-fifo" "$TMP_ROOT/sleep-sig"
+  pass "fm_sleep waits the requested interval, forks no process where the shell supports it, and stays set -e/-u safe"
+}
+
 if [ -n "${FM_TEST_ONLY:-}" ]; then
   "$FM_TEST_ONLY"
 else
@@ -234,4 +352,5 @@ else
   test_recovery_marker_read_accepts_exactly_one_newline
   test_window_to_task_matches_the_meta_pipeline
   test_classify_stat_helpers_read_the_kernel_name_once
+  test_sleep_helper_waits_without_forking
 fi

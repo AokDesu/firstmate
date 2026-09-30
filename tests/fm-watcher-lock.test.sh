@@ -30,6 +30,7 @@ mkdir -p "$lab" "$foreign_state" "$checkout"
 . "$ROOT/bin/fm-gate-refuse-lib.sh"
 fm_gate_lab_mark "$lab" || fail "could not mark the watcher lab"
 cp "$WATCH_ARM" "$ROOT/bin/fm-gate-refuse-lib.sh" "$checkout/"
+cp "$ROOT/bin/fm-sleep-lib.sh" "$checkout/"
 if env -u FM_GATE_REFUSE_BYPASS -u FM_STATE_OVERRIDE FM_HOME="$lab" STATE="$foreign_state" \
   bash "$checkout/fm-watch-arm.sh" > "$TMP_ROOT/lab-guard.out" 2>&1; then
   fail "disposable watcher accepted an inherited state outside its lab"

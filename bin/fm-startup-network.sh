@@ -130,6 +130,8 @@ PUBLISH_LOCK="$STATE/.startup-network.lock"
 
 # shellcheck source=bin/fm-timeout-lib.sh
 . "$SCRIPT_DIR/fm-timeout-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # fm-timing-lib.sh owns the per-step elapsed record this stage publishes beside
 # its report. Recording is opt-in per run: it stays inert until cmd_run points
 # FM_TIMING_LOG at a file, so nothing else that sources these scripts pays for it.
@@ -403,7 +405,7 @@ EOF
       return 0
     fi
     fm_lock_release "$PUBLISH_LOCK"
-    sleep 0.1
+    fm_sleep 0.1
   done
 }
 
@@ -715,7 +717,7 @@ cmd_wait() {  # <seconds>
       done|timeout|failed) return 0 ;;
       running) worker_alive || return 1 ;;
     esac
-    sleep 1
+    fm_sleep 1
     waited=$((waited + 1))
   done
   return 1

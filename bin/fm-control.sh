@@ -145,6 +145,8 @@ esac
 
 # shellcheck source=bin/fm-gate-refuse-lib.sh
 . "$SCRIPT_DIR/fm-gate-refuse-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # Fail closed before any fleet mutation: a no-mistakes gate agent must never
 # drive a crewmate's lifecycle (see bin/fm-gate-refuse-lib.sh).
 fm_refuse_if_gate_agent
@@ -378,7 +380,7 @@ wait_agent_state() {  # <timeout> <wanted>...
       fi
     done
     awk -v e="$elapsed" -v t="$timeout" 'BEGIN{exit !(e < t)}' || break
-    sleep "$POLL"
+    fm_sleep "$POLL"
     elapsed=$(awk -v e="$elapsed" -v p="$POLL" 'BEGIN{printf "%.3f", e + p}')
   done
   printf '%s' "$state"
@@ -405,7 +407,7 @@ wait_rendered() {  # <ere> <timeout>
   while :; do
     rendered_matches "$1" && return 0
     awk -v e="$elapsed" -v t="$2" 'BEGIN{exit !(e < t)}' || return 1
-    sleep "$step"
+    fm_sleep "$step"
     elapsed=$(awk -v e="$elapsed" -v p="$step" 'BEGIN{printf "%.3f", e + p}')
   done
 }
@@ -416,11 +418,11 @@ wait_rendered() {  # <ere> <timeout>
 dismiss_interrupt_hazard() {  # <key> <ere>
   local key=$1 hazard=$2 gap
   gap=$(fm_control_interrupt_press_gap "$HARNESS")
-  sleep "$gap"
+  fm_sleep "$gap"
   rendered_matches "$hazard" || return 0
   fm_backend_send_key "$BACKEND" "$T" "$key" "$LABEL" \
     || die "task $ID shows the $HARNESS revert picker after its interrupt, and the $key that closes it was not delivered; nothing else was typed. Close it with $key, never Enter, before any other action"
-  sleep "$gap"
+  fm_sleep "$gap"
   ! rendered_matches "$hazard" \
     || die "task $ID still shows the $HARNESS revert picker after one $key; nothing else was typed. Close it with $key, never Enter, before any other action"
   INTERRUPT_HAZARD=dismissed
@@ -456,7 +458,7 @@ send_interrupt_keys() {
       || die "interrupt key $key was not delivered to task $ID on $BACKEND"
     i=$((i + 1))
     [ "$i" -lt "$repeat" ] || break
-    sleep "$gap"
+    fm_sleep "$gap"
     if [ -n "$arm" ] && ! wait_rendered "$arm" "$ARM_WAIT"; then
       INTERRUPT_ARMED=no
       break
@@ -493,7 +495,7 @@ interrupt_cancel_claim() {
       ?*) printf 'unconfirmed'; return 0 ;;
     esac
     awk -v e="$elapsed" -v t="$SETTLE_WAIT" 'BEGIN{exit !(e < t)}' || break
-    sleep "$POLL"
+    fm_sleep "$POLL"
     elapsed=$(awk -v e="$elapsed" -v p="$POLL" 'BEGIN{printf "%.3f", e + p}')
   done
   printf 'unconfirmed'

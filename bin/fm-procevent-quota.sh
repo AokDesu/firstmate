@@ -41,6 +41,8 @@ STATE="${FM_STATE_OVERRIDE:-$FM_HOME/state}"
 
 # shellcheck source=bin/fm-pr-lib.sh
 . "$SCRIPT_DIR/fm-pr-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-wake-lib.sh
 . "$SCRIPT_DIR/fm-wake-lib.sh"
 # shellcheck source=bin/fm-procevent-lib.sh
@@ -221,7 +223,7 @@ cmd_poll() {
     fi
     status=$(condition_status "$json" "$PROVIDER" "$threshold")
     case "$status" in
-      healthy) sleep "$interval"; continue ;;
+      healthy) fm_sleep "$interval"; continue ;;
       low|exhausted) : ;;
       *) status=error ;;
     esac

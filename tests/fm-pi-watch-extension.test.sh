@@ -39,6 +39,7 @@ install_pi_watch_extension_fixture() {
   cp "$ROOT/.pi/extensions/lib/fm-operational-input.ts" "$repo/.pi/extensions/lib/fm-operational-input.ts"
   mkdir -p "$repo/bin"
   cp "$ROOT/bin/fm-operational-input.sh" "$repo/bin/fm-operational-input.sh"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$repo/bin"
   chmod +x "$repo/bin/fm-operational-input.sh"
   cat > "$repo/node_modules/@earendil-works/pi-coding-agent/package.json" <<'JSON'
 {"name":"@earendil-works/pi-coding-agent","type":"module","exports":"./index.js"}
@@ -3679,7 +3680,7 @@ test_opencode_primary_watch_plugin_runs_the_supervision_host() {  # [away|quiet]
     # Quiet mode's record is a present captain (bin/fm-afk-contract.sh AWAY OR
     # QUIET): the plugin asks the record owner, so the same handback carries no
     # away note.
-    for f in fm-afk-contract.sh fm-classify-lib.sh fm-timeout-lib.sh; do cp "$ROOT/bin/$f" "$repo/bin/$f"; done
+    for f in fm-afk-contract.sh fm-classify-lib.sh fm-timeout-lib.sh fm-sleep-lib.sh; do cp "$ROOT/bin/$f" "$repo/bin/$f"; done
     FM_HOME="$home" FM_AFK_MODE=quiet "$ROOT/bin/fm-afk-contract.sh" enter --words 'keep routine wakes off my main' >/dev/null 2>&1 \
       || fail "fixture: could not record quiet mode"
   else
@@ -3687,6 +3688,7 @@ test_opencode_primary_watch_plugin_runs_the_supervision_host() {  # [away|quiet]
   fi
   : > "$home/config/supervision-host"
   cp "$ROOT/bin/fm-supervision-engine-lib.sh" "$repo/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$repo/bin/"
   cat > "$repo/bin/fm-watch-arm.sh" <<'SH'
 #!/usr/bin/env bash
 if [ "${1:-}" = --handling-delivered ]; then

@@ -72,6 +72,9 @@
 # plus a negative pid, and the bash fallback uses monitor mode to give the
 # bounded child its own process group before signaling its negative pid.
 set -u
+FM_TIMEOUT_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_TIMEOUT_LIB_DIR/fm-sleep-lib.sh"
 
 fm_timeout_mechanism() {
   if [ "${FM_TIMEOUT_MECHANISM_OVERRIDE:-}" = bash ]; then
@@ -104,10 +107,15 @@ fm_run_bash_timeout() {
   child_pid=$!
   (
     set +m
-    sleep "$seconds"
+    # Ignore rather than handle stop signals: any disposition that kills this
+    # watchdog while read -t is the interrupted builtin re-raises through
+    # kill_shell, which this bash build can fault (see watcher_stop_signals in
+    # fm-watch.sh). The watchdog's only exit is its own KILL+124 anyway.
+    trap '' HUP INT TERM
+    fm_sleep "$seconds"
     printf 'expired\n' > "$deadline_status"
     kill -TERM -- "-$child_pid" 2>/dev/null || true
-    sleep 0.2
+    fm_sleep 0.2
     kill -KILL -- "-$child_pid" 2>/dev/null || true
     exit 124
   ) &

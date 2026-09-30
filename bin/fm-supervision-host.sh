@@ -169,6 +169,8 @@ CONFIG="${FM_CONFIG_OVERRIDE:-$FM_HOME/config}"
 
 # shellcheck source=bin/fm-wake-lib.sh
 . "$SCRIPT_DIR/fm-wake-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-session-lock-lib.sh
 . "$SCRIPT_DIR/fm-session-lock-lib.sh"
 # shellcheck source=bin/fm-timeout-lib.sh
@@ -306,7 +308,7 @@ stop_recorded() {  # <pid> <identity> <seconds>
   kill -TERM "$pid" 2>/dev/null || return 0
   i=0
   while [ "$i" -lt "$limit" ] && fm_pid_alive "$pid"; do
-    sleep 0.1
+    fm_sleep 0.1
     i=$((i + 1))
   done
   if fm_pid_alive "$pid" && [ "$(identity_of "$pid")" = "$identity" ]; then
@@ -372,7 +374,7 @@ stop_engine_turn() {
   limit=$(( (ENGINE_GRACE + 10) * 10 ))
   i=0
   while [ -n "$ENGINE_SUBSHELL" ] && fm_pid_alive "$ENGINE_SUBSHELL" && [ "$i" -lt "$limit" ]; do
-    sleep 0.1
+    fm_sleep 0.1
     i=$((i + 1))
   done
   [ -z "$ENGINE_SUBSHELL" ] || kill -KILL "$ENGINE_SUBSHELL" 2>/dev/null || true
@@ -380,8 +382,10 @@ stop_engine_turn() {
 
 # shellcheck disable=SC2329 # Invoked by the EXIT trap.
 cleanup() {
-  local rc=$? f
-  trap - EXIT HUP TERM INT
+  local rc=$? f sigprefix=$FM_SLEEP_SIGPREFIX
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT HUP TERM INT QUIT
+  rm -f "$sigprefix".* 2>/dev/null
   if [ "$ENGINE_RUNNING" -eq 1 ]; then
     stop_engine_turn
   fi
@@ -409,7 +413,7 @@ retire_arm() {  # <pid> <output-file>
     kill -TERM "$pid" 2>/dev/null || true
     i=0
     while [ "$i" -lt 100 ] && fm_pid_alive "$pid"; do
-      sleep 0.1
+      fm_sleep 0.1
       i=$((i + 1))
     done
     fm_pid_alive "$pid" && kill -KILL "$pid" 2>/dev/null
@@ -501,7 +505,7 @@ await_close() {
     # seconds late, while refresh keeps its per-second cadence.
     i=$((POLL * 10))
     while [ "$i" -gt 0 ] && fm_pid_alive "$ARM_PID"; do
-      sleep 0.1
+      fm_sleep 0.1
       i=$((i - 1))
     done
   done
@@ -625,7 +629,7 @@ start_successor() {  # <predecessor-arm-pid>
     fi
     fm_pid_alive "$SUCCESSOR_PID" || return 1
     [ "$(date +%s)" -lt "$deadline" ] || return 1
-    sleep 0.2
+    fm_sleep 0.2
   done
 }
 
@@ -896,6 +900,17 @@ handle_wake() {  # <reason-lines>
   # Backgrounded and waited, so a signal to the host is handled at once
   # instead of after the whole turn; the cleanup stops the engine.
   (
+    # A subshell resets caught traps to fatal defaults but inherits
+    # FM_SLEEP_SIGPREFIX, so fm_sleep must not read the parent's prefix here:
+    # point it at this turn's own flag files and arm the flag traps afresh.
+    FM_SLEEP_SIGPREFIX="$result.engine-sig"
+    rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+    # shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
+    trap 'sigprefix=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; trap - EXIT HUP TERM INT QUIT; rm -f "$sigprefix".* 2>/dev/null' EXIT
+    trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+    trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+    trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+    trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
     export FM_HOME STATE
     [ -z "${FM_STATE_OVERRIDE:-}" ] || export FM_STATE_OVERRIDE
     [ -z "${FM_CONFIG_OVERRIDE:-}" ] || export FM_CONFIG_OVERRIDE
@@ -909,8 +924,13 @@ handle_wake() {  # <reason-lines>
       "$result" "$errors" "$ENGINE_PID_FILE"
   ) &
   ENGINE_SUBSHELL=$!
+  fm_sleep_signal_check
   wait "$ENGINE_SUBSHELL"
   rc=$?
+  # A stop signal inside wait returns >128 while the engine subshell still
+  # runs; honor our own flag so the EXIT cleanup stops it rather than
+  # misreading the status as the turn's result.
+  fm_sleep_signal_check
   ENGINE_SUBSHELL=
   ENGINE_RUNNING=0
   release_branch_leases
@@ -990,10 +1010,17 @@ attended_acceptor() {  # <first-reason-line>
 if ! host_still_owner; then
   stand_down "this session does not own supervision"
 fi
+# Signal dispositions only drop a flag file: an in-trap exit re-raises through
+# kill_shell, which this bash build can fault while read -t is the interrupted
+# builtin (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags
+# after every wait and exits through the ordinary path with the same statuses.
+FM_SLEEP_SIGPREFIX="$STATE/.supervision-host-sig.$$"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
 trap cleanup EXIT
-trap 'exit 129' HUP
-trap 'exit 143' TERM
-trap 'exit 130' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 activate || { echo "supervision-host stood down: the host record could not be written"; exit 0; }
 log_line "start	gen=$GEN	primary=$PRIMARY"
 
@@ -1007,6 +1034,7 @@ ARM_PID=$STARTED_ARM_PID
 ARM_OUT=$STARTED_ARM_OUT
 
 while :; do
+  fm_sleep_signal_check
   boundary_reached && boundary_exit
   await_close || boundary_exit
   REASON=$(printf '%s\n' "$ARM_TEXT" | grep -E '^(signal:|stale:|check:|heartbeat($|:))' || true)

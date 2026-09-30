@@ -47,6 +47,9 @@
 # known harness token; otherwise detection remains real (tests/lib.sh arms
 # the marker for isolated suites).
 
+FM_SUPERVISION_ENGINE_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_SUPERVISION_ENGINE_LIB_DIR/fm-sleep-lib.sh"
 FM_SUPERVISION_ENGINES_VERIFIED='claude'
 
 # fm_supervision_host_primary: print the primary harness the home gate judges
@@ -321,7 +324,7 @@ _fm_engine_reap() {
     [ "$signal" = KILL ] && return 0
     i=0
     while [ "$i" -lt 20 ]; do
-      sleep 0.1
+      fm_sleep 0.1
       i=$((i + 1))
     done
   done
@@ -338,7 +341,7 @@ _fm_engine_reap() {
 # an engine its crashed predecessor left running.
 fm_supervision_engine_turn() {
   local engine=$1 model=$2 prompt=$3 message=$4 session=$5 mode=$6 timeout=$7 result=$8 errors=$9
-  local pid_file=${10:-} bin grace i ledger watched rc home_phys root_phys state_phys identity recorded
+  local pid_file=${10:-} bin grace ledger watched rc home_phys root_phys state_phys identity recorded snap_second
   local -a args
   bin=$(fm_supervision_engine_bin "$engine" 2>"$errors") || return 127
   case "$timeout" in ''|0*|*[!0-9]*) timeout=1200 ;; esac
@@ -380,6 +383,7 @@ fm_supervision_engine_turn() {
   ) </dev/null >"$result" 2>"$errors" &
   watched=$!
   recorded=
+  snap_second=-1
   while fm_pid_alive "$watched"; do
     # The bounded process is this shell's unreaped child, so its pid cannot
     # be recycled here; its identity is refreshed until the subshell's exec
@@ -392,13 +396,14 @@ fm_supervision_engine_turn() {
       fi
     fi
     _fm_engine_snapshot_descendants "$watched" "$ledger"
-    # Between the one-second snapshots the engine's exit is probed at a tenth
-    # of a second: the turn closes promptly when the engine dies while the
-    # process-table scans keep their one-second cadence.
-    i=0
-    while [ "$i" -lt 10 ] && fm_pid_alive "$watched"; do
-      sleep 0.1
-      i=$((i + 1))
+    snap_second=$SECONDS
+    # Between the wall-second snapshots the engine's exit is probed at a
+    # tenth of a second: the turn closes promptly when the engine dies. The
+    # probes run until the clock's second ticks over rather than a fixed
+    # count, so a stalled scan cannot compound the gap between snapshots
+    # into one that spans a descendant's whole linked lifetime.
+    while [ "$SECONDS" = "$snap_second" ] && fm_pid_alive "$watched"; do
+      fm_sleep 0.1
     done
   done
   wait "$watched"

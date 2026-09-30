@@ -113,6 +113,8 @@ FM_HOME="${FM_HOME:-${FM_ROOT_OVERRIDE:-$FM_ROOT}}"
 
 # shellcheck source=bin/fm-backend-hometag-lib.sh
 . "$FM_BACKEND_CMUX_ROOT/bin/fm-backend-hometag-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_BACKEND_CMUX_ROOT/bin/fm-sleep-lib.sh"
 
 # Shared composer-content classifier (empty|pending|unknown, and the fleet-wide
 # dead-shell-vs-agent-composer rule). Owned by bin/fm-composer-lib.sh, reused by
@@ -285,7 +287,7 @@ fm_backend_cmux_ensure_running() {
         return 1
         ;;
     esac
-    sleep 0.5
+    fm_sleep 0.5
   done
   echo "error: cmux did not become reachable within 10s of launch. If the app is already running, its Socket Control Mode may be 'Off' (no control socket at all) - set it to 'Automation mode' (recommended) in Settings > Automation, see docs/cmux-backend.md 'Setup'." >&2
   return 1
@@ -449,7 +451,7 @@ fm_backend_cmux_current_path() {  # <target> [expected-label]
   local target=$1 expected_label=${2:-} out line marker_begin="__FM_CMUX_CWD_BEGIN__" marker_end="__FM_CMUX_CWD_END__" in_block=0 chunk="" last=""
   fm_backend_cmux_target_ready "$target" "$expected_label" || return 0
   fm_backend_cmux_send_text_line "$target" "printf '%s\n' '$marker_begin'; pwd; printf '%s\n' '$marker_end'" "$expected_label" || return 0
-  sleep 0.3
+  fm_sleep 0.3
   out=$(fm_backend_cmux_capture "$target" 200 "$expected_label") || return 0
   while IFS= read -r line; do
     if [ "$line" = "$marker_begin" ]; then
@@ -572,7 +574,7 @@ fm_backend_cmux_send_text_submit() {  # <target> <text> <retries> <enter-sleep> 
   local target=$1 text=$2 retries=$3 sleep_s=$4 settle=$5 expected_label=${6:-}
   fm_backend_cmux_parse_target "$target" || { printf 'unknown'; return 0; }
   fm_backend_cmux_send_literal "$target" "$text" "$expected_label" || { printf 'send-failed'; return 0; }
-  sleep "$settle"
+  fm_sleep "$settle"
   fm_composer_submit_retry_core fm_backend_cmux_send_key fm_backend_cmux_composer_state \
     "$target" "$retries" "$sleep_s" "$expected_label"
 }

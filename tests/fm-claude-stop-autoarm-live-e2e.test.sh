@@ -42,6 +42,7 @@ mkdir -p "$LAB"
 # working-tree surfaces under test (same pattern as the continuity live E2E).
 git clone -q "$ROOT" "$PROJECT"
 cp -R "$ROOT/bin/." "$PROJECT/bin/"
+cp "$ROOT/bin/fm-sleep-lib.sh" "$PROJECT/bin/"
 cp "$ROOT/.claude/settings.json" "$PROJECT/.claude/settings.json"
 # The lab keeps the real tracked .claude/settings.json SessionStart run hook,
 # Stop guard, and asyncRewake auto-arm registration.

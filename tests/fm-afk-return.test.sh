@@ -27,17 +27,21 @@ install_runner() {  # <case-dir>
   cp "$ROOT/bin/fm-lock-lib.sh" "$dir/bin/"
   cp "$ROOT/bin/fm-path-lib.sh" "$dir/bin/"
   cp "$ROOT/bin/fm-classify-lib.sh" "$dir/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$dir/bin/"
   # fm-timeout-lib.sh: the shared hard bound fm-classify-lib.sh sources for the
   # wedge detector's bounded worktree write probe.
   cp "$ROOT/bin/fm-timeout-lib.sh" "$dir/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$dir/bin/"
   # The return brief's durable sources: the posture-record owner, the outcome
   # store owner, and the backlog reader with its tasks-axi probe.
   cp "$ROOT/bin/fm-afk-contract.sh" "$dir/bin/"
   cp "$ROOT/bin/fm-branch-outcome.sh" "$dir/bin/"
   cp "$ROOT/bin/fm-tasks-axi-lib.sh" "$dir/bin/"
   cp "$ROOT/bin/fm-backlog-transition-lib.sh" "$dir/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$dir/bin/"
   # The merge-notification marker reader behind the brief's landed section.
   cp "$ROOT/bin/fm-pr-lib.sh" "$dir/bin/"
+  cp "$ROOT/bin/fm-sleep-lib.sh" "$dir/bin/"
   cp "$ROOT/.tasks.toml" "$dir/home/.tasks.toml"
   printf '## In flight\n\n## Queued\n\n## Done\n' > "$dir/home/data/backlog.md"
   # The fake stop mirrors the real one's ordering: the away flag goes, then the
@@ -483,7 +487,7 @@ test_return_brief_points_at_the_drain_on_a_host_home_only() {
   for harness in claude pi; do
     dir="$TMP_ROOT/window-pointer-$harness"
     install_runner "$dir"
-    for f in fm-supervision-engine-lib.sh fm-harness.sh fm-cursor-lib.sh fm-gemini-lib.sh; do
+    for f in fm-supervision-engine-lib.sh fm-harness.sh fm-cursor-lib.sh fm-gemini-lib.sh fm-sleep-lib.sh; do
       cp "$ROOT/bin/$f" "$dir/bin/"
     done
     : > "$dir/home/config/supervision-host"
@@ -520,7 +524,7 @@ test_return_brief_all_silent_window_does_not_point_at_drain() {
   local dir fakebin out f
   dir="$TMP_ROOT/window-pointer-silent"
   install_runner "$dir"
-  for f in fm-supervision-engine-lib.sh fm-harness.sh fm-cursor-lib.sh fm-gemini-lib.sh; do
+  for f in fm-supervision-engine-lib.sh fm-harness.sh fm-cursor-lib.sh fm-gemini-lib.sh fm-sleep-lib.sh; do
     cp "$ROOT/bin/$f" "$dir/bin/"
   done
   : > "$dir/home/config/supervision-host"
@@ -960,7 +964,7 @@ test_return_brief_reports_only_an_open_downtime_episode_as_a_gap() {
 # main-session lock so the latch record's key is the current one.
 seed_host_latch() {  # <case-dir> <errors> <cooldown> <retry-after> <log-lines>
   local dir=$1 key f
-  for f in fm-supervision-engine-lib.sh fm-harness.sh fm-cursor-lib.sh fm-gemini-lib.sh; do
+  for f in fm-supervision-engine-lib.sh fm-harness.sh fm-cursor-lib.sh fm-gemini-lib.sh fm-sleep-lib.sh; do
     cp "$ROOT/bin/$f" "$dir/bin/"
   done
   printf 'claude sonnet\n' > "$dir/home/config/supervision-host"

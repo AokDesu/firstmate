@@ -118,6 +118,8 @@ FM_HOME="${FM_HOME:-${FM_ROOT_OVERRIDE:-$FM_ROOT}}"
 
 # shellcheck source=bin/fm-backend-hometag-lib.sh
 . "$FM_BACKEND_ZELLIJ_ROOT/bin/fm-backend-hometag-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_BACKEND_ZELLIJ_ROOT/bin/fm-sleep-lib.sh"
 
 # Shared composer classification (the fleet-wide shape catalogue and verdict
 # owner; this adapter contributes only capture and capability facts).
@@ -239,7 +241,7 @@ fm_backend_zellij_server_ensure() {  # <session>
   ( nohup zellij attach -b "$session" </dev/null >/dev/null 2>&1 & ) || return 1
   for i in $(seq 1 20); do
     fm_backend_zellij_session_exists "$session" && return 0
-    sleep 0.5
+    fm_sleep 0.5
   done
   echo "error: zellij session '$session' did not come up within 10s" >&2
   return 1
@@ -409,7 +411,7 @@ fm_backend_zellij_current_path() {  # <target> [expected-label]
   local target=$1 expected_label=${2:-} out line marker_begin="__FM_ZELLIJ_CWD_BEGIN__" marker_end="__FM_ZELLIJ_CWD_END__" in_block=0 chunk="" last=""
   fm_backend_zellij_target_ready "$target" "$expected_label" || return 0
   fm_backend_zellij_send_text_line "$target" "printf '%s\n' '$marker_begin'; pwd; printf '%s\n' '$marker_end'" "$expected_label" || return 0
-  sleep 0.3
+  fm_sleep 0.3
   out=$(fm_backend_zellij_capture "$target" 200 "$expected_label") || return 0
   while IFS= read -r line; do
     if [ "$line" = "$marker_begin" ]; then
@@ -580,7 +582,7 @@ fm_backend_zellij_send_text_submit() {  # <target> <text> <retries> <enter-sleep
   before=$(fm_backend_zellij_composer_content "$target" "$expected_label") \
     || { printf 'send-failed'; return 0; }
   fm_backend_zellij_send_literal "$target" "$text" "$expected_label" || { printf 'send-failed'; return 0; }
-  sleep "$settle"
+  fm_sleep "$settle"
   fm_backend_zellij_composer_observed_append "$target" "$before" "$text" "$expected_label" \
     || { printf 'send-failed'; return 0; }
   fm_composer_submit_retry_core fm_backend_zellij_send_key fm_backend_zellij_composer_state \

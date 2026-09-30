@@ -185,6 +185,8 @@ WATCH_HOME_EXISTED=0
 # runtime needlessly spends per-root CI lint memory while adding no uncovered file.
 # shellcheck source=/dev/null
 . "$SCRIPT_DIR/fm-push-transition-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-pr-lib.sh
 . "$SCRIPT_DIR/fm-pr-lib.sh"
 # Only for the arm-time check on FM_PROCEVENT_LAUNCH_CONFIRM_SECONDS below;
@@ -2090,7 +2092,7 @@ fm_active_check_stop() {
   [ -z "$pid" ] || kill -TERM "$pid" 2>/dev/null || true
   i=0
   while [ -n "$pgid" ] && kill -0 -- "-$pgid" 2>/dev/null && [ "$i" -lt 20 ]; do
-    sleep 0.01
+    fm_sleep 0.01
     i=$((i + 1))
   done
   [ -z "$pgid" ] || kill -KILL -- "-$pgid" 2>/dev/null || true
@@ -2098,7 +2100,7 @@ fm_active_check_stop() {
   [ -z "$pid" ] || wait "$pid" 2>/dev/null || true
   i=0
   while [ -n "$pgid" ] && kill -0 -- "-$pgid" 2>/dev/null && [ "$i" -lt 100 ]; do
-    sleep 0.01
+    fm_sleep 0.01
     i=$((i + 1))
   done
   if [ -n "$pgid" ] && kill -0 -- "-$pgid" 2>/dev/null; then
@@ -2108,18 +2110,21 @@ fm_active_check_stop() {
   FM_ACTIVE_CHECK_PGID=
 }
 
-# Stop-signal dispositions, installed with the EXIT trap below. HUP and TERM
-# keep bash's native fatal-signal handling, which runs watcher_cleanup through
-# the EXIT trap and then exits on every supported bash. A trap body such as
-# 'exit 1' is not reliable for them: bash 5.2 runs a pending trap inside the
-# parse of the next command substitution, the body then fails to parse ("trap:
-# line 2: unexpected EOF while looking for matching `)'", or nothing at all),
-# and the signal is consumed, so a stop request could leave this watcher
-# polling forever while its stopper waits (fixed upstream in bash 5.3). INT
-# keeps its trap because bash ignores a direct SIGINT while a child runs.
+# Stop-signal dispositions, installed with the EXIT trap below. Every stop
+# signal only drops a flag file: bash's native fatal-signal handling and an
+# 'exit' inside a handler both end in kill_shell, which this bash build can
+# fault while a signal interrupts an in-shell `read -t` wait; a pending trap
+# can also fire inside the parse of the next command substitution and consume
+# the signal (see the bash 5.2 history below). fm_sleep checks the flag files
+# after every wait and exits through the ordinary path, so a flag still
+# written from inside a substitution subshell is honored, HUP/TERM keep their
+# conventional 129/143 statuses, and INT keeps its exit-1 status.
 watcher_stop_signals() {
-  trap - HUP TERM
-  trap 'exit 1' INT
+  FM_SLEEP_SIGEXIT_int=1
+  trap ': >"$FM_SLEEP_SIGPREFIX.hup"' HUP
+  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
 }
 
 run_check_capture() {
@@ -2292,7 +2297,7 @@ event_wait_or_sleep() {
   done < <(recorded_windows)
 
   if [ "${#windows[@]}" -eq 0 ]; then
-    sleep "$POLL"
+    fm_sleep "$POLL"
     return
   fi
 
@@ -2308,7 +2313,7 @@ event_wait_or_sleep() {
     _event_cap_fails=0
   fi
   if [ "$_event_cap_ok" != 1 ]; then
-    sleep "$POLL"
+    fm_sleep "$POLL"
     return
   fi
 
@@ -2325,7 +2330,7 @@ event_wait_or_sleep() {
       # pure polling for the rest of this watcher process.
       _event_cap_fails=$((_event_cap_fails + 1))
       [ "$_event_cap_fails" -ge "$EVENT_CAP_FAIL_MAX" ] && _event_cap_ok=0
-      sleep "$POLL"
+      fm_sleep "$POLL"
       ;;
     *)
       # 1: a clean full-budget wait with no actionable edge - the reader already
@@ -2371,7 +2376,7 @@ evict_stalled_holder() {
   fm_watcher_lock_matches_pid "$STATE" "$WATCH_PATH" "$pid" "$FM_HOME" || return 1
   kill -TERM "$pid" 2>/dev/null || return 1
   while [ "$i" -lt 50 ] && fm_pid_alive "$pid"; do
-    sleep 0.1
+    fm_sleep 0.1
     i=$((i + 1))
   done
   ! fm_pid_alive "$pid"
@@ -2501,6 +2506,12 @@ pr_poll_publish_release() {
 
 watcher_cleanup() {
   local cleanup_status=0 owns_lock=0 transition=release-lock
+  # Drop the flag prefix first: helpers below can reach fm_sleep, and a flag
+  # left by the signal that ended the wait must not re-exit this teardown.
+  local sigprefix=${FM_SLEEP_SIGPREFIX:-}
+  FM_SLEEP_SIGPREFIX=
+  trap - EXIT HUP TERM INT QUIT
+  rm -f "$sigprefix".* 2>/dev/null
   pr_poll_publish_release || cleanup_status=1
   pr_poll_control_release || cleanup_status=1
   if [ "$(cat "$WATCH_LOCK/pid" 2>/dev/null || true)" = "${WATCHER_PID:-}" ]; then
@@ -2521,6 +2532,8 @@ watcher_cleanup() {
   fi
   return "$cleanup_status"
 }
+FM_SLEEP_SIGPREFIX="$STATE/.watcher-sig.${BASHPID:-$$}"
+rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
 trap watcher_cleanup EXIT
 watcher_stop_signals
 # This watcher's own pid, as recorded in the lock by fm_lock_claim (which writes
@@ -2599,6 +2612,9 @@ resurface_after_downtime() {
 }
 
 while :; do
+  # A stop flag dropped while the previous iteration's work ran must exit
+  # before this iteration starts any new check or cycle.
+  fm_sleep_signal_check
   # Home-gone exit: a deleted home, state directory, or code root means this
   # watcher's world is gone (a torn-down temporary home or a discarded
   # disposable checkout). Exit with a logged reason rather than writing state
@@ -2845,7 +2861,7 @@ EOF
   # signature for an already-pending file (last write wins below).
   pending=$(scan_signals)
   if [ -n "$pending" ]; then
-    sleep "$SIGNAL_GRACE"
+    fm_sleep "$SIGNAL_GRACE"
     pending=$(printf '%s\n%s' "$pending" "$(scan_signals)")
     # The final coalesced signal set is the watcher-carried status-change
     # trigger for this home's published summary. Start it before either

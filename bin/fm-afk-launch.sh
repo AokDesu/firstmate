@@ -143,6 +143,8 @@ FM_AFK_LAUNCH_WS_LABEL="firstmate-afk-daemon"
 
 # shellcheck source=bin/fm-backend.sh
 . "$FM_AFK_LAUNCH_DIR/fm-backend.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$FM_AFK_LAUNCH_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-supervisor-target-lib.sh
 . "$FM_AFK_LAUNCH_DIR/fm-supervisor-target-lib.sh"
 # fm-afk-start.sh provides the daemon-lock liveness helpers and
@@ -195,7 +197,7 @@ fm_afk_launch_lock_acquire() {
     if [ ! -s "$FM_AFK_LAUNCH_LOCK/pid" ] || [ ! -s "$FM_AFK_LAUNCH_LOCK/pid-identity" ]; then
       incomplete=$((incomplete + 1))
       if [ "$incomplete" -lt 20 ]; then
-        sleep 0.05
+        fm_sleep 0.05
         continue
       fi
     else
@@ -206,7 +208,7 @@ fm_afk_launch_lock_acquire() {
       incomplete=0
       continue
     fi
-    sleep 0.05
+    fm_sleep 0.05
   done
   fm_afk_launch_log "timed out waiting for launcher lock"
   return 1
@@ -532,7 +534,7 @@ fm_afk_launch_wait_ready() {  # <backend> <target>
     attempt=$((attempt + 1))
     daemon_lock_held_by_live_daemon && return 0
     fm_afk_launch_terminal_alive "$backend" "$target" || return 1
-    sleep 0.05
+    fm_sleep 0.05
   done
   return 1
 }
@@ -557,21 +559,21 @@ fm_afk_launch_herdr_recover_created() {  # <session> <label>
   local session=$1 label=$2 workspaces ws_count wsid panes pane_count pane attempt=0
   while [ "$attempt" -lt 20 ]; do
     attempt=$((attempt + 1))
-    workspaces=$(fm_backend_herdr_cli "$session" workspace list 2>/dev/null) || { sleep 0.05; continue; }
+    workspaces=$(fm_backend_herdr_cli "$session" workspace list 2>/dev/null) || { fm_sleep 0.05; continue; }
     ws_count=$(printf '%s' "$workspaces" | jq --arg want "$label" \
-      '[.result.workspaces[]? | select(.label == $want)] | length' 2>/dev/null) || { sleep 0.05; continue; }
+      '[.result.workspaces[]? | select(.label == $want)] | length' 2>/dev/null) || { fm_sleep 0.05; continue; }
     if [ "$ws_count" = 0 ]; then
-      sleep 0.05
+      fm_sleep 0.05
       continue
     fi
     [ "$ws_count" = 1 ] || return 1
     wsid=$(printf '%s' "$workspaces" | jq -r --arg want "$label" \
       '.result.workspaces[]? | select(.label == $want) | .workspace_id' 2>/dev/null) || return 1
     [ -n "$wsid" ] || return 1
-    panes=$(fm_backend_herdr_cli "$session" pane list --workspace "$wsid" 2>/dev/null) || { sleep 0.05; continue; }
-    pane_count=$(printf '%s' "$panes" | jq '[.result.panes[]?] | length' 2>/dev/null) || { sleep 0.05; continue; }
+    panes=$(fm_backend_herdr_cli "$session" pane list --workspace "$wsid" 2>/dev/null) || { fm_sleep 0.05; continue; }
+    pane_count=$(printf '%s' "$panes" | jq '[.result.panes[]?] | length' 2>/dev/null) || { fm_sleep 0.05; continue; }
     if [ "$pane_count" = 0 ]; then
-      sleep 0.05
+      fm_sleep 0.05
       continue
     fi
     [ "$pane_count" = 1 ] || return 1
@@ -836,7 +838,7 @@ fm_afk_launch_stop() {
     fi
     for _ in $(seq 1 40); do
       fm_pid_alive "$pid" || break
-      sleep 0.25
+      fm_sleep 0.25
     done
   fi
   if [ -n "$pid" ] && fm_pid_alive "$pid"; then
@@ -904,9 +906,18 @@ fm_afk_launch_main() {
   # the lock directory, which then blocks the next away-mode launch until the
   # stale-owner reclaim path clears it. fm_afk_launch_lock_release only removes
   # a lock this process owns, so arming it before acquisition is safe.
-  trap fm_afk_launch_lock_release EXIT
-  trap 'exit 130' INT
-  trap 'exit 143' TERM
+  # Flag-file dispositions, not in-trap exits: an 'exit' inside a handler that
+  # fires during an interrupted in-shell wait re-raises through kill_shell,
+  # which this bash build can fault while read -t is the interrupted builtin
+  # (see watcher_stop_signals in fm-watch.sh). fm_sleep checks the flags after
+  # every wait and exits through the ordinary path with the same statuses.
+  FM_SLEEP_SIGPREFIX="$FM_AFK_LAUNCH_STATE/.afk-launch-sig.$$"
+  rm -f "$FM_SLEEP_SIGPREFIX".* 2>/dev/null
+  # shellcheck disable=SC2154 # sigprefix is assigned inside this trap body.
+  trap 'sigprefix=$FM_SLEEP_SIGPREFIX; FM_SLEEP_SIGPREFIX=; trap - EXIT INT TERM QUIT; fm_afk_launch_lock_release; rm -f "$sigprefix".* 2>/dev/null' EXIT
+  trap ': >"$FM_SLEEP_SIGPREFIX.int"' INT
+  trap ': >"$FM_SLEEP_SIGPREFIX.term"' TERM
+  trap ': >"$FM_SLEEP_SIGPREFIX.quit"' QUIT
   fm_afk_launch_lock_acquire || return 1
   case "${1:-start}" in
     enter) shift; fm_afk_launch_enter "$@" ;;
@@ -923,7 +934,7 @@ fm_afk_launch_main() {
   esac
   result=$?
   fm_afk_launch_lock_release || result=1
-  trap - EXIT INT TERM
+  trap - EXIT INT TERM QUIT
   return "$result"
 }
 

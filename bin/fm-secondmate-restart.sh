@@ -90,6 +90,8 @@ STATE="${FM_STATE_OVERRIDE:-$FM_HOME/state}"
 
 # shellcheck source=bin/fm-secondmate-restart-lib.sh
 . "$SCRIPT_DIR/fm-secondmate-restart-lib.sh"
+# shellcheck source=bin/fm-sleep-lib.sh
+. "$SCRIPT_DIR/fm-sleep-lib.sh"
 # shellcheck source=bin/fm-secondmate-nudge-lib.sh
 . "$SCRIPT_DIR/fm-secondmate-nudge-lib.sh"
 # shellcheck source=bin/fm-pending-reply-lib.sh
@@ -369,7 +371,7 @@ while [ "$((pending_count + restart_active_count))" -gt 0 ]; do
     i=$((i + 1))
   done
   harvest_restarts
-  [ "$((pending_count + restart_active_count))" -eq 0 ] || sleep "$next_wait"
+  [ "$((pending_count + restart_active_count))" -eq 0 ] || fm_sleep "$next_wait"
 done
 
 # --- summary ---------------------------------------------------------------
