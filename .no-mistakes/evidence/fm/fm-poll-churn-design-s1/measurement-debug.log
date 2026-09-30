@@ -1,0 +1,2242 @@
++ set -u
++ ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++ . /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/tests/git-config-helpers.sh
+++ export GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_NOSYSTEM=1
+++ GIT_CONFIG_GLOBAL=/dev/null
+++ GIT_CONFIG_NOSYSTEM=1
++ BASE=23e5584714e6765cc223a1740d385d0e85f8ad8e
++ EVIDENCE=/Users/kunchen/.no-mistakes/evidence/01M3SXXW42FAV5829FPZ1WMTYM
+++ command -v python3
++ PY=/opt/homebrew/bin/python3
++ for variant in baseline candidate
++ W=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++ mkdir -p /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers
++ for script in fm-remote-job-lib.sh fm-remote-job-worker.sh
++ '[' baseline = baseline ']'
++ git show 23e5584714e6765cc223a1740d385d0e85f8ad8e:bin/fm-remote-job-lib.sh
++ for script in fm-remote-job-lib.sh fm-remote-job-worker.sh
++ '[' baseline = baseline ']'
++ git show 23e5584714e6765cc223a1740d385d0e85f8ad8e:bin/fm-remote-job-worker.sh
++ printf '#!/bin/bash\nsleep 3\nprintf "completed payload\\n"\n"%s" -c '\''import time,sys;open(sys.argv[1],"w").write(str(time.monotonic()))'\'' "$1"\n' /opt/homebrew/bin/python3
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin/fm-measure-job.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin/fm-remote-job-lib.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin/fm-remote-job-worker.sh
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root init -q
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root config user.name Test
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root config user.email test@example.com
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root add bin
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root commit --allow-empty -qm measurement
++ for tool in sleep wc tr tail date
+++ command -v sleep
++ real=/bin/sleep
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' sleep /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/calls /bin/sleep
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers/sleep
++ for tool in sleep wc tr tail date
+++ command -v wc
++ real=/usr/bin/wc
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' wc /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/calls /usr/bin/wc
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers/wc
++ for tool in sleep wc tr tail date
+++ command -v tr
++ real=/usr/bin/tr
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' tr /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/calls /usr/bin/tr
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers/tr
++ for tool in sleep wc tr tail date
+++ command -v tail
++ real=/usr/bin/tail
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' tail /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/calls /usr/bin/tail
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers/tail
++ for tool in sleep wc tr tail date
+++ command -v date
++ real=/bin/date
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' date /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/calls /bin/date
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers/date
++ unset FM_REMOTE_JOB_POLL_SECONDS FM_REMOTE_JOB_ACTIVE_POLL_SECONDS FM_REMOTE_JOB_PLATFORM_OVERRIDE
++ export FM_ROOT_OVERRIDE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root FM_REMOTE_JOB_STATE_ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state FM_REMOTE_JOB_QUEUE_TIMEOUT=60 FM_REMOTE_JOB_TIMEOUT=30
++ FM_ROOT_OVERRIDE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
++ FM_REMOTE_JOB_STATE_ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ FM_REMOTE_JOB_QUEUE_TIMEOUT=60
++ FM_REMOTE_JOB_TIMEOUT=30
++ . /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin/fm-remote-job-lib.sh
+++ FM_REMOTE_JOB_LABEL=dev.firstmate.remote-job
+++ FM_REMOTE_JOB_MAX_BYTES=1048576
+++ FM_REMOTE_JOB_QUEUE_TIMEOUT=60
+++ FM_REMOTE_JOB_TIMEOUT=30
+++ FM_REMOTE_JOB_WAIT_GRACE=30
+++ FM_REMOTE_JOB_POLL_SECONDS=0.05
+++ FM_REMOTE_JOB_REAP_SECONDS=3600
+++ FM_REMOTE_JOB_STAGE_REAP_SECONDS=600
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_SECONDS=86400
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_INTERVAL=3600
+++ FM_REMOTE_JOB_PREEMPTED_EXIT=76
+++ FM_REMOTE_JOB_OPERATOR_PATH=
+++ FM_REMOTE_JOB_CHILD_PATH=
+++ FM_REMOTE_JOB_STATE=
+++ FM_REMOTE_JOB_JOBS=
+++ FM_REMOTE_JOB_SEQ_CLAIMS=
+++ FM_REMOTE_JOB_ID=
+++ FM_REMOTE_JOB_STDOUT=
+++ FM_REMOTE_JOB_STDERR=
+++ FM_REMOTE_JOB_EXIT=
+++ FM_REMOTE_JOB_ERROR=
+++ FM_REMOTE_JOB_REPAIRED=0
++ . /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin/fm-remote-job-lib.sh
+++ FM_REMOTE_JOB_LABEL=dev.firstmate.remote-job
+++ FM_REMOTE_JOB_MAX_BYTES=1048576
+++ FM_REMOTE_JOB_QUEUE_TIMEOUT=60
+++ FM_REMOTE_JOB_TIMEOUT=30
+++ FM_REMOTE_JOB_WAIT_GRACE=30
+++ FM_REMOTE_JOB_POLL_SECONDS=0.05
+++ FM_REMOTE_JOB_REAP_SECONDS=3600
+++ FM_REMOTE_JOB_STAGE_REAP_SECONDS=600
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_SECONDS=86400
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_INTERVAL=3600
+++ FM_REMOTE_JOB_PREEMPTED_EXIT=76
+++ FM_REMOTE_JOB_OPERATOR_PATH=
+++ FM_REMOTE_JOB_CHILD_PATH=
+++ FM_REMOTE_JOB_STATE=
+++ FM_REMOTE_JOB_JOBS=
+++ FM_REMOTE_JOB_SEQ_CLAIMS=
+++ FM_REMOTE_JOB_ID=
+++ FM_REMOTE_JOB_STDOUT=
+++ FM_REMOTE_JOB_STDERR=
+++ FM_REMOTE_JOB_EXIT=
+++ FM_REMOTE_JOB_ERROR=
+++ FM_REMOTE_JOB_REPAIRED=0
++ fm_remote_job_stage /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home fm-measure-job.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/completed
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home command=fm-measure-job.sh stage id destination bytes queue_deadline owner_start
++ shift 4
++ fm_remote_job_prepare_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account root parent base firstmate
++ fm_remote_job_validate_settings
++ case "$FM_REMOTE_JOB_MAX_BYTES" in
++ '[' 1048576 -le 1048576 ']'
++ case "$FM_REMOTE_JOB_QUEUE_TIMEOUT" in
++ '[' 60 -le 3600 ']'
++ case "$FM_REMOTE_JOB_TIMEOUT" in
++ '[' 30 -le 3600 ']'
++ case "$FM_REMOTE_JOB_WAIT_GRACE" in
++ '[' 30 -le 300 ']'
++ case "$FM_REMOTE_JOB_REAP_SECONDS" in
++ case "$FM_REMOTE_JOB_STAGE_REAP_SECONDS" in
++ return 0
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state part old_ifs out=/
+++ case "$path" in
+++ case "$path" in
+++ old_ifs=' 	
+'
+++ IFS=/
+++ for part in '$path'
+++ case "$part" in
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' / = / ']'
+++ out=/Users
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users = / ']'
+++ out=/Users/kunchen
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen = / ']'
+++ out=/Users/kunchen/.no-mistakes
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ IFS=' 	
+'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ dirname /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ basename /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ base=state
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline state
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline base=state candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ FM_REMOTE_JOB_STATE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state jobs
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state base=jobs candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
++ FM_REMOTE_JOB_JOBS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state .seq-claims
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state base=.seq-claims candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++ FM_REMOTE_JOB_SEQ_CLAIMS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state logs
++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state base=logs candidate physical
++ case "$base" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
+++ CDPATH=
+++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
+++ pwd -P
++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
+++ fm_remote_job_canonical_home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home normalized parent base parent_real
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home '!=' / ']'
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home ']'
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
+++ return
++ home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++ case "$command" in
++ case "$command" in
+++ fm_remote_job_process_start 42621
+++ local pid=42621 ps_bin value
+++ '[' -x /bin/ps ']'
+++ ps_bin=/bin/ps
++++ /bin/ps -p 42621 -o lstart=
+++ value='Wed Sep 30 13:02:10 2026    '
+++ '[' -n 'Wed Sep 30 13:02:10 2026    ' ']'
+++ case "$value" in
+++ printf '%s\n' 'Wed Sep 30 13:02:10 2026    '
++ owner_start='Wed Sep 30 13:02:10 2026    '
+++ umask 077
+++ mktemp -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.XXXXXX
++ stage=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd
+++ date +%s
++ queue_deadline=1790798591
++ printf '%s\n' 42621
++ printf '%s\n' 'Wed Sep 30 13:02:10 2026    '
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.owner-pid /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.owner-start
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/home
++ printf '%s\n' 1790798591
++ printf '%s\n' 30
++ printf '%s\0' fm-measure-job.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/completed
++ head -c 1048577
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/root
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/home
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/queue_deadline
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/timeout
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/argv
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stdin
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/argv 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/argv max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/argv ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/argv ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=132
++ case "$bytes" in
++ '[' 132 -le 1048576 ']'
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stdin 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stdin max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stdin ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stdin ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=0
++ case "$bytes" in
++ '[' 0 -le 1048576 ']'
++ :
++ :
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stdout /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/stderr
++ id=job-N7WrRd
++ fm_remote_job_safe_id job-N7WrRd
++ case "$1" in
++ destination=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++ '[' '!' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd ']'
++ fm_remote_job_next_seq /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++ local stage=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd destination=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd counter value claim attempt=0 recovered=0 maximum entry
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
++ counter=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/seq
+++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/seq
++ value=2
++ case "$value" in
++ :
++ '[' 0 -ge 100000 ']'
++ attempt=1
++ value=3
++ claim=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims/3
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims/3
++ fm_remote_job_advance_seq_hint 3
++ local value=3 counter current tmp
++ counter=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/seq
+++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/seq
++ current=2
++ case "$current" in
++ '[' 3 -gt 2 ']'
+++ umask 077
+++ mktemp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seqhint.XXXXXX
++ tmp=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seqhint.1E49x9
++ printf '%s\n' 3
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seqhint.1E49x9
+++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/seq
++ current=2
++ case "$current" in
++ '[' 3 -gt 2 ']'
++ mv -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seqhint.1E49x9 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/seq
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd ']'
++ fm_remote_job_write_number /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd seq 3
++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd field=seq value=3 tmp
++ case "$field" in
++ case "$value" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd ']'
+++ umask 077
+++ mktemp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.seq.XXXXXX
++ tmp=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.seq.oaCcAU
++ printf '%s\n' 3
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.seq.oaCcAU
++ mv -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.seq.oaCcAU /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/seq
++ fm_remote_job_write_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd queued
++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd value=queued tmp
++ case "$value" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd ']'
+++ umask 077
+++ mktemp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.state.XXXXXX
++ tmp=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.state.Jw9IpD
++ printf '%s\n' queued
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.state.Jw9IpD
++ mv -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/.state.Jw9IpD /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd/state
++ mv -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/.stage.N7WrRd /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++ rm -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/.owner-pid /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/.owner-start
++ printf '%s\n' 3
++ return 0
++ FM_REMOTE_JOB_ID=job-N7WrRd
++ printf '%s\n' job-N7WrRd
++ export PATH=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers:/Users/kunchen/.pi/agent/bin:/Users/kunchen/.local/libexec/pi-launcher/bin:/Users/kunchen/.nvm/versions/node/v24.13.1/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/Users/kunchen/google-cloud-sdk/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/kunchen/.local/libexec/pi-launcher/bin:/etc/profiles/per-user/kunchen/bin:/run/current-system/sw/bin:/Users/kunchen/.local/bin:/Users/kunchen/go/bin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/libexec/mosh-signed:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kunchen/.cargo/bin:/Users/kunchen/bin:/usr/local/sbin
++ PATH=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/wrappers:/Users/kunchen/.pi/agent/bin:/Users/kunchen/.local/libexec/pi-launcher/bin:/Users/kunchen/.nvm/versions/node/v24.13.1/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/Users/kunchen/google-cloud-sdk/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/kunchen/.local/libexec/pi-launcher/bin:/etc/profiles/per-user/kunchen/bin:/run/current-system/sw/bin:/Users/kunchen/.local/bin:/Users/kunchen/go/bin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/libexec/mosh-signed:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kunchen/.cargo/bin:/Users/kunchen/bin:/usr/local/sbin
++ :
+++ /opt/homebrew/bin/python3 -c 'import time;print(time.monotonic())'
++ start=97024.463921791
++ lane=43008
++ trap 'kill -TERM "$lane" 2>/dev/null || true; wait "$lane" 2>/dev/null || true' EXIT
++ fm_remote_job_wait /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account job-N7WrRd
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account id=job-N7WrRd job state queue_deadline execution_timeout wait_deadline exit_value
++ local now next_probe=0
++ fm_remote_job_prepare_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ HOME=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account root parent base firstmate
++ /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/root/bin/fm-remote-job-worker.sh --lane job-N7WrRd
++ fm_remote_job_validate_settings
++ case "$FM_REMOTE_JOB_MAX_BYTES" in
++ '[' 1048576 -le 1048576 ']'
++ case "$FM_REMOTE_JOB_QUEUE_TIMEOUT" in
++ '[' 60 -le 3600 ']'
++ case "$FM_REMOTE_JOB_TIMEOUT" in
++ '[' 30 -le 3600 ']'
++ case "$FM_REMOTE_JOB_WAIT_GRACE" in
++ '[' 30 -le 300 ']'
++ case "$FM_REMOTE_JOB_REAP_SECONDS" in
++ case "$FM_REMOTE_JOB_STAGE_REAP_SECONDS" in
++ return 0
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/account
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state part old_ifs out=/
+++ case "$path" in
+++ case "$path" in
+++ old_ifs=' 	
+'
+++ IFS=/
+++ for part in '$path'
+++ case "$part" in
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' / = / ']'
+++ out=/Users
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users = / ']'
+++ out=/Users/kunchen
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen = / ']'
+++ out=/Users/kunchen/.no-mistakes
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ IFS=' 	
+'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ dirname /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ basename /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ base=state
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline state
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline base=state candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
++ FM_REMOTE_JOB_STATE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state jobs
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state base=jobs candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
++ FM_REMOTE_JOB_JOBS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state .seq-claims
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state base=.seq-claims candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++ FM_REMOTE_JOB_SEQ_CLAIMS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/.seq-claims
++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state logs
++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state base=logs candidate physical
++ case "$base" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state ']'
++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
+++ CDPATH=
+++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
+++ pwd -P
++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs ']'
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/logs
+++ fm_remote_job_job_dir job-N7WrRd
+++ local id=job-N7WrRd dir physical
+++ fm_remote_job_safe_id job-N7WrRd
+++ case "$1" in
+++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs ']'
+++ dir=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++ job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
+++ fm_remote_job_read_number /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd queue_deadline
+++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd field=queue_deadline value
+++ case "$field" in
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/queue_deadline 32
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/queue_deadline max=32 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/queue_deadline ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/queue_deadline ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=11
+++ case "$bytes" in
+++ '[' 11 -le 32 ']'
++++ tr -d '\n'
+++ value=1790798591
+++ case "$value" in
+++ '[' 1790798591 -gt 0 ']'
+++ printf '%s\n' 1790798591
++ queue_deadline=1790798591
+++ fm_remote_job_read_number /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd timeout
+++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd field=timeout value
+++ case "$field" in
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/timeout 32
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/timeout max=32 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/timeout ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/timeout ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=3
+++ case "$bytes" in
+++ '[' 3 -le 32 ']'
++++ tr -d '\n'
+++ value=30
+++ case "$value" in
+++ '[' 30 -gt 0 ']'
+++ printf '%s\n' 30
++ execution_timeout=30
++ '[' 30 -le 3600 ']'
++ wait_deadline=1790798651
++ :
+++ fm_remote_job_read_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++ state=queued
++ case "$state" in
+++ date +%s
++ now=1790798531
++ '[' 1790798531 -ge 1790798651 ']'
++ '[' -n '' ']'
++ sleep 0.05
++ :
+++ fm_remote_job_read_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd
++ state=done
++ case "$state" in
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stdout 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stdout max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stdout ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stdout ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=0
++ case "$bytes" in
++ '[' 0 -le 1048576 ']'
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stderr 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stderr max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stderr ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stderr ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=0
++ case "$bytes" in
++ '[' 0 -le 1048576 ']'
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/exit 32
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/exit max=32 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/exit ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/exit ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=4
++ case "$bytes" in
++ '[' 4 -le 32 ']'
+++ tr -d '\n'
++ exit_value=126
++ case "$exit_value" in
++ '[' 126 -le 255 ']'
++ FM_REMOTE_JOB_STDOUT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stdout
++ FM_REMOTE_JOB_STDERR=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-baseline/state/jobs/job-N7WrRd/stderr
++ FM_REMOTE_JOB_EXIT=126
++ return 0
+++ /opt/homebrew/bin/python3 -c 'import time;print(time.monotonic())'
++ end=97024.853946375
++ wait 43008
++ trap - EXIT
++ '[' 126 = 0 ']'
++ exit 1
++ for variant in baseline candidate
++ W=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++ mkdir -p /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers
++ for script in fm-remote-job-lib.sh fm-remote-job-worker.sh
++ '[' candidate = baseline ']'
++ cp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/bin/fm-remote-job-lib.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-lib.sh
++ for script in fm-remote-job-lib.sh fm-remote-job-worker.sh
++ '[' candidate = baseline ']'
++ cp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/bin/fm-remote-job-worker.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-worker.sh
++ printf '#!/bin/bash\nsleep 3\nprintf "completed payload\\n"\n"%s" -c '\''import time,sys;open(sys.argv[1],"w").write(str(time.monotonic()))'\'' "$1"\n' /opt/homebrew/bin/python3
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-measure-job.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-lib.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-worker.sh
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root init -q
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root config user.name Test
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root config user.email test@example.com
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root add bin
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root commit --allow-empty -qm measurement
++ for tool in sleep wc tr tail date
+++ command -v sleep
++ real=/bin/sleep
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' sleep /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/calls /bin/sleep
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers/sleep
++ for tool in sleep wc tr tail date
+++ command -v wc
++ real=/usr/bin/wc
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' wc /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/calls /usr/bin/wc
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers/wc
++ for tool in sleep wc tr tail date
+++ command -v tr
++ real=/usr/bin/tr
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' tr /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/calls /usr/bin/tr
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers/tr
++ for tool in sleep wc tr tail date
+++ command -v tail
++ real=/usr/bin/tail
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' tail /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/calls /usr/bin/tail
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers/tail
++ for tool in sleep wc tr tail date
+++ command -v date
++ real=/bin/date
++ printf '#!/bin/bash\nprintf "%s\\n" >> "%s"\nexec "%s" "$@"\n' date /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/calls /bin/date
++ chmod +x /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers/date
++ unset FM_REMOTE_JOB_POLL_SECONDS FM_REMOTE_JOB_ACTIVE_POLL_SECONDS FM_REMOTE_JOB_PLATFORM_OVERRIDE
++ export FM_ROOT_OVERRIDE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root FM_REMOTE_JOB_STATE_ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state FM_REMOTE_JOB_QUEUE_TIMEOUT=60 FM_REMOTE_JOB_TIMEOUT=30
++ FM_ROOT_OVERRIDE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
++ FM_REMOTE_JOB_STATE_ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ FM_REMOTE_JOB_QUEUE_TIMEOUT=60
++ FM_REMOTE_JOB_TIMEOUT=30
++ . /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-lib.sh
+++ FM_REMOTE_JOB_LABEL=dev.firstmate.remote-job
+++ FM_REMOTE_JOB_MAX_BYTES=1048576
+++ FM_REMOTE_JOB_QUEUE_TIMEOUT=60
+++ FM_REMOTE_JOB_TIMEOUT=30
+++ FM_REMOTE_JOB_WAIT_GRACE=30
+++ FM_REMOTE_JOB_ACTIVE_POLL_SECONDS=0.25
+++ FM_REMOTE_JOB_POLL_SECONDS=0.05
+++ FM_REMOTE_JOB_REAP_SECONDS=3600
+++ FM_REMOTE_JOB_STAGE_REAP_SECONDS=600
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_SECONDS=86400
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_INTERVAL=3600
+++ FM_REMOTE_JOB_PREEMPTED_EXIT=76
+++ FM_REMOTE_JOB_OPERATOR_PATH=
+++ FM_REMOTE_JOB_CHILD_PATH=
+++ FM_REMOTE_JOB_STATE=
+++ FM_REMOTE_JOB_JOBS=
+++ FM_REMOTE_JOB_SEQ_CLAIMS=
+++ FM_REMOTE_JOB_ID=
+++ FM_REMOTE_JOB_STDOUT=
+++ FM_REMOTE_JOB_STDERR=
+++ FM_REMOTE_JOB_EXIT=
+++ FM_REMOTE_JOB_ERROR=
+++ FM_REMOTE_JOB_REPAIRED=0
++ . /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-lib.sh
+++ FM_REMOTE_JOB_LABEL=dev.firstmate.remote-job
+++ FM_REMOTE_JOB_MAX_BYTES=1048576
+++ FM_REMOTE_JOB_QUEUE_TIMEOUT=60
+++ FM_REMOTE_JOB_TIMEOUT=30
+++ FM_REMOTE_JOB_WAIT_GRACE=30
+++ FM_REMOTE_JOB_ACTIVE_POLL_SECONDS=0.25
+++ FM_REMOTE_JOB_POLL_SECONDS=0.05
+++ FM_REMOTE_JOB_REAP_SECONDS=3600
+++ FM_REMOTE_JOB_STAGE_REAP_SECONDS=600
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_SECONDS=86400
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_INTERVAL=3600
+++ FM_REMOTE_JOB_PREEMPTED_EXIT=76
+++ FM_REMOTE_JOB_OPERATOR_PATH=
+++ FM_REMOTE_JOB_CHILD_PATH=
+++ FM_REMOTE_JOB_STATE=
+++ FM_REMOTE_JOB_JOBS=
+++ FM_REMOTE_JOB_SEQ_CLAIMS=
+++ FM_REMOTE_JOB_ID=
+++ FM_REMOTE_JOB_STDOUT=
+++ FM_REMOTE_JOB_STDERR=
+++ FM_REMOTE_JOB_EXIT=
+++ FM_REMOTE_JOB_ERROR=
+++ FM_REMOTE_JOB_REPAIRED=0
++ fm_remote_job_stage /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home fm-measure-job.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/completed
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home command=fm-measure-job.sh stage id destination bytes queue_deadline owner_start
++ shift 4
++ fm_remote_job_prepare_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account root parent base firstmate
++ fm_remote_job_validate_settings
++ case "$FM_REMOTE_JOB_MAX_BYTES" in
++ '[' 1048576 -le 1048576 ']'
++ case "$FM_REMOTE_JOB_QUEUE_TIMEOUT" in
++ '[' 60 -le 3600 ']'
++ case "$FM_REMOTE_JOB_TIMEOUT" in
++ '[' 30 -le 3600 ']'
++ case "$FM_REMOTE_JOB_WAIT_GRACE" in
++ '[' 30 -le 300 ']'
++ case "$FM_REMOTE_JOB_REAP_SECONDS" in
++ case "$FM_REMOTE_JOB_STAGE_REAP_SECONDS" in
++ return 0
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state part old_ifs out=/
+++ case "$path" in
+++ case "$path" in
+++ old_ifs=' 	
+'
+++ IFS=/
+++ for part in '$path'
+++ case "$part" in
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' / = / ']'
+++ out=/Users
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users = / ']'
+++ out=/Users/kunchen
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen = / ']'
+++ out=/Users/kunchen/.no-mistakes
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ IFS=' 	
+'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ dirname /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ basename /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ base=state
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate state
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate base=state candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ FM_REMOTE_JOB_STATE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state jobs
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state base=jobs candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
++ FM_REMOTE_JOB_JOBS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state .seq-claims
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state base=.seq-claims candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++ FM_REMOTE_JOB_SEQ_CLAIMS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state logs
++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state base=logs candidate physical
++ case "$base" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
+++ CDPATH=
+++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
+++ pwd -P
++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
+++ fm_remote_job_canonical_home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home normalized parent base parent_real
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home '!=' / ']'
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home ']'
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
+++ return
++ home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++ case "$command" in
++ case "$command" in
+++ fm_remote_job_process_start 42621
+++ local pid=42621 ps_bin value
+++ '[' -x /bin/ps ']'
+++ ps_bin=/bin/ps
++++ /bin/ps -p 42621 -o lstart=
+++ value='Wed Sep 30 13:02:10 2026    '
+++ '[' -n 'Wed Sep 30 13:02:10 2026    ' ']'
+++ case "$value" in
+++ printf '%s\n' 'Wed Sep 30 13:02:10 2026    '
++ owner_start='Wed Sep 30 13:02:10 2026    '
+++ umask 077
+++ mktemp -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.XXXXXX
++ stage=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6
+++ date +%s
++ queue_deadline=1790798591
++ printf '%s\n' 42621
++ printf '%s\n' 'Wed Sep 30 13:02:10 2026    '
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.owner-pid /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.owner-start
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/home
++ printf '%s\n' 1790798591
++ printf '%s\n' 30
++ printf '%s\0' fm-measure-job.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/completed
++ head -c 1048577
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/root
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/home
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/queue_deadline
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/timeout
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/argv
++ for bytes in root home queue_deadline timeout argv stdin
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stdin
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/argv 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/argv max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/argv ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/argv ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=133
++ case "$bytes" in
++ '[' 133 -le 1048576 ']'
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stdin 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stdin max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stdin ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stdin ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=0
++ case "$bytes" in
++ '[' 0 -le 1048576 ']'
++ :
++ :
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stdout /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/stderr
++ id=job-zHkei6
++ fm_remote_job_safe_id job-zHkei6
++ case "$1" in
++ destination=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++ '[' '!' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 ']'
++ fm_remote_job_next_seq /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++ local stage=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 destination=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 counter value claim attempt=0 recovered=0 maximum entry
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
++ counter=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/seq
+++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/seq
++ value=1
++ case "$value" in
++ :
++ '[' 0 -ge 100000 ']'
++ attempt=1
++ value=2
++ claim=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims/2
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims/2
++ fm_remote_job_advance_seq_hint 2
++ local value=2 counter current tmp
++ counter=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/seq
+++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/seq
++ current=1
++ case "$current" in
++ '[' 2 -gt 1 ']'
+++ umask 077
+++ mktemp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seqhint.XXXXXX
++ tmp=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seqhint.7NaAU0
++ printf '%s\n' 2
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seqhint.7NaAU0
+++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/seq
++ current=1
++ case "$current" in
++ '[' 2 -gt 1 ']'
++ mv -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seqhint.7NaAU0 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/seq
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 ']'
++ fm_remote_job_write_number /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 seq 2
++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 field=seq value=2 tmp
++ case "$field" in
++ case "$value" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 ']'
+++ umask 077
+++ mktemp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.seq.XXXXXX
++ tmp=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.seq.T4Ie1l
++ printf '%s\n' 2
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.seq.T4Ie1l
++ mv -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.seq.T4Ie1l /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/seq
++ fm_remote_job_write_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 queued
++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 value=queued tmp
++ case "$value" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 ']'
+++ umask 077
+++ mktemp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.state.XXXXXX
++ tmp=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.state.FhRg0t
++ printf '%s\n' queued
++ chmod 600 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.state.FhRg0t
++ mv -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/.state.FhRg0t /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6/state
++ mv -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/.stage.zHkei6 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++ rm -f -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/.owner-pid /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/.owner-start
++ printf '%s\n' 2
++ return 0
++ FM_REMOTE_JOB_ID=job-zHkei6
++ printf '%s\n' job-zHkei6
++ export PATH=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers:/Users/kunchen/.pi/agent/bin:/Users/kunchen/.local/libexec/pi-launcher/bin:/Users/kunchen/.nvm/versions/node/v24.13.1/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/Users/kunchen/google-cloud-sdk/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/kunchen/.local/libexec/pi-launcher/bin:/etc/profiles/per-user/kunchen/bin:/run/current-system/sw/bin:/Users/kunchen/.local/bin:/Users/kunchen/go/bin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/libexec/mosh-signed:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kunchen/.cargo/bin:/Users/kunchen/bin:/usr/local/sbin
++ PATH=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/wrappers:/Users/kunchen/.pi/agent/bin:/Users/kunchen/.local/libexec/pi-launcher/bin:/Users/kunchen/.nvm/versions/node/v24.13.1/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/Users/kunchen/google-cloud-sdk/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Users/kunchen/.local/libexec/pi-launcher/bin:/etc/profiles/per-user/kunchen/bin:/run/current-system/sw/bin:/Users/kunchen/.local/bin:/Users/kunchen/go/bin:/Library/Frameworks/Python.framework/Versions/3.13/bin:/Users/kunchen/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/usr/local/libexec/mosh-signed:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kunchen/.cargo/bin:/Users/kunchen/bin:/usr/local/sbin
++ :
+++ /opt/homebrew/bin/python3 -c 'import time;print(time.monotonic())'
++ start=97024.998224625
++ lane=43724
++ trap 'kill -TERM "$lane" 2>/dev/null || true; wait "$lane" 2>/dev/null || true' EXIT
++ fm_remote_job_wait /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account job-zHkei6
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account id=job-zHkei6 job state queue_deadline execution_timeout wait_deadline exit_value
++ local now next_probe=0
++ fm_remote_job_prepare_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ HOME=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/root/bin/fm-remote-job-worker.sh --lane job-zHkei6
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account root parent base firstmate
++ fm_remote_job_validate_settings
++ case "$FM_REMOTE_JOB_MAX_BYTES" in
++ '[' 1048576 -le 1048576 ']'
++ case "$FM_REMOTE_JOB_QUEUE_TIMEOUT" in
++ '[' 60 -le 3600 ']'
++ case "$FM_REMOTE_JOB_TIMEOUT" in
++ '[' 30 -le 3600 ']'
++ case "$FM_REMOTE_JOB_WAIT_GRACE" in
++ '[' 30 -le 300 ']'
++ case "$FM_REMOTE_JOB_REAP_SECONDS" in
++ case "$FM_REMOTE_JOB_STAGE_REAP_SECONDS" in
++ return 0
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/account
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state part old_ifs out=/
+++ case "$path" in
+++ case "$path" in
+++ old_ifs=' 	
+'
+++ IFS=/
+++ for part in '$path'
+++ case "$part" in
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' / = / ']'
+++ out=/Users
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users = / ']'
+++ out=/Users/kunchen
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen = / ']'
+++ out=/Users/kunchen/.no-mistakes
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ for part in '$path'
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ IFS=' 	
+'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ dirname /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ basename /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ base=state
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=' 	
+'
++++ IFS=/
++++ for part in '$path'
++++ case "$part" in
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1
++++ for part in '$path'
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ IFS=' 	
+'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate state
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate base=state candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
++ FM_REMOTE_JOB_STATE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state jobs
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state base=jobs candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
++ FM_REMOTE_JOB_JOBS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state .seq-claims
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state base=.seq-claims candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++ FM_REMOTE_JOB_SEQ_CLAIMS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/.seq-claims
++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state logs
++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state base=logs candidate physical
++ case "$base" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state ']'
++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
+++ CDPATH=
+++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
+++ pwd -P
++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs ']'
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/logs
+++ fm_remote_job_job_dir job-zHkei6
+++ local id=job-zHkei6 dir physical
+++ fm_remote_job_safe_id job-zHkei6
+++ case "$1" in
+++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs ']'
+++ dir=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++ job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
+++ fm_remote_job_read_number /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 queue_deadline
+++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 field=queue_deadline value
+++ case "$field" in
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/queue_deadline 32
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/queue_deadline max=32 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/queue_deadline ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/queue_deadline ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=11
+++ case "$bytes" in
+++ '[' 11 -le 32 ']'
++++ tr -d '\n'
+++ value=1790798591
+++ case "$value" in
+++ '[' 1790798591 -gt 0 ']'
+++ printf '%s\n' 1790798591
++ queue_deadline=1790798591
+++ fm_remote_job_read_number /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 timeout
+++ local job=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6 field=timeout value
+++ case "$field" in
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/timeout 32
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/timeout max=32 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/timeout ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/timeout ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=3
+++ case "$bytes" in
+++ '[' 3 -le 32 ']'
++++ tr -d '\n'
+++ value=30
+++ case "$value" in
+++ '[' 30 -gt 0 ']'
+++ printf '%s\n' 30
++ execution_timeout=30
++ '[' 30 -le 3600 ']'
++ wait_deadline=1790798651
++ :
+++ fm_remote_job_read_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++ state=queued
++ case "$state" in
+++ date +%s
++ now=1790798531
++ '[' 1790798531 -ge 1790798651 ']'
++ '[' -n '' ']'
++ sleep 0.25
++ :
+++ fm_remote_job_read_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6
++ state=done
++ case "$state" in
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stdout 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stdout max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stdout ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stdout ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=0
++ case "$bytes" in
++ '[' 0 -le 1048576 ']'
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stderr 1048576
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stderr max=1048576 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stderr ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stderr ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=0
++ case "$bytes" in
++ '[' 0 -le 1048576 ']'
++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/exit 32
++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/exit max=32 bytes
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/exit ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/exit ']'
+++ LC_ALL=C
+++ wc -c
+++ tr -d ' '
++ bytes=4
++ case "$bytes" in
++ '[' 4 -le 32 ']'
+++ tr -d '\n'
++ exit_value=126
++ case "$exit_value" in
++ '[' 126 -le 255 ']'
++ FM_REMOTE_JOB_STDOUT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stdout
++ FM_REMOTE_JOB_STDERR=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3SXXW42FAV5829FPZ1WMTYM/.test-p1/measure-candidate/state/jobs/job-zHkei6/stderr
++ FM_REMOTE_JOB_EXIT=126
++ return 0
+++ /opt/homebrew/bin/python3 -c 'import time;print(time.monotonic())'
++ end=97025.608391375
++ wait 43724
++ trap - EXIT
++ '[' 126 = 0 ']'
++ exit 1
++ printf '%s\n' 'Counts cover actual sleep/wc/tr/tail/date executable invocations in real lane + public result wait, not all forks or host pidversion. One sequential 3-second job per variant; instrumentation overhead and scheduling apply; no fleet-wide benefit inferred.'
+Counts cover actual sleep/wc/tr/tail/date executable invocations in real lane + public result wait, not all forks or host pidversion. One sequential 3-second job per variant; instrumentation overhead and scheduling apply; no fleet-wide benefit inferred.

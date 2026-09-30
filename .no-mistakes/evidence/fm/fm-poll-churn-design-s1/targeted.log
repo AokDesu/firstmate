@@ -1,0 +1,68 @@
+FM_TEST_BEGIN 2026-09-30T19:53:51Z tests/fm-remote-job.test.sh family=secondmate expected_gate_skip=none
+ok - default: result and command samples use 0.25 seconds while dispatcher uses 0.05
+ok - legacy: result and command samples use 0.07 seconds while dispatcher uses 0.07
+ok - active: result and command samples use 0.12 seconds while dispatcher uses 0.07
+ok - default queue and execution bounds independently cover long polls
+ok - operator PATH excludes a symlinked local bin
+ok - operator PATH honors nvm defaults with a deterministic fallback
+ok - operator PATH resolves the authorized Nix profile bin link
+ok - operator PATH orders discovered tool installs deterministically
+ok - the worker preserves bounded argv and stdin in an empty environment
+ok - active jobs keep the worker ready for concurrent requests
+ok - ensure replaces a live worker after its code changes
+ok - worker identity binds the canonical configured code root
+ok - stale ownership is reclaimed without signaling a reused pid
+ok - the worker enforces the job timeout and publishes its result
+ok - the worker expires queued jobs before they can mutate
+ok - queued jobs receive a fresh bounded execution window
+ok - a queued short command preempts a running long poll instead of waiting its window
+ok - a poll re-armed after preemption reads the same cursor with nothing lost
+ok - sibling polls never preempt each other into a re-arm churn loop
+ok - worker shutdown terminates the active command tree before replacement
+ok - Linux supervision recovers crashes and stops orphaned commands
+ok - pre-execution validation obeys the job timeout
+ok - the worker drains bounded output without changing command results
+ok - the worker refuses symlinked job fields before command execution
+ok - failed shutdown quarantines ownership against replacement workers
+ok - quarantine recovery refuses unverifiable supervisors and ignores reused pids
+ok - a repeatedly signalled shutdown still releases ownership for the next worker
+ok - TERM after ownership loss stops the serving worker
+ok - TERM after ownership loss still stops the active command tree
+ok - a lost owner terminates without stopping the replacement owner's work
+ok - an ousted worker in shutdown leaves the replacement quarantine untouched
+ok - an idle worker sleeps out a second between passes instead of busy-polling
+ok - an idle worker keeps its readiness heartbeat fresh between passes
+ok - an idle worker claims and publishes a staged job within a few seconds
+ok - an idle worker still repairs queue permissions and stops promptly on TERM
+ok - barely healthy worker failures remain bounded by the restart guard
+ALL TESTS PASSED
+FM_TEST_END 2026-09-30T19:55:49Z tests/fm-remote-job.test.sh exit=0 duration_ms=118344 gate_skip=false
+FM_TEST_BEGIN 2026-09-30T19:55:49Z tests/fm-remote-transport-lanes.test.sh family=secondmate expected_gate_skip=none
+ok - atomic sequence claims remain unique and reap only after expiry
+ok - lanes run homes concurrently while each home stays FIFO
+ok - same-home jobs staged in the same second execute in staging-sequence order
+ok - same-home sequence order follows completed staging publication
+ok - a caller killed mid-wait cancels its queued job before execution
+ok - a caller killed mid-wait stops its running job's process group
+ok - a signal-less caller disconnect cancels the abandoned job through the parent probe
+ok - bounded reads after a cancellation meet their own budget with no convoy
+ok - an open caller stdin no longer wedges a non-payload remote command
+ok - a live explicit-stdin stage survives the staging-litter age bound
+ok - --stdin still delivers a payload caller's bytes
+ok - abandoned stage litter is reaped by age while live staging survives
+ALL TESTS PASSED
+FM_TEST_END 2026-09-30T19:57:06Z tests/fm-remote-transport-lanes.test.sh exit=0 duration_ms=76991 gate_skip=false
+FM_TEST_BEGIN 2026-09-30T19:57:06Z tests/fm-remote-job-orphan-reap.test.sh family=secondmate expected_gate_skip=none
+ok - the Linux start path puts the whole worker tree in its own process group
+ok - removing the state root and killing the recorded worker pid leaves the tree running, orphaned
+ok - a worker whose code root still exists is never reaped
+ok - a worker stops its whole tree once its code root is pruned
+ok - a dry run reports the abandoned worker and signals nothing
+ok - the reaper stops an abandoned worker's whole tree
+ok - the reaper is idempotent
+FM_TEST_END 2026-09-30T19:57:11Z tests/fm-remote-job-orphan-reap.test.sh exit=0 duration_ms=4381 gate_skip=false
+FM_TEST_SUMMARY total=3 failed=0 skipped_gate=0 duration_ms=199866
+FM_TEST_SUMMARY_FAMILY family=secondmate count=3 duration_ms=199716 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-remote-job.test.sh duration_ms=118344
+FM_TEST_SLOWEST rank=2 script=tests/fm-remote-transport-lanes.test.sh duration_ms=76991
+FM_TEST_SLOWEST rank=3 script=tests/fm-remote-job-orphan-reap.test.sh duration_ms=4381
