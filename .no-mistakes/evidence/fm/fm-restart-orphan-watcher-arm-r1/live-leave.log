@@ -1,0 +1,17 @@
+lock acquired: harness pid 87045
+watcher: started pid=39598 (beacon fresh)
+signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+--- host ledger
+1790879989	start	gen=host-39065-1790879989	primary=claude
+1790879991	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+--- process topology
+41958     1 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh
+41991 41958 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch.sh
+1790879990	2	signal	demo.status	needs-decision: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+WAKE_ACK_REQUIRED: after handling completes run bin/fm-wake-drain.sh --ack-through 2 --recovery-generation 39598.1790879990.71qT67
+wake annotation: latest wake-EVENT observed at drain, not current state: demo.status: needs-decision [at=1790879990]: which export format?
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+demo needs-decision: which export format?
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+LEFT arm=41958 identity=Thu Oct  1 11:39:51 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh watcher=41991

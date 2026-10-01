@@ -1,0 +1,10 @@
+lock acquired: harness pid 76478
+watcher: stopped pid=56428
+Unrelated takeover attached without stopping watcher 15414:
+watcher: attached pid=15414 (beacon 0s)
+15359 13619 bash bin/fm-watch-arm.sh
+15414 15359 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch.sh
+17016 13619 bash bin/fm-watch-arm.sh --take-over 13619
+watcher: started pid=15414 (beacon fresh)
+signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+PASS wrong owner cannot take over and owning arm still delivers next wake

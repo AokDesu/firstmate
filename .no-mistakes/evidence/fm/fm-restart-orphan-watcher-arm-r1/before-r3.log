@@ -1,0 +1,4 @@
+not ok - unrecorded successor: the failed record was not logged
+--- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-supervision-host.HuNTtK/hook-successor-unrecorded/state/.supervision-host.log ---
+1790880495	start	gen=host-67884-1790880494	primary=claude
+1790880496	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-supervision-host.HuNTtK/hook-successor-unrecorded/state/demo.status

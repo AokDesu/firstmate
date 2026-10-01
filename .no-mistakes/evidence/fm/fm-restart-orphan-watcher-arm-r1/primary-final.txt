@@ -1,0 +1,40 @@
+
+✻ Churned for 8s · done 11:45 AM
+
+❯ The disposable observer driver now waits for host takeover to finish before testing an unrelated owner, avoiding a
+  setup race. Run only bash .test-tmp/live-driver.sh foreign again; do not edit or investigate anything else.
+
+  Ran 1 shell command
+
+⏺ Captain, the command again exited with code 1 and did not print a PASS or FAIL verdict line.
+
+  Result: no verdict recorded; the run ended on the same error as the previous attempt - .test-tmp/live-driver.sh: line
+  97: kill: (22163) - No such process.
+
+  What it printed before erroring: it acquired its lock, surfaced the still-open foreign takeover must still deliver
+  decision, logged Unrelated takeover attached without stopping watcher 22163 / watcher: attached pid=22163 (beacon 1s),
+  then showed the host ledger (now including a take-over arm=41277) and process topology. The final line is again the
+  failed kill of the attached watcher pid (this time 22163, No such process), exiting 1 without a verdict.
+
+✻ Baked for 8s · done 11:46 AM
+
+❯ Use the corrected isolated standalone-arm boundary scenario, avoiding old host activation races: run only bash
+  .test-tmp/live-driver.sh foreign. Do not edit or investigate anything else.
+
+  Ran 1 shell command
+
+⏺ Captain, the command finished and ended with PASS.
+
+  Result: PASS wrong owner cannot take over and owning arm still delivers next wake
+
+  The run acquired its lock, stopped the prior watcher, attached the deliberately unrelated observer (pid 15414), showed
+  the arm process topology with a take-over arm, confirmed the owning arm's watcher started fresh and delivered the
+  next signal, and passed.
+
+✻ Worked for 11s · done 11:47 AM
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ All five scenarios pass now
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Opus 4.8 ctx window                 69.3k / 1.0M
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents

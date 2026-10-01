@@ -1,0 +1,40 @@
+ ▝▝   ▝▝   ~/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT
+
+
+❯ Run exactly this Bash command for an isolated live validation, without editing files or doing any other project work:
+  bash .test-tmp/live-driver.sh leave. It drives the real firstmate scripts against the disposable FM_HOME already in
+  your environment. After it returns, reply with its result only; do not start supervision yourself.
+
+  Ran 1 shell command
+
+⏺ Captain, the validation failed. bash .test-tmp/live-driver.sh leave exited with code 1:
+
+  lock acquired: harness pid 23071
+  FAILED waiting: livewatch
+
+  It acquired the lock, then failed while waiting on livewatch.
+
+✻ Cogitated for 53s · done 11:34 AM
+
+❯ The disposable driver beacon filename was wrong and has now been corrected. Run only bash .test-tmp/live-driver.sh
+  leave again; do not investigate or edit anything.
+
+  Ran 1 shell command
+
+⏺ Captain, the re-run succeeded (exit 0). Result:
+
+  - Lock acquired, watcher started (pid=78816, beacon fresh) - the beacon fix worked.
+  - check: rearm-resurface ran as an attended main-only pass-through.
+  - A watcher cycle is live (arm pid 79749, watcher pid 79785).
+  - One queued wake surfaced: demo.status with an open decision - "which export format?"
+  - The driver printed its own WAKE_ACK_REQUIRED and drain warning for that disposable lab.
+
+  As instructed, I've only run the command and am not acting on the wake, draining, or starting supervision.
+
+✻ Churned for 16s · done 11:35 AM
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ Clean up the disposable lab now
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Opus 4.8 ctx window   ▉               60.9k / 1.0M
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents

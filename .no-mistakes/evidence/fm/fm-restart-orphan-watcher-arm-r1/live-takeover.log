@@ -1,0 +1,27 @@
+lock acquired: harness pid 76478
+Old arm survived real primary restart: 41958
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+demo needs-decision: which export format?
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+--- host ledger
+1790879989	start	gen=host-39065-1790879989	primary=claude
+1790879991	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880035	start	gen=host-90601-1790880035	primary=claude
+1790880035	take-over	arm=41958
+--- process topology
+90601 90599 bash bin/fm-supervision-host.sh park
+90851 90601 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh --take-over 41958
+91823 90851 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch.sh
+acked:handling:39598.1790879990.71qT67
+watcher: started pid=91823 (beacon fresh)
+signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+--- host ledger
+1790879989	start	gen=host-39065-1790879989	primary=claude
+1790879991	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880035	start	gen=host-90601-1790880035	primary=claude
+1790880035	take-over	arm=41958
+1790880040	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+--- process topology
+96087     1 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh
+96149 96087 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch.sh
+PASS actual-primary restart takes over and delivers next decision

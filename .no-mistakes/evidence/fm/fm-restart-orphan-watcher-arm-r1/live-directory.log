@@ -1,0 +1,27 @@
+lock acquired: harness pid 76478
+watcher: stopped pid=50776
+watcher: started pid=70553 (beacon fresh)
+signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+--- host ledger
+1790880205	start	gen=host-70256-1790880205	primary=claude
+1790880206	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880207	pass-through	successor-unrecorded	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+--- process topology
+Directory record rejected; temporary record removed; successor watcher stopped
+1790880206	2	signal	demo.status	needs-decision: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+WAKE_ACK_REQUIRED: after handling completes run bin/fm-wake-drain.sh --ack-through 2 --recovery-generation 70553.1790880206.LbR9Za
+wake annotation: latest wake-EVENT observed at drain, not current state: demo.status: needs-decision [at=1790880205]: directory destination decision
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+demo needs-decision: directory destination decision
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+--- host ledger
+1790880205	start	gen=host-70256-1790880205	primary=claude
+1790880206	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880207	pass-through	successor-unrecorded	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880209	start	gen=host-76468-1790880208	primary=claude
+--- process topology
+76468 76463 bash bin/fm-supervision-host.sh park
+76879 76468 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh
+76931 76879 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch.sh
+PASS unrecorded successor is cleaned up and next park owns fresh cycle

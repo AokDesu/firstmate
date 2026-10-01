@@ -1,0 +1,24 @@
+lock acquired: harness pid 76478
+OPEN DECISIONS (still open, folded from the durable status logs - not just the latest line):
+demo needs-decision: which region?
+OPEN DECISIONS: close one by answering it: bin/fm-send.sh <task> --resolve-key <key> '<answer>'
+Interrupted host 41670 retained identity-bound reference: 96087 Thu Oct  1 11:40:40 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh
+--- host ledger
+1790879989	start	gen=host-39065-1790879989	primary=claude
+1790879991	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880035	start	gen=host-90601-1790880035	primary=claude
+1790880035	take-over	arm=41958
+1790880040	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+1790880100	start	gen=host-61607-1790880100	primary=claude
+1790880100	take-over	arm=96087
+1790880176	start	gen=host-41670-1790880176	primary=claude
+1790880176	take-over	arm=96087
+1790880178	start	gen=host-45614-1790880178	primary=claude
+1790880178	take-over	arm=96087
+--- process topology
+45614 45611 bash bin/fm-supervision-host.sh park
+46240 45614 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch-arm.sh --take-over 96087
+46943 46240 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/bin/fm-watch.sh
+watcher: started pid=46943 (beacon fresh)
+signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WAKMXNJPPSW40NZR0QSJCT/.test-tmp/fm-lab.LCsqtY/state/demo.status
+PASS interrupted takeover is retried by next park
