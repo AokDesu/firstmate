@@ -1,0 +1,10 @@
+Stock Bash: GNU bash, version 3.2.57(1)-release (arm64-apple-darwin25)
+Uninjected park elapsed wall seconds=14 rc=0 watcher_lock_exists=no
+watcher: started pid=38998 (beacon fresh)
+supervision-host: cycle boundary - the host ended its park at its bound; drain, acknowledge, and end the turn, and the next park starts on its own
+1790812572	start	gen=host-38818-1790812572	primary=claude
+1790812585	boundary	after 13s
+PID TERM host exit=143 elapsed_seconds=1 watcher_lock_exists=no
+1790812585	start	gen=host-44334-1790812585	primary=claude
+PID HUP host exit=129 elapsed_seconds=0 watcher_lock_exists=no
+1790812586	start	gen=host-46693-1790812586	primary=claude
