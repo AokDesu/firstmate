@@ -1,0 +1,35 @@
+
+  The command exited with code 143 (terminated by SIGTERM) and produced no other output.
+
+✻ Worked for 5s · done 2:15 PM
+
+❯ Run only the same park command again: FM_SUPERVISION_HOST_PRIMARY=claude FM_POLL=1 FM_SIGNAL_GRACE=0
+  FM_CHECK_INTERVAL=999999 FM_HEARTBEAT=999999 bin/fm-supervision-host.sh park. Leave it running; no other action.
+
+  Ran 1 shell command
+
+⏺ The park command is running again in the background. I'll leave it running and take no other action, reporting its
+  output only if it closes.
+
+✻ Cogitated for 5s · done 2:15 PM
+
+⏺ Background command "Run supervision host in park mode" completed (exit code 0)
+
+  Read 1 file
+
+⏺ The park command closed cleanly (exit code 0). Reporting its output only, as instructed - no retry, no other action:
+
+  watcher: started pid=43507 (beacon fresh)
+  signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/.l/state/demo.status
+
+  [exited with code 0]
+
+  It started a watcher (pid=43507, beacon fresh), then exited at code 0 after a signal event on demo.status.
+
+✻ Crunched for 5s · done 2:16 PM
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ Run the wake drain and its exact acknowledgement
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Opus 4.8 ctx window                 67.2k / 1.0M
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents

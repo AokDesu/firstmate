@@ -1,0 +1,35 @@
+
+  - The park host started a new watcher (pid 56763, beacon fresh) - that's the successor, which I'm leaving untouched.
+  - It then emitted: signal: .../.l/state/demo.status, and the command returned at that point.
+
+  Per your instruction I'm not draining, acknowledging, or acting on this signal, and I'm leaving the successor watcher
+  alone. Standing by.
+
+✻ Cooked for 59s · done 2:10 PM
+
+❯ Lab setup: the export choice is deliberately handled. Run only bin/fm-wake-drain.sh and then exactly its
+  generation-bound acknowledgement command. Do not park or run anything else. Report the acknowledgement result.
+
+⏺ Captain, draining first to get the exact acknowledgement command.
+
+  Ran 1 shell command
+
+⏺ Captain, acknowledging exactly as it printed - you've told me the export choice is deliberately handled, so I'm not
+  answering the open decision, only running the generation-bound ack.
+
+  Ran 1 shell command
+
+⏺ Captain, the acknowledgement succeeded - it ran clean with no errors, so the setup signal (sequence 4, generation
+  56763.1790888997.CrEpp7) is acknowledged.
+
+  One thing to note faithfully: the drain also surfaced an open decision - demo needs-decision: which lab export
+  format?. Acknowledging the wake does not itself close that decision record. Per your instruction that the export
+  choice is deliberately handled and to run nothing else, I left it untouched rather than answering it. Standing by.
+
+✻ Brewed for 17s · done 2:10 PM
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ Now verify the open decision record is still intact
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Opus 4.8 ctx window                 65.9k / 1.0M
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents

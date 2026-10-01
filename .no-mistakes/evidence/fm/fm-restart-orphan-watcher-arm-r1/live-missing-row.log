@@ -1,0 +1,7 @@
+Missing owner row deliberately induced with real ledger-lock contention. Old owner and watcher exited; fresh cycle reports recovery rather than restoring acknowledgement.
+Before: acked:handling:56538.1790889545.Y89EBD
+After: announced:downtime:55820.1790889546.bQIG6M
+watcher: started pid=55820 (beacon fresh)
+watcher: FAILED - watcher cycle exited 143 without an actionable reason
+watcher: started pid=69430 (beacon fresh)
+check: rearm-resurface

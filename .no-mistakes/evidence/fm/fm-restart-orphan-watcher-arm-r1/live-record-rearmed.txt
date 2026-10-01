@@ -1,0 +1,35 @@
+  signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/.l/state/demo.status
+
+  [exited with code 0]
+
+  It started a watcher (pid=43507, beacon fresh), then exited at code 0 after a signal event on demo.status.
+
+✻ Crunched for 5s · done 2:16 PM · 1 shell still running
+
+❯ The persistence-destination lab decision is deliberately handled. Run only bin/fm-wake-drain.sh, its exact
+  generation-bound acknowledgement, then this command: FM_SUPERVISION_HOST_PRIMARY=claude FM_POLL=1 FM_SIGNAL_GRACE=0
+  FM_CHECK_INTERVAL=999999 FM_HEARTBEAT=999999 bin/fm-supervision-host.sh park. Leave it running. No other actions.
+
+  Ran 1 shell command
+
+⏺ The drain surfaced a needs-decision ("which lab persistence destination?"), which you've told me is deliberately
+  handled. I'll leave it and run the exact acknowledgement, then the park command.
+
+  Ran 1 shell command
+
+⏺ Acknowledgement completed. Now starting the park command.
+
+  Ran 1 shell command
+
+⏺ Done, captain. I drained the wake queue, ran the exact generation-bound acknowledgement (--ack-through 8
+  --recovery-generation 43507.1790889352.xg5vg3, no output), and the park command is now running in the background. I
+  left the deliberately-handled persistence-destination decision untouched and took no other actions. If the park
+  command closes, I'll report its output only.
+
+✻ Churned for 15s · done 2:17 PM · 1 shell still running
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ Drain, acknowledge, and park again
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Opus 4.8 ctx window                 68.7k / 1.0M
+  ⏵⏵ auto mode on · 1 shell · ← for agents

@@ -1,0 +1,117 @@
+ok - watch-arm: --take-over attaches to a cycle the named arm does not own and leaves it running
+
+REAL PRODUCT STATE take-over-not-owner after test_take_over_attaches_to_a_cycle_the_named_arm_does_not_own
+
+--- arm.out ---
+watcher: attached pid=3678 (beacon 0s)
+
+--- watch.out ---
+
+--- .watcher-down ---
+pending:downtime:3678.1790889401.TZOz0R
+
+--- .watch-cycle-exits.log ---
+arm_pid=4263	watcher_pid=3678	origin=attached	started_at=1790889399	ended_at=1790889401	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=2	lock_before=pid:3678|identity:Thu Oct  1 14:16:39 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+ok - watch-arm: --take-over owns a fresh cycle without a recovery wake and still surfaces queued work
+
+REAL PRODUCT STATE take-over-not-owner after test_take_over_owns_a_fresh_cycle_and_keeps_queued_work_surfacing
+
+--- arm.out ---
+watcher: attached pid=3678 (beacon 0s)
+
+--- watch.out ---
+
+--- .watcher-down ---
+pending:downtime:3678.1790889401.TZOz0R
+
+--- .watch-cycle-exits.log ---
+arm_pid=4263	watcher_pid=3678	origin=attached	started_at=1790889399	ended_at=1790889401	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=2	lock_before=pid:3678|identity:Thu Oct  1 14:16:39 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+
+REAL PRODUCT STATE take-over-owner after test_take_over_owns_a_fresh_cycle_and_keeps_queued_work_surfacing
+
+--- arm.out ---
+check: rearm-resurface
+
+--- owner.out ---
+watcher: started pid=6207 (beacon fresh)
+watcher: FAILED - watcher cycle exited 143 without an actionable reason
+
+--- owner2.out ---
+watcher: started pid=12320 (beacon fresh) recovery-generation=8418.1790889406.ZN3CBg
+watcher: FAILED - watcher cycle exited 143 without an actionable reason
+
+--- .watcher-down ---
+announced:downtime:13033.1790889407.iHEEMm
+
+--- .watch-cycle-exits.log ---
+arm_pid=6187	watcher_pid=6207	origin=started	started_at=1790889401	ended_at=1790889402	exit_code=143	signal=TERM	reason=signal-exit	beacon_age=1	lock_before=pid:6207|identity:Thu Oct  1 14:16:41 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=7876	watcher_pid=6207	origin=attached	started_at=1790889402	ended_at=1790889402	exit_code=unknown	signal=unknown	reason=taken-over	beacon_age=1	lock_before=pid:6207|identity:Thu Oct  1 14:16:41 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:8418
+arm_pid=7876	watcher_pid=8418	origin=started	started_at=1790889402	ended_at=1790889406	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=1	lock_before=pid:8418|identity:Thu Oct  1 14:16:42 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=12252	watcher_pid=12320	origin=started	started_at=1790889406	ended_at=1790889407	exit_code=143	signal=TERM	reason=signal-exit	beacon_age=1	lock_before=pid:12320|identity:Thu Oct  1 14:16:46 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=13204	watcher_pid=12320	origin=attached	started_at=1790889407	ended_at=1790889407	exit_code=unknown	signal=unknown	reason=taken-over	beacon_age=1	lock_before=pid:12320|identity:Thu Oct  1 14:16:46 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=13204	watcher_pid=14108	origin=started	started_at=1790889407	ended_at=1790889408	exit_code=0	signal=none	reason=actionable-check	beacon_age=1	lock_before=pid:none|identity:none	lock_after=pid:none|identity:none	successor=none
+
+--- .wake-queue ---
+1790889407	2	signal	take-over	signal: fixture still queued for main
+watcher: secondmate liveness check failed
+ok - watch-arm: takeover preserves self-exit downtime and surfaces a recovery wake
+
+REAL PRODUCT STATE take-over-not-owner after test_take_over_preserves_downtime_from_watcher_self_exit
+
+--- arm.out ---
+watcher: attached pid=3678 (beacon 0s)
+
+--- watch.out ---
+
+--- .watcher-down ---
+pending:downtime:3678.1790889401.TZOz0R
+
+--- .watch-cycle-exits.log ---
+arm_pid=4263	watcher_pid=3678	origin=attached	started_at=1790889399	ended_at=1790889401	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=2	lock_before=pid:3678|identity:Thu Oct  1 14:16:39 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+
+REAL PRODUCT STATE take-over-owner after test_take_over_preserves_downtime_from_watcher_self_exit
+
+--- arm.out ---
+check: rearm-resurface
+
+--- owner.out ---
+watcher: started pid=6207 (beacon fresh)
+watcher: FAILED - watcher cycle exited 143 without an actionable reason
+
+--- owner2.out ---
+watcher: started pid=12320 (beacon fresh) recovery-generation=8418.1790889406.ZN3CBg
+watcher: FAILED - watcher cycle exited 143 without an actionable reason
+
+--- .watcher-down ---
+announced:downtime:13033.1790889407.iHEEMm
+
+--- .watch-cycle-exits.log ---
+arm_pid=6187	watcher_pid=6207	origin=started	started_at=1790889401	ended_at=1790889402	exit_code=143	signal=TERM	reason=signal-exit	beacon_age=1	lock_before=pid:6207|identity:Thu Oct  1 14:16:41 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=7876	watcher_pid=6207	origin=attached	started_at=1790889402	ended_at=1790889402	exit_code=unknown	signal=unknown	reason=taken-over	beacon_age=1	lock_before=pid:6207|identity:Thu Oct  1 14:16:41 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:8418
+arm_pid=7876	watcher_pid=8418	origin=started	started_at=1790889402	ended_at=1790889406	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=1	lock_before=pid:8418|identity:Thu Oct  1 14:16:42 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=12252	watcher_pid=12320	origin=started	started_at=1790889406	ended_at=1790889407	exit_code=143	signal=TERM	reason=signal-exit	beacon_age=1	lock_before=pid:12320|identity:Thu Oct  1 14:16:46 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=13204	watcher_pid=12320	origin=attached	started_at=1790889407	ended_at=1790889407	exit_code=unknown	signal=unknown	reason=taken-over	beacon_age=1	lock_before=pid:12320|identity:Thu Oct  1 14:16:46 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=13204	watcher_pid=14108	origin=started	started_at=1790889407	ended_at=1790889408	exit_code=0	signal=none	reason=actionable-check	beacon_age=1	lock_before=pid:none|identity:none	lock_after=pid:none|identity:none	successor=none
+
+--- .wake-queue ---
+1790889407	2	signal	take-over	signal: fixture still queued for main
+
+REAL PRODUCT STATE take-over-self-exit after test_take_over_preserves_downtime_from_watcher_self_exit
+
+--- arm.out ---
+watcher: started pid=18856 (beacon fresh)
+check: rearm-resurface
+
+--- owner.out ---
+watcher: started pid=14941 (beacon fresh)
+watcher: FAILED - watcher cycle exited 1 without an actionable reason
+
+--- .watcher-down ---
+announced:downtime:14941.1790889411.6xxRM9
+
+--- .watch-cycle-exits.log ---
+arm_pid=14913	watcher_pid=14941	origin=started	started_at=1790889408	ended_at=1790889411	exit_code=1	signal=none	reason=nonzero-exit	beacon_age=0	lock_before=pid:14941|identity:Thu Oct  1 14:16:48 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=16882	watcher_pid=14941	origin=attached	started_at=1790889409	ended_at=1790889411	exit_code=unknown	signal=unknown	reason=taken-over-unconfirmed-stop	beacon_age=0	lock_before=pid:14941|identity:Thu Oct  1 14:16:48 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:18856
+arm_pid=16882	watcher_pid=18856	origin=started	started_at=1790889411	ended_at=1790889412	exit_code=0	signal=none	reason=actionable-check	beacon_age=0	lock_before=pid:18856|identity:Thu Oct  1 14:16:51 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+
+--- .wake-queue ---

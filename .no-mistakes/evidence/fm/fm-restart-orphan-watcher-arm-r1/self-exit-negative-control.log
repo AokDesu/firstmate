@@ -1,0 +1,2 @@
+watcher: secondmate liveness check failed
+not ok - takeover restored the old acknowledgement

@@ -1,0 +1,39 @@
+Writable directory at left-record destination: close passes through unchanged, successor-unrecorded logged, directory empty, all recorded lab arms/watchers exited.
+1790888907	start	gen=host-3491-1790888907	primary=claude
+1790888910	to-main	the supervision session could not take this wake: the dialog mirror could not be read; this wake is yours
+1790888960	start	gen=host-56093-1790888960	primary=claude
+1790888997	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/.l/state/demo.status
+1790889145	start	gen=host-66732-1790889145	primary=claude
+1790889145	take-over	arm=91946
+1790889182	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/.l/state/demo.status
+1790889282	start	gen=host-81907-1790889282	primary=claude
+1790889282	take-over	arm=50979
+1790889337	start	gen=host-41930-1790889337	primary=claude
+1790889337	take-over	arm=50979
+1790889353	pass-through	attended	main-only	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/.l/state/demo.status
+1790889354	pass-through	successor-unrecorded	signal: /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/.l/state/demo.status
+
+arm_pid=3840	watcher_pid=3883	origin=started	started_at=1790888907	ended_at=1790888908	exit_code=0	signal=none	reason=actionable-signal	beacon_age=1	lock_before=pid:3883|identity:Thu Oct  1 14:08:27 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:6472
+arm_pid=6439	watcher_pid=6472	origin=started	started_at=1790888908	ended_at=1790888910	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=1	lock_before=pid:6472|identity:Thu Oct  1 14:08:28 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=56634	watcher_pid=56763	origin=started	started_at=1790888960	ended_at=1790888997	exit_code=0	signal=none	reason=actionable-signal	beacon_age=1	lock_before=pid:56763|identity:Thu Oct  1 14:09:20 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:91986
+arm_pid=91946	watcher_pid=91986	origin=started	started_at=1790888997	ended_at=1790889145	exit_code=143	signal=TERM	reason=signal-exit	beacon_age=0	lock_before=pid:91986|identity:Thu Oct  1 14:09:57 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=67145	watcher_pid=91986	origin=attached	started_at=1790889145	ended_at=1790889145	exit_code=unknown	signal=unknown	reason=taken-over	beacon_age=0	lock_before=pid:91986|identity:Thu Oct  1 14:09:57 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:68273
+arm_pid=67145	watcher_pid=68273	origin=started	started_at=1790889145	ended_at=1790889181	exit_code=0	signal=none	reason=actionable-signal	beacon_age=1	lock_before=pid:68273|identity:Thu Oct  1 14:12:25 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:51140
+arm_pid=82196	watcher_pid=51140	origin=attached	started_at=1790889282	ended_at=1790889298	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=2	lock_before=pid:51140|identity:Thu Oct  1 14:13:02 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:51140|identity:Thu Oct  1 14:13:02 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	successor=none
+arm_pid=50979	watcher_pid=51140	origin=started	started_at=1790889182	ended_at=1790889337	exit_code=143	signal=TERM	reason=signal-exit	beacon_age=1	lock_before=pid:51140|identity:Thu Oct  1 14:13:02 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+arm_pid=42344	watcher_pid=51140	origin=attached	started_at=1790889337	ended_at=1790889338	exit_code=unknown	signal=unknown	reason=taken-over	beacon_age=2	lock_before=pid:51140|identity:Thu Oct  1 14:13:02 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:43507
+arm_pid=42344	watcher_pid=43507	origin=started	started_at=1790889338	ended_at=1790889353	exit_code=0	signal=none	reason=actionable-signal	beacon_age=1	lock_before=pid:43507|identity:Thu Oct  1 14:15:38 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=started:65865
+arm_pid=65813	watcher_pid=65865	origin=started	started_at=1790889353	ended_at=1790889354	exit_code=143	signal=TERM	reason=arm-interrupted	beacon_age=0	lock_before=pid:65865|identity:Thu Oct  1 14:15:53 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh	lock_after=pid:none|identity:none	successor=none
+
+
+After handling close, next park owns fresh cycle with no left record:
+  PID  PPID ARGS
+77811 77807 bash bin/fm-supervision-host.sh park
+78052 77811 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch-arm.sh
+78109 78052 bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch.sh
+
+recovery: acked:handling:43507.1790889352.xg5vg3
+
+host	77811	Thu Oct  1 14:17:52 2026     bash bin/fm-supervision-host.sh park
+arm	78052	Thu Oct  1 14:17:53 2026     bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WMCNX8QFSJCB7Q3K5VB23W/bin/fm-watch-arm.sh
+
