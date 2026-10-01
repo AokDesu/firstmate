@@ -1,0 +1,30 @@
+
+ Error: CALM_OPERATIONAL_E2E_ERROR
+
+ Session exported to:
+ /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3WJ3SHSTCND9FGB0DAE76B6/.validation/tmp/fm-c
+ alm-pi-extension.heVgLr/calm-export.html
+
+
+ CALM_BOAT_E2E_PROMPT
+
+
+ Operation aborted
+
+
+ CALM_BOAT_E2E_PROMPT
+
+
+ Operation aborted
+
+
+ CALM_WORKING_E2E_PROMPT
+
+
+ CALM_WORKING_E2E_RESPONSE
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+~/.no-mistakes/worktrees/52b07e9083e7/01M3WJ3SHSTCND9FGB0DAE76B6/.validation/tmp/fm-calm-pi-exten...
+↑7 ↓4 3.2%/4.1k (auto)                                                                       delayed

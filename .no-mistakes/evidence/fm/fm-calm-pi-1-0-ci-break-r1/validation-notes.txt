@@ -1,0 +1,12 @@
+Targeted live validation of e58f3d0d58d26695cea9b3ed1c3216b5b4ebd5ec against base 8f756bbc287c5bdfacc64a7cc09e8516c64fc919.
+
+Used the real Pi CLI on private fm-calm-<pid> tmux sockets with the test's explicit nonzero terminal sizes and disposable project/config/session/home directories inside the worktree. No live fleet or production credentials were used. Existing deterministic provider extensions supply responses, not a replacement Pi UI.
+
+Baseline Pi 1.0.0: test_interactive_terminal_e2e reproduced the exact missing CALM_E2E_OUTPUT failure. This is an expected regression reproduction, not a target failure.
+Fixed Pi 1.0.0 and installed Pi 0.82.0: operational follow-up, queued Escape, hidden-block geometry, and interactive terminal/export/restart scenarios all passed. Pi 1.0.0 selected --tui-mode regular; Pi 0.82.0 selected no mode flag.
+
+Repeat-check setup correction: repeat-pi100/run.log first passed, then failed when the same non-reentrant test function was invoked twice inside one process. The function leaves its private session alive until the process EXIT trap and reuses fixture paths. This driver misuse was corrected by invoking fresh processes with fresh fixture roots/sockets. Both repeat-isolated-pi100-1 and repeat-isolated-pi100-2 passed; no product flakiness was reproduced.
+
+Product evidence: actual tmux captures, Pi-generated session HTML, Chrome-rendered export DOM, and calm-export.png. The standalone Chrome screenshot command wrote the verified image but did not exit before its 60-second command deadline; no process using its disposable profile remained afterward. The scenario's own bounded Chrome DOM rendering completed successfully on both Pi versions.
+
+No baseline pipeline commands were supplied in this turn. No full suite, lint, formatter, static-analysis, push, PR, CI, or pipeline-control commands were run. Temporary local Pi 1.0.0 installation, driver files, profiles, and fixtures were removed after validation.
