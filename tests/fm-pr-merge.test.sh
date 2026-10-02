@@ -173,18 +173,6 @@ printf '%s\n' "$*" >> "$FM_TEST_GH_LOG"
 case "${1:-} ${2:-}" in
   "pr view")
     case " $* " in
-      *" --json body,commits "*)
-        if [ -f "${FM_TEST_GH_BODY_FAIL:-}" ]; then
-          echo 'error: could not reach the GitHub API' >&2
-          exit 1
-        fi
-        if [ -f "${FM_TEST_GH_BODY_JSON:-}" ]; then
-          cat "$FM_TEST_GH_BODY_JSON"
-        else
-          printf '%s\n' '{"body":"","commits":[]}'
-        fi
-        exit 0
-        ;;
       *statusCheckRollup*)
         if [ -n "${FM_TEST_GH_MERGEABLE_SEQUENCE:-}" ]; then
           call_n=$(( $(cat "$FM_TEST_GH_MERGEABLE_CALLS" 2>/dev/null || echo 0) + 1 ))
@@ -246,6 +234,20 @@ case "${1:-} ${2:-}" in
     ;;
   "api graphql")
     case "$*" in
+      *"commits(first:"*)
+        if [ -f "${FM_TEST_GH_BODY_FAIL:-}" ]; then
+          echo 'error: could not reach the GitHub API' >&2
+          exit 1
+        fi
+        pages='[{"data":{"repository":{"pullRequest":{"body":"","commits":{"totalCount":0,"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}]'
+        [ ! -f "${FM_TEST_GH_BODY_JSON:-}" ] || pages=$(cat "$FM_TEST_GH_BODY_JSON")
+        # Without --paginate --slurp, gh returns only the first page object.
+        case " $* " in
+          *" --paginate --slurp "*) printf '%s\n' "$pages" ;;
+          *) printf '%s\n' "$pages" | jq -c '.[0]' ;;
+        esac
+        exit 0
+        ;;
       *issueOrPullRequest*)
         owner= name= number=
         while [ "$#" -gt 0 ]; do
@@ -819,9 +821,21 @@ test_github_mergeable_conflicting_is_not_retried() {
   pass "fm-pr-merge refuses a genuine mergeable conflict immediately, without retrying"
 }
 
+# Writes the paginated body and commits read as gh --paginate --slurp returns
+# it. Args: case_dir body [commit_message...]; commits split into pages of 100.
 write_github_body() {
   local case_dir=$1 body=$2
-  jq -nc --arg body "$body" '{body: $body, commits: []}' > "$case_dir/github-body.json"
+  shift 2
+  jq -nc --arg body "$body" '
+    $ARGS.positional as $messages
+    | [range(0; ([($messages | length), 1] | max); 100) as $start
+      | {data: {repository: {pullRequest: {
+          body: $body,
+          commits: {
+            totalCount: ($messages | length),
+            nodes: [$messages[$start:$start + 100][] | {commit: {message: .}}],
+            pageInfo: {hasNextPage: ($start + 100 < ($messages | length)), endCursor: null}
+          }}}}}]' --args "$@" > "$case_dir/github-body.json"
 }
 
 write_github_iopr() {
@@ -1015,6 +1029,89 @@ test_github_closing_keyword_body_read_failure_refuses() {
   assert_grep 'could not read the GitHub pull request body and commits' "$case_dir/stderr" \
     "github-closing-keyword-body-fail: stderr must name the failed read"
   pass "fm-pr-merge refuses when the live body and commits read fails"
+}
+
+test_github_closing_keyword_in_later_commit_page_refuses() {
+  local case_dir rc head i
+  local messages=()
+  head=3434343434343434343434343434343434343434
+  case_dir=$(make_case github-closing-keyword-later-commit-page)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  for i in $(seq 1 100); do
+    messages+=("chore: step $i")
+  done
+  messages+=("fix: final step
+
+Fixes #12")
+  write_github_body "$case_dir" '' "${messages[@]}"
+  write_github_iopr "$case_dir" \
+    'example/repo#12' PullRequest OPEN 'https://github.com/example/repo/pull/12'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 --merge \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 1 "$rc" "github-closing-keyword-later-commit-page: must refuse"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" \
+    "github-closing-keyword-later-commit-page: gh pr merge ran despite Fixes #N in commit 101"
+  assert_grep 'https://github.com/example/repo/pull/12' "$case_dir/stderr" \
+    "github-closing-keyword-later-commit-page: stderr must name the target"
+  pass "fm-pr-merge refuses a closing reference in a commit past the first page of 100"
+}
+
+test_github_closing_keyword_incomplete_commits_refuses() {
+  local case_dir rc head
+  head=5656565656565656565656565656565656565656
+  case_dir=$(make_case github-closing-keyword-incomplete-commits)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" '' 'chore: listed commit'
+  jq -c '.[0].data.repository.pullRequest.commits.totalCount = 300' \
+    "$case_dir/github-body.json" > "$case_dir/github-body.json.tmp"
+  mv "$case_dir/github-body.json.tmp" "$case_dir/github-body.json"
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 1 "$rc" "github-closing-keyword-incomplete-commits: must refuse"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" \
+    "github-closing-keyword-incomplete-commits: gh pr merge ran with unread commits"
+  assert_grep 'could not read the GitHub pull request body and commits' "$case_dir/stderr" \
+    "github-closing-keyword-incomplete-commits: stderr must name the failed read"
+  pass "fm-pr-merge refuses when GitHub lists fewer commits than the pull request has"
+}
+
+test_github_closing_keyword_tab_separated_issue_allows() {
+  local case_dir rc head
+  head=7878787878787878787878787878787878787878
+  case_dir=$(make_case github-closing-keyword-tab-issue-allows)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" "$(printf 'Fixes\t#34')"
+  write_github_iopr "$case_dir" \
+    'example/repo#34' Issue OPEN 'https://github.com/example/repo/issues/34'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 0 "$rc" "github-closing-keyword-tab-issue-allows: must still merge"
+  assert_logged_gh_merge "$case_dir" 9 example/repo --squash
+  pass "fm-pr-merge still merges when a tab separates a closing keyword from an Issue"
 }
 
 test_github_unreadable_outcome_keeps_pr_bookkeeping() {
@@ -2619,6 +2716,9 @@ test_github_closing_keyword_see_url_allows
 test_github_closing_keyword_issue_target_allows
 test_github_closing_keyword_merged_pr_allows
 test_github_closing_keyword_body_read_failure_refuses
+test_github_closing_keyword_in_later_commit_page_refuses
+test_github_closing_keyword_incomplete_commits_refuses
+test_github_closing_keyword_tab_separated_issue_allows
 test_github_unreadable_outcome_keeps_pr_bookkeeping
 test_github_refusal_quotes_the_forge_output
 test_github_unreadable_outcome_refusal_quotes_the_forge_output

@@ -880,19 +880,27 @@ github_verify_closing_refs() {
   local json text matches line phrase owner repo number resolved typename state target_url
   local refusals=''
 
-  if ! json=$(gh pr view "$URL" --json body,commits 2>/dev/null) \
+  # shellcheck disable=SC2016  # GraphQL variables are literal query syntax.
+  if ! json=$(gh api graphql --paginate --slurp \
+    -f query='query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}}' \
+    -F "owner=$PR_OWNER" -F "name=$PR_REPO" -F "number=$PR_NUMBER" 2>/dev/null) \
     || [ -z "$json" ]; then
     echo "error: could not read the GitHub pull request body and commits before merging" >&2
     return 1
   fi
   if ! text=$(printf '%s' "$json" | jq -r '
-      if type == "object" then
-        ((.body // "") + "\n"
-          + ((.commits // [])
-            | map((.messageHeadline // "") + "\n" + (.messageBody // ""))
-            | join("\n")))
+      if type == "array" and length > 0
+        and all(.[]; (.data.repository.pullRequest.commits.nodes | type) == "array")
+      then
+        map(.data.repository.pullRequest) as $pages
+        | [$pages[].commits.nodes[].commit.message] as $messages
+        | if ($messages | length) == $pages[0].commits.totalCount
+            and all($messages[]; type == "string")
+          then ($pages[0].body // "") + "\n" + ($messages | join("\n"))
+          else error("pull request commits are incomplete")
+          end
       else
-        error("pull request payload is not an object")
+        error("pull request payload is not a page list")
       end' 2>/dev/null); then
     echo "error: could not read the GitHub pull request body and commits before merging" >&2
     return 1
@@ -901,8 +909,9 @@ github_verify_closing_refs() {
   if ! matches=$(printf '%s' "$text" | jq -Rs -r --arg o "$PR_OWNER" --arg r "$PR_REPO" '
       [match("(?i)\\b((?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\b:?[ \\t]+(?:#[0-9]+|[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+|https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/(?:issues|pull)/[0-9]+))"; "g")
         | .string]
-      | .[] as $phrase
-      | ($phrase
+      | .[] as $match
+      | ($match | gsub("\t"; " ")) as $phrase
+      | ($match
         | capture("(?i)^(?<kw>close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\b:?[ \\t]+(?:#(?<n>[0-9]+)|(?<or>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(?<on>[0-9]+)|(?<url>https://github\\.com/(?<uo>[A-Za-z0-9_.-]+)/(?<ur>[A-Za-z0-9_.-]+)/(?:issues|pull)/(?<un>[0-9]+)))"))
       | if (.n // "") != "" then
           "\($phrase)\t\($o)\t\($r)\t\(.n)"
