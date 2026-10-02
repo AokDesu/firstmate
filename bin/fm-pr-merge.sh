@@ -21,16 +21,20 @@
 # re-checks every condition after a short bounded wait instead of refusing;
 # once that bound is spent it reports mergeability still pending rather than
 # unmergeable, with the same nonzero exit as any other refusal.
-# The body and commit messages are also read live before merge.
+# The body and all commit messages are also read live before every GitHub merge
+# method; the commits read is paginated and checked against totalCount.
 # A GitHub closing keyword (close, closes, closed, fix, fixes, fixed, resolve,
 # resolves, resolved, with an optional colon) followed by a same-repo #N,
 # owner/repo#N, or full https://github.com/.../(issues|pull)/N URL is resolved
-# through GraphQL issueOrPullRequest.
+# through GraphQL issueOrPullRequest. Matching is case-insensitive and accepts
+# spaces or tabs after the keyword, including a Related fix: <reference> label.
 # A target that is another open pull request refuses the merge, naming the
 # matched phrase and target URL and suggesting a reword such as related: <url>.
-# A failed body or commits read refuses.
-# Issue targets and already merged or closed pull requests stay allowed.
-# github_verify_closing_refs below owns that check.
+# A failed or incomplete body/commits read or unresolved target refuses.
+# Issue targets, already merged or closed pull requests, and self-references
+# stay allowed. References without a closing keyword do not trigger this check.
+# github_verify_closing_refs implements it; tests/fm-pr-merge.test.sh pins the
+# refusals and allowed references, including commit pagination and tab separators.
 # A required check that never reported is absent from the checks
 # list rather than red, so github_read_required_contexts below reads the
 # required set from classic branch protection and active rulesets. Check-run
@@ -872,10 +876,7 @@ EOF
   FM_PR_GITHUB_BASE=$base
 }
 
-# Refuse a GitHub merge whose body or commit messages would close another open
-# pull request through GitHub's closing-keyword grammar. Issue targets and
-# already merged or closed pull requests stay allowed. A failed live read of
-# body, commits, or target resolution refuses rather than guessing.
+# The script header owns the closing-reference guard contract.
 github_verify_closing_refs() {
   local json text matches line phrase owner repo number resolved typename state target_url
   local refusals=''
