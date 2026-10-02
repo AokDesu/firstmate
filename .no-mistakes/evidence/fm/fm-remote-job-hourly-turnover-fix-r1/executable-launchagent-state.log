@@ -1,0 +1,108 @@
+
+SCENARIO: a slow sequence-claim sweep keeps readiness fresh and cannot trigger a LaunchAgent bootout
+SIMULATED launchd operations:
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+Real worker ownership and readiness state:
+worker.lock/pid: 29933
+worker.lock/start: Fri Oct  2 11:10:13 2026    
+worker.lock/command: /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/remote-root/bin/fm-remote-job-worker.sh
+worker.ready: 29933
+worker.identity: a2026b7bceec56c39f257ab1dea9dbdb64a009f3:82969a3b6a64e9c07b3df8ff784b55268c80b5a3:aafc9d3dcb8623f81eeb645aed43572af5d65760
+Simulated launchd tracked PID: 29933
+Mutex acquisition log: 
+
+SCENARIO: concurrent Darwin ensures serialize one reload and adopt its fresh worker
+SIMULATED launchd operations:
+print gui/501
+print gui/501
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+bootout gui/501/dev.firstmate.remote-job
+bootstrap gui/501 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/account/Library/LaunchAgents/dev.firstmate.remote-job.plist
+kickstart -k gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+Real worker ownership and readiness state:
+worker.lock/pid: 39301
+worker.lock/start: Fri Oct  2 11:10:26 2026    
+worker.lock/command: /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/remote-root/bin/fm-remote-job-worker.sh
+worker.ready: 39301
+worker.identity: a2026b7bceec56c39f257ab1dea9dbdb64a009f3:82969a3b6a64e9c07b3df8ff784b55268c80b5a3:aafc9d3dcb8623f81eeb645aed43572af5d65760
+Simulated launchd tracked PID: 39301
+Mutex acquisition log: 
+
+SCENARIO: Darwin stops an untracked stale-code owner and starts the current worker through launchd
+SIMULATED launchd operations:
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+bootout gui/501/dev.firstmate.remote-job
+bootstrap gui/501 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/account/Library/LaunchAgents/dev.firstmate.remote-job.plist
+kickstart -k gui/501/dev.firstmate.remote-job
+Real worker ownership and readiness state:
+worker.lock/pid: 41466
+worker.lock/start: Fri Oct  2 11:10:29 2026    
+worker.lock/command: /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/remote-root/bin/fm-remote-job-worker.sh
+worker.ready: 41466
+worker.identity: a2026b7bceec56c39f257ab1dea9dbdb64a009f3:82969a3b6a64e9c07b3df8ff784b55268c80b5a3:922eae638f1daf2dd33a463f7ddb9325858a7041
+Simulated launchd tracked PID: 41466
+Mutex acquisition log: 
+
+SCENARIO: Darwin replaces a current-code owner that the loaded agent does not track
+SIMULATED launchd operations:
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+bootout gui/501/dev.firstmate.remote-job
+bootstrap gui/501 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/account/Library/LaunchAgents/dev.firstmate.remote-job.plist
+kickstart -k gui/501/dev.firstmate.remote-job
+Real worker ownership and readiness state:
+worker.lock/pid: 42474
+worker.lock/start: Fri Oct  2 11:10:31 2026    
+worker.lock/command: /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/remote-root/bin/fm-remote-job-worker.sh
+worker.ready: 42474
+worker.identity: a2026b7bceec56c39f257ab1dea9dbdb64a009f3:82969a3b6a64e9c07b3df8ff784b55268c80b5a3:922eae638f1daf2dd33a463f7ddb9325858a7041
+Simulated launchd tracked PID: 42474
+Mutex acquisition log: 
+
+SCENARIO: a fresh spawn survives when the caller that started it dies before publication
+SIMULATED launchd operations:
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+Real worker ownership and readiness state:
+worker.lock/pid: 43293
+worker.lock/start: Fri Oct  2 11:10:34 2026    
+worker.lock/command: /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/remote-root/bin/fm-remote-job-worker.sh
+worker.ready: 43293
+worker.identity: a2026b7bceec56c39f257ab1dea9dbdb64a009f3:82969a3b6a64e9c07b3df8ff784b55268c80b5a3:922eae638f1daf2dd33a463f7ddb9325858a7041
+Simulated launchd tracked PID: 43293
+Mutex acquisition log: 
+
+SCENARIO: a dead repair-lock holder is reclaimed by one caller at a time
+SIMULATED launchd operations:
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+Real worker ownership and readiness state:
+worker.lock/pid: 43293
+worker.lock/start: Fri Oct  2 11:10:34 2026    
+worker.lock/command: /bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3YTSQWRN3AMJ7ZG7ERG1T76/.test-tmp/fm-remote-job-launchagent.QFsAEo/remote-root/bin/fm-remote-job-worker.sh
+worker.ready: 43293
+worker.identity: a2026b7bceec56c39f257ab1dea9dbdb64a009f3:82969a3b6a64e9c07b3df8ff784b55268c80b5a3:922eae638f1daf2dd33a463f7ddb9325858a7041
+Simulated launchd tracked PID: 43293
+Mutex acquisition log: 
+enter a
+leave a
+enter b
+leave b
+ALL TESTS PASSED

@@ -1,0 +1,218 @@
+[
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 0.16,
+    "claims_remaining": 17400,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.08,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 5.21,
+    "claims_remaining": 16464,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.9,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 10.32,
+    "claims_remaining": 15501,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.62,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 15.48,
+    "claims_remaining": 14577,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.36,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 20.52,
+    "claims_remaining": 13656,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 1.05,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 25.68,
+    "claims_remaining": 12663,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.7,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 30.85,
+    "claims_remaining": 11727,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.23,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 35.89,
+    "claims_remaining": 10744,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.86,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 41.06,
+    "claims_remaining": 9743,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.54,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 46.1,
+    "claims_remaining": 8779,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.25,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 51.22,
+    "claims_remaining": 7778,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.89,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 56.26,
+    "claims_remaining": 6790,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.56,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 61.44,
+    "claims_remaining": 5798,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.35,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 66.55,
+    "claims_remaining": 4806,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.15,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 71.73,
+    "claims_remaining": 3847,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.91,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 76.9,
+    "claims_remaining": 2978,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.54,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 82.07,
+    "claims_remaining": 1972,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 1.14,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 87.11,
+    "claims_remaining": 998,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.64,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 92.26,
+    "claims_remaining": 10,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.36,
+    "probe_exit": 0
+  },
+  {
+    "phase": "17400-claim-sweep",
+    "elapsed_seconds": 97.44,
+    "claims_remaining": 0,
+    "worker_pid": 63313,
+    "lock_owner": "63313",
+    "heartbeat_age_seconds": 0.78,
+    "probe_exit": 0
+  },
+  {
+    "phase": "main-loop-paused",
+    "worker_pid": 63313,
+    "heartbeat_age_seconds": 0.08,
+    "probe_exit": 0
+  },
+  {
+    "phase": "main-loop-paused",
+    "worker_pid": 63313,
+    "heartbeat_age_seconds": 0.78,
+    "probe_exit": 0
+  },
+  {
+    "phase": "main-loop-paused",
+    "worker_pid": 63313,
+    "heartbeat_age_seconds": 1.1,
+    "probe_exit": 0
+  },
+  {
+    "phase": "main-loop-paused",
+    "worker_pid": 63313,
+    "heartbeat_age_seconds": 0.18,
+    "probe_exit": 0
+  },
+  {
+    "phase": "main-loop-paused",
+    "worker_pid": 63313,
+    "heartbeat_age_seconds": 0.67,
+    "probe_exit": 0
+  },
+  {
+    "phase": "main-loop-paused",
+    "worker_pid": 63313,
+    "heartbeat_age_seconds": 0.98,
+    "probe_exit": 0
+  }
+]

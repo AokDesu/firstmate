@@ -1,0 +1,7 @@
+ok - a slow sequence-claim sweep keeps readiness fresh and cannot trigger a LaunchAgent bootout
+ok - concurrent Darwin ensures serialize one reload and adopt its fresh worker
+ok - Darwin stops an untracked stale-code owner and starts the current worker through launchd
+ok - Darwin replaces a current-code owner that the loaded agent does not track
+ok - a fresh spawn survives when the caller that started it dies before publication
+ok - a dead repair-lock holder is reclaimed by one caller at a time
+ALL TESTS PASSED

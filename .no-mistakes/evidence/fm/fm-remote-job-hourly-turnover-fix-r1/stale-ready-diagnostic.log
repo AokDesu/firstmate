@@ -1,0 +1,10 @@
+Real worker PID 60088 and heartbeat PID 60234 paused; ready age 12 seconds
+remote-job: ready heartbeat stale while verified worker lock owner is alive
+ensure exit=1, elapsed=50, error=remote job worker owns its lock but its ready heartbeat is stale
+Simulated launchd calls:
+print gui/501
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+print gui/501/dev.firstmate.remote-job
+Worker survived stale-ready diagnostic without a reload.
