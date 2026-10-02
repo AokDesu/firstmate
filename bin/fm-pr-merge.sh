@@ -21,6 +21,16 @@
 # re-checks every condition after a short bounded wait instead of refusing;
 # once that bound is spent it reports mergeability still pending rather than
 # unmergeable, with the same nonzero exit as any other refusal.
+# The body and commit messages are also read live before merge.
+# A GitHub closing keyword (close, closes, closed, fix, fixes, fixed, resolve,
+# resolves, resolved, with an optional colon) followed by a same-repo #N,
+# owner/repo#N, or full https://github.com/.../(issues|pull)/N URL is resolved
+# through GraphQL issueOrPullRequest.
+# A target that is another open pull request refuses the merge, naming the
+# matched phrase and target URL and suggesting a reword such as related: <url>.
+# A failed body or commits read refuses.
+# Issue targets and already merged or closed pull requests stay allowed.
+# github_verify_closing_refs below owns that check.
 # A required check that never reported is absent from the checks
 # list rather than red, so github_read_required_contexts below reads the
 # required set from classic branch protection and active rulesets. Check-run
@@ -862,6 +872,109 @@ EOF
   FM_PR_GITHUB_BASE=$base
 }
 
+# Refuse a GitHub merge whose body or commit messages would close another open
+# pull request through GitHub's closing-keyword grammar. Issue targets and
+# already merged or closed pull requests stay allowed. A failed live read of
+# body, commits, or target resolution refuses rather than guessing.
+github_verify_closing_refs() {
+  local json text matches line phrase owner repo number resolved typename state target_url
+  local refusals=''
+
+  if ! json=$(gh pr view "$URL" --json body,commits 2>/dev/null) \
+    || [ -z "$json" ]; then
+    echo "error: could not read the GitHub pull request body and commits before merging" >&2
+    return 1
+  fi
+  if ! text=$(printf '%s' "$json" | jq -r '
+      if type == "object" then
+        ((.body // "") + "\n"
+          + ((.commits // [])
+            | map((.messageHeadline // "") + "\n" + (.messageBody // ""))
+            | join("\n")))
+      else
+        error("pull request payload is not an object")
+      end' 2>/dev/null); then
+    echo "error: could not read the GitHub pull request body and commits before merging" >&2
+    return 1
+  fi
+
+  if ! matches=$(printf '%s' "$text" | jq -Rs -r --arg o "$PR_OWNER" --arg r "$PR_REPO" '
+      [match("(?i)\\b((?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\b:?[ \\t]+(?:#[0-9]+|[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+|https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/(?:issues|pull)/[0-9]+))"; "g")
+        | .string]
+      | .[] as $phrase
+      | ($phrase
+        | capture("(?i)^(?<kw>close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\b:?[ \\t]+(?:#(?<n>[0-9]+)|(?<or>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(?<on>[0-9]+)|(?<url>https://github\\.com/(?<uo>[A-Za-z0-9_.-]+)/(?<ur>[A-Za-z0-9_.-]+)/(?:issues|pull)/(?<un>[0-9]+)))"))
+      | if (.n // "") != "" then
+          "\($phrase)\t\($o)\t\($r)\t\(.n)"
+        elif (.or // "") != "" then
+          "\($phrase)\t\(.or | split("/") | .[0])\t\(.or | split("/") | .[1])\t\(.on)"
+        else
+          "\($phrase)\t\(.uo)\t\(.ur)\t\(.un)"
+        end' 2>/dev/null); then
+    echo "error: could not scan the GitHub pull request body and commits for closing references" >&2
+    return 1
+  fi
+
+  while IFS= read -r line; do
+    [ -n "$line" ] || continue
+    IFS=$'\t' read -r phrase owner repo number <<ROW
+$line
+ROW
+    [ -n "$phrase" ] && [ -n "$owner" ] && [ -n "$repo" ] && [ -n "$number" ] || {
+      echo "error: could not parse a closing reference from the GitHub pull request body or commits" >&2
+      return 1
+    }
+    # The PR may close itself in prose; that is not another open PR.
+    if [ "$owner" = "$PR_OWNER" ] && [ "$repo" = "$PR_REPO" ] \
+      && [ "$number" = "$PR_NUMBER" ]; then
+      continue
+    fi
+
+    # shellcheck disable=SC2016  # GraphQL variables are literal query syntax.
+    if ! resolved=$(gh api graphql \
+      -f query='query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}}' \
+      -F "owner=$owner" -F "name=$repo" -F "number=$number" \
+      --jq '
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end' 2>/dev/null) \
+      || [ -z "$resolved" ]; then
+      printf 'error: could not resolve closing reference %s (%s/%s#%s) before merging\n' \
+        "$phrase" "$owner" "$repo" "$number" >&2
+      return 1
+    fi
+    IFS=$'\t' read -r typename state target_url <<RESOLVED
+$resolved
+RESOLVED
+    [ -n "$typename" ] && [ -n "$state" ] || {
+      printf 'error: could not resolve closing reference %s (%s/%s#%s) before merging\n' \
+        "$phrase" "$owner" "$repo" "$number" >&2
+      return 1
+    }
+    case "$typename" in
+      PullRequest)
+        case "$state" in
+          OPEN|Open|open)
+            [ -n "$target_url" ] \
+              || target_url="https://github.com/$owner/$repo/pull/$number"
+            refusals="$refusals  - closing reference \"$phrase\" targets open pull request $target_url; reword (for example related: $target_url)
+"
+            ;;
+        esac
+        ;;
+    esac
+  done <<MATCHES
+$matches
+MATCHES
+
+  if [ -n "$refusals" ]; then
+    printf 'error: refusing to merge %s\n' "$URL" >&2
+    printf '%s' "$refusals" >&2
+    return 1
+  fi
+}
+
 # Read one live GitHub pull request view after gh returns. The selected
 # fields distinguish a landed pull request from a merge-queue entry and retain
 # the concrete state needed for a refusal. gh supplies the complete queue-aware
@@ -1377,6 +1490,7 @@ case "$PROVIDER" in
       fi
       exit 1
     fi
+    github_verify_closing_refs || exit 1
     # The away record is locked first, so this last presence and authority read
     # and the forge command below share one live-owner critical section.
     hold_away_record_for_merge || exit 1

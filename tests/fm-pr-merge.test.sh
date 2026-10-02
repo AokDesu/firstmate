@@ -173,6 +173,18 @@ printf '%s\n' "$*" >> "$FM_TEST_GH_LOG"
 case "${1:-} ${2:-}" in
   "pr view")
     case " $* " in
+      *" --json body,commits "*)
+        if [ -f "${FM_TEST_GH_BODY_FAIL:-}" ]; then
+          echo 'error: could not reach the GitHub API' >&2
+          exit 1
+        fi
+        if [ -f "${FM_TEST_GH_BODY_JSON:-}" ]; then
+          cat "$FM_TEST_GH_BODY_JSON"
+        else
+          printf '%s\n' '{"body":"","commits":[]}'
+        fi
+        exit 0
+        ;;
       *statusCheckRollup*)
         if [ -n "${FM_TEST_GH_MERGEABLE_SEQUENCE:-}" ]; then
           call_n=$(( $(cat "$FM_TEST_GH_MERGEABLE_CALLS" 2>/dev/null || echo 0) + 1 ))
@@ -233,6 +245,35 @@ case "${1:-} ${2:-}" in
     exit "$merge_rc"
     ;;
   "api graphql")
+    case "$*" in
+      *issueOrPullRequest*)
+        owner= name= number=
+        while [ "$#" -gt 0 ]; do
+          case "$1" in
+            -F)
+              shift
+              case "${1:-}" in
+                owner=*) owner=${1#owner=} ;;
+                name=*) name=${1#name=} ;;
+                number=*) number=${1#number=} ;;
+              esac
+              ;;
+          esac
+          shift || true
+        done
+        key="${owner}/${name}#${number}"
+        if [ -f "${FM_TEST_GH_IOPR_JSON:-}" ]; then
+          row=$(jq -cr --arg k "$key" '.[$k] // empty' "$FM_TEST_GH_IOPR_JSON")
+          if [ -n "$row" ]; then
+            printf '%s\n' "$row" | jq -r '
+              ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))'
+            exit 0
+          fi
+        fi
+        echo "error: issueOrPullRequest not stubbed for $key" >&2
+        exit 1
+        ;;
+    esac
     if [ -f "${FM_TEST_GH_GRAPHQL_FAIL:-}" ]; then
       echo 'error: could not reach the GitHub API' >&2
       exit 1
@@ -460,6 +501,9 @@ run_pr_merge() {
   FM_TEST_GH_OUTCOME="$case_dir/github-outcome" \
   FM_TEST_GH_RULES="$case_dir/github-rules" \
   FM_TEST_GH_VIEW_JSON="$case_dir/github-view.json" \
+  FM_TEST_GH_BODY_JSON="$case_dir/github-body.json" \
+  FM_TEST_GH_BODY_FAIL="$case_dir/github-body-fail" \
+  FM_TEST_GH_IOPR_JSON="$case_dir/github-iopr.json" \
   FM_TEST_GH_MERGEABLE_SEQUENCE="${FM_TEST_GH_MERGEABLE_SEQUENCE:-}" \
   FM_TEST_GH_MERGEABLE_CALLS="$case_dir/mergeable-calls" \
   FM_TEST_GH_HEAD="$case_dir/github-head" \
@@ -773,6 +817,204 @@ test_github_mergeable_conflicting_is_not_retried() {
   assert_no_grep 'pr merge' "$case_dir/gh.log" \
     "github-mergeable-conflicting: gh pr merge ran on a conflicting PR"
   pass "fm-pr-merge refuses a genuine mergeable conflict immediately, without retrying"
+}
+
+write_github_body() {
+  local case_dir=$1 body=$2
+  jq -nc --arg body "$body" '{body: $body, commits: []}' > "$case_dir/github-body.json"
+}
+
+write_github_iopr() {
+  local case_dir=$1 key typename state url
+  shift
+  printf '%s\n' '{}' > "$case_dir/github-iopr.json"
+  while [ "$#" -gt 0 ]; do
+    key=$1; shift
+    typename=$1; shift
+    state=$1; shift
+    url=$1; shift
+    jq --arg key "$key" --arg t "$typename" --arg s "$state" --arg u "$url" \
+      '.[$key] = {__typename: $t, state: $s, url: $u}' \
+      "$case_dir/github-iopr.json" > "$case_dir/github-iopr.json.tmp"
+    mv "$case_dir/github-iopr.json.tmp" "$case_dir/github-iopr.json"
+  done
+}
+
+# Closing-keyword guard: a keyword before a full pull URL that resolves to an
+# open PR must refuse before gh pr merge.
+test_github_closing_keyword_full_url_refuses_open_pr() {
+  local case_dir rc head
+  head=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  case_dir=$(make_case github-closing-keyword-full-url)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" \
+    'this test failure blocks the merge of the authorized watcher-arm leak fix https://github.com/example/repo/pull/12.'
+  write_github_iopr "$case_dir" \
+    'example/repo#12' PullRequest OPEN 'https://github.com/example/repo/pull/12'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 1 "$rc" "github-closing-keyword-full-url: must refuse"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" \
+    "github-closing-keyword-full-url: gh pr merge ran despite an open-PR closing reference"
+  assert_grep 'https://github.com/example/repo/pull/12' "$case_dir/stderr" \
+    "github-closing-keyword-full-url: stderr must name the target"
+  assert_grep 'reword' "$case_dir/stderr" \
+    "github-closing-keyword-full-url: stderr must suggest rewording"
+  pass "fm-pr-merge refuses when a closing keyword precedes a full URL of an open pull request"
+}
+
+test_github_closing_keyword_related_fix_label_refuses() {
+  local case_dir rc head
+  head=bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  case_dir=$(make_case github-closing-keyword-related-fix)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" \
+    'Related fix: https://github.com/example/repo/pull/12'
+  write_github_iopr "$case_dir" \
+    'example/repo#12' PullRequest OPEN 'https://github.com/example/repo/pull/12'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 1 "$rc" "github-closing-keyword-related-fix: must refuse"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" \
+    "github-closing-keyword-related-fix: gh pr merge ran despite Related fix: label"
+  assert_grep 'https://github.com/example/repo/pull/12' "$case_dir/stderr" \
+    "github-closing-keyword-related-fix: stderr must name the target"
+  pass "fm-pr-merge refuses the Related fix: label form against an open pull request"
+}
+
+test_github_closing_keyword_closes_number_refuses() {
+  local case_dir rc head
+  head=cccccccccccccccccccccccccccccccccccccccc
+  case_dir=$(make_case github-closing-keyword-closes-number)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" 'Closes #12'
+  write_github_iopr "$case_dir" \
+    'example/repo#12' PullRequest OPEN 'https://github.com/example/repo/pull/12'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 1 "$rc" "github-closing-keyword-closes-number: must refuse"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" \
+    "github-closing-keyword-closes-number: gh pr merge ran despite Closes #N"
+  assert_grep 'https://github.com/example/repo/pull/12' "$case_dir/stderr" \
+    "github-closing-keyword-closes-number: stderr must name the target"
+  pass "fm-pr-merge refuses Closes #N when #N is an open pull request"
+}
+
+test_github_closing_keyword_see_url_allows() {
+  local case_dir rc head
+  head=dddddddddddddddddddddddddddddddddddddddd
+  case_dir=$(make_case github-closing-keyword-see-url-allows)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" \
+    'see https://github.com/example/repo/pull/12'
+  write_github_iopr "$case_dir"
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 0 "$rc" "github-closing-keyword-see-url-allows: must still merge"
+  assert_logged_gh_merge "$case_dir" 9 example/repo --squash
+  pass "fm-pr-merge still merges when a pull URL has no closing keyword"
+}
+
+test_github_closing_keyword_issue_target_allows() {
+  local case_dir rc head
+  head=eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+  case_dir=$(make_case github-closing-keyword-issue-allows)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" 'Fixes #34'
+  write_github_iopr "$case_dir" \
+    'example/repo#34' Issue OPEN 'https://github.com/example/repo/issues/34'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 0 "$rc" "github-closing-keyword-issue-allows: must still merge"
+  assert_logged_gh_merge "$case_dir" 9 example/repo --squash
+  pass "fm-pr-merge still merges when a closing keyword targets an Issue"
+}
+
+test_github_closing_keyword_merged_pr_allows() {
+  local case_dir rc head
+  head=ffffffffffffffffffffffffffffffffffffffff
+  case_dir=$(make_case github-closing-keyword-merged-allows)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  write_github_body "$case_dir" 'fix #12'
+  write_github_iopr "$case_dir" \
+    'example/repo#12' PullRequest MERGED 'https://github.com/example/repo/pull/12'
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 0 "$rc" "github-closing-keyword-merged-allows: must still merge"
+  assert_logged_gh_merge "$case_dir" 9 example/repo --squash
+  pass "fm-pr-merge still merges when a closing keyword targets an already-merged pull request"
+}
+
+test_github_closing_keyword_body_read_failure_refuses() {
+  local case_dir rc head
+  head=1212121212121212121212121212121212121212
+  case_dir=$(make_case github-closing-keyword-body-fail)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" "$head"
+  : > "$case_dir/github-body-fail"
+  : > "$case_dir/gh-axi.log"
+  : > "$case_dir/gh.log"
+
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+
+  expect_code 1 "$rc" "github-closing-keyword-body-fail: must refuse"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" \
+    "github-closing-keyword-body-fail: gh pr merge ran after a failed body read"
+  assert_grep 'could not read the GitHub pull request body and commits' "$case_dir/stderr" \
+    "github-closing-keyword-body-fail: stderr must name the failed read"
+  pass "fm-pr-merge refuses when the live body and commits read fails"
 }
 
 test_github_unreadable_outcome_keeps_pr_bookkeeping() {
@@ -2370,6 +2612,13 @@ test_github_mergeable_unknown_retries_then_succeeds
 test_github_mergeable_unknown_exhausts_bound_and_reports_pending
 test_github_mergeable_unknown_retry_rechecks_checks
 test_github_mergeable_conflicting_is_not_retried
+test_github_closing_keyword_full_url_refuses_open_pr
+test_github_closing_keyword_related_fix_label_refuses
+test_github_closing_keyword_closes_number_refuses
+test_github_closing_keyword_see_url_allows
+test_github_closing_keyword_issue_target_allows
+test_github_closing_keyword_merged_pr_allows
+test_github_closing_keyword_body_read_failure_refuses
 test_github_unreadable_outcome_keeps_pr_bookkeeping
 test_github_refusal_quotes_the_forge_output
 test_github_unreadable_outcome_refusal_quotes_the_forge_output
