@@ -241,11 +241,21 @@ case "${1:-} ${2:-}" in
         fi
         pages='[{"data":{"repository":{"pullRequest":{"body":"","commits":{"totalCount":0,"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}]'
         [ ! -f "${FM_TEST_GH_BODY_JSON:-}" ] || pages=$(cat "$FM_TEST_GH_BODY_JSON")
-        # Without --paginate --slurp, gh returns only the first page object.
-        case " $* " in
-          *" --paginate --slurp "*) printf '%s\n' "$pages" ;;
-          *) printf '%s\n' "$pages" | jq -c '.[0]' ;;
-        esac
+        cursor=''
+        for arg in "$@"; do
+          case "$arg" in endCursor=*) cursor=${arg#endCursor=} ;; esac
+        done
+        if [ -n "$cursor" ] && [ -f "${FM_TEST_GH_BODY_FAIL}-later" ]; then
+          echo 'error: later commit page unavailable' >&2
+          exit 1
+        fi
+        printf '%s\n' "$pages" | jq -ce --arg cursor "$cursor" '
+          if $cursor == "" then .[0]
+          else . as $pages
+            | range(0; length - 1) as $i
+            | select($pages[$i].data.repository.pullRequest.commits.pageInfo.endCursor == $cursor)
+            | $pages[$i + 1]
+          end' || exit 1
         exit 0
         ;;
       *issueOrPullRequest*)
@@ -821,8 +831,8 @@ test_github_mergeable_conflicting_is_not_retried() {
   pass "fm-pr-merge refuses a genuine mergeable conflict immediately, without retrying"
 }
 
-# Writes the paginated body and commits read as gh --paginate --slurp returns
-# it. Args: case_dir body [commit_message...]; commits split into pages of 100.
+# Writes cursor-addressable GraphQL responses for the stub.
+# Args: case_dir body [commit_message...]; commits split into pages of 100.
 write_github_body() {
   local case_dir=$1 body=$2
   shift 2
@@ -834,7 +844,11 @@ write_github_body() {
           commits: {
             totalCount: ($messages | length),
             nodes: [$messages[$start:$start + 100][] | {commit: {message: .}}],
-            pageInfo: {hasNextPage: ($start + 100 < ($messages | length)), endCursor: null}
+            pageInfo: {
+              hasNextPage: ($start + 100 < ($messages | length)),
+              endCursor: (if $start + 100 < ($messages | length)
+                then "commit-\($start + 100)" else null end)
+            }
           }}}}}]' --args "$@" > "$case_dir/github-body.json"
 }
 
@@ -856,6 +870,99 @@ write_github_iopr() {
 
 # Closing-keyword guard: a keyword before a full pull URL that resolves to an
 # open PR must refuse before gh pr merge.
+test_github_merge_message_overrides() {
+  local case_dir rc flag form message expected method
+  local args=()
+  case_dir=$(make_case github-merge-message-overrides)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  write_github_body "$case_dir" ''
+  write_github_iopr "$case_dir" \
+    'example/repo#12' PullRequest OPEN 'https://github.com/example/repo/pull/12' \
+    'example/repo#34' Issue OPEN 'https://github.com/example/repo/issues/34'
+  for flag in --body -b --subject -t --body-file -F; do
+    for form in separate attached; do
+      for expected in 1 0; do
+        message='Closes #12'
+        [ "$expected" -ne 0 ] || message='Fixes #34'
+        case "$flag" in
+          --body-file|-F)
+            printf '%s\n' "$message" > "$case_dir/merge-message.txt"
+            message='merge-message.txt'
+            ;;
+        esac
+        args=("$flag" "$message")
+        if [ "$form" = attached ]; then
+          case "$flag" in
+            --*) args=("$flag=$message") ;;
+            *) args=("$flag$message") ;;
+          esac
+        fi
+        : > "$case_dir/gh.log"
+        set +e
+        (cd "$case_dir" && run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 "${args[@]}") \
+          > "$case_dir/stdout" 2> "$case_dir/stderr"
+        rc=$?
+        set -e
+        [ "$rc" -eq "$expected" ] || cat "$case_dir/stderr" >&2
+        expect_code "$expected" "$rc" "merge message $flag $form"
+        if [ "$expected" -eq 1 ]; then
+          assert_no_grep 'pr merge' "$case_dir/gh.log" "unsafe override must not reach merge"
+          grep -q 'closing reference "Closes #12"' "$case_dir/stderr" || cat "$case_dir/stderr" >&2
+          assert_grep 'closing reference "Closes #12"' "$case_dir/stderr" "must name the phrase ($flag $form)"
+          assert_grep 'https://github.com/example/repo/pull/12' "$case_dir/stderr" "must name the target"
+          assert_grep 'reword' "$case_dir/stderr" "must suggest rewording"
+        else
+          assert_grep 'pr merge' "$case_dir/gh.log" "issue override must reach merge"
+        fi
+      done
+    done
+  done
+  for method in --merge --rebase; do
+    : > "$case_dir/gh.log"
+    set +e
+    run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 "$method" \
+      --subject 'Fixes #12' > "$case_dir/stdout" 2> "$case_dir/stderr"
+    rc=$?
+    set -e
+    expect_code 1 "$rc" "$method override must refuse"
+    assert_no_grep 'pr merge' "$case_dir/gh.log" "$method override must not reach merge"
+  done
+  for flag in --body-file -F; do
+    : > "$case_dir/gh.log"
+    set +e
+    run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+      "$flag" "$case_dir/missing.txt" > "$case_dir/stdout" 2> "$case_dir/stderr"
+    rc=$?
+    set -e
+    expect_code 1 "$rc" "unreadable $flag must refuse"
+    assert_no_grep 'pr merge' "$case_dir/gh.log" "unreadable override must not reach merge"
+    assert_grep 'could not read merge-message body file' "$case_dir/stderr" "must name failed file read"
+  done
+  pass "fm-pr-merge scans caller merge subjects, bodies, and body files"
+}
+
+test_github_padded_self_references_allow() {
+  local case_dir rc
+  case_dir=$(make_case github-padded-self-references)
+  mkdir -p "$case_dir/wt"
+  add_gh_mocks "$case_dir" aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  write_github_body "$case_dir" 'Closes #009' \
+    'Fixes EXAMPLE/REPO#0009' \
+    'Resolves https://github.com/Example/Repo/pull/009' \
+    'Closed https://github.com/example/repo/issues/0009'
+  : > "$case_dir/gh.log"
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 \
+    --subject 'Fixes #0009' > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+  expect_code 0 "$rc" "normalized self-references must allow"
+  assert_grep 'pr merge' "$case_dir/gh.log" "self-references must reach merge"
+  assert_no_grep 'issueOrPullRequest' "$case_dir/gh.log" "self-references must not require resolution"
+  pass "fm-pr-merge compares self-references by normalized identity"
+}
+
 test_github_closing_keyword_full_url_refuses_open_pr() {
   local case_dir rc head
   head=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -1061,7 +1168,34 @@ Fixes #12")
     "github-closing-keyword-later-commit-page: gh pr merge ran despite Fixes #N in commit 101"
   assert_grep 'https://github.com/example/repo/pull/12' "$case_dir/stderr" \
     "github-closing-keyword-later-commit-page: stderr must name the target"
-  pass "fm-pr-merge refuses a closing reference in a commit past the first page of 100"
+  assert_grep 'endCursor=commit-100' "$case_dir/gh.log" \
+    "github-closing-keyword-later-commit-page: must request the second cursor"
+
+  : > "$case_dir/github-body-fail-later"
+  : > "$case_dir/gh.log"
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 --rebase \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+  expect_code 1 "$rc" "later commit page read failure: must refuse"
+  assert_grep 'endCursor=commit-100' "$case_dir/gh.log" "must attempt the failing second page"
+  assert_grep 'could not read the GitHub pull request body and commits' "$case_dir/stderr" \
+    "must report later-page read failure"
+  assert_no_grep 'pr merge' "$case_dir/gh.log" "must not merge after later-page failure"
+  rm "$case_dir/github-body-fail-later"
+  messages[100]='chore: final clean step'
+  write_github_body "$case_dir" '' "${messages[@]}"
+  : > "$case_dir/gh.log"
+  set +e
+  run_pr_merge "$case_dir" task-x1 https://github.com/example/repo/pull/9 --rebase \
+    > "$case_dir/stdout" 2> "$case_dir/stderr"
+  rc=$?
+  set -e
+  expect_code 0 "$rc" "complete clean commit pages: must allow"
+  assert_grep 'endCursor=commit-100' "$case_dir/gh.log" "clean read must request the second page"
+  assert_grep 'pr merge' "$case_dir/gh.log" "complete clean pages must reach merge"
+  pass "fm-pr-merge traverses commit cursors, refuses unsafe or failed reads, and allows clean pages"
 }
 
 test_github_closing_keyword_incomplete_commits_refuses() {
@@ -2709,6 +2843,8 @@ test_github_mergeable_unknown_retries_then_succeeds
 test_github_mergeable_unknown_exhausts_bound_and_reports_pending
 test_github_mergeable_unknown_retry_rechecks_checks
 test_github_mergeable_conflicting_is_not_retried
+test_github_merge_message_overrides
+test_github_padded_self_references_allow
 test_github_closing_keyword_full_url_refuses_open_pr
 test_github_closing_keyword_related_fix_label_refuses
 test_github_closing_keyword_closes_number_refuses

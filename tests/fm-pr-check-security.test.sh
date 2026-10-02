@@ -143,7 +143,7 @@ case "${1:-} ${2:-}" in
   "api graphql")
     case "$*" in
       *"commits(first:"*)
-        printf '%s\n' '[{"data":{"repository":{"pullRequest":{"body":"","commits":{"totalCount":0,"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}]'
+        printf '%s\n' '{"data":{"repository":{"pullRequest":{"body":"","commits":{"totalCount":0,"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}'
         exit 0
         ;;
     esac

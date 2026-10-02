@@ -879,16 +879,31 @@ EOF
 # The script header owns the closing-reference guard contract.
 github_verify_closing_refs() {
   local json text matches line phrase owner repo number resolved typename state target_url
+  local page cursor='' next_cursor arg value
+  local cursor_args=()
   local refusals=''
+  json='[]'
 
-  # shellcheck disable=SC2016  # GraphQL variables are literal query syntax.
-  if ! json=$(gh api graphql --paginate --slurp \
-    -f query='query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}}' \
-    -F "owner=$PR_OWNER" -F "name=$PR_REPO" -F "number=$PR_NUMBER" 2>/dev/null) \
-    || [ -z "$json" ]; then
-    echo "error: could not read the GitHub pull request body and commits before merging" >&2
-    return 1
-  fi
+  while :; do
+    # shellcheck disable=SC2016  # GraphQL variables are literal query syntax.
+    if ! page=$(gh api graphql \
+      -f query='query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}}' \
+      -F "owner=$PR_OWNER" -F "name=$PR_REPO" -F "number=$PR_NUMBER" \
+      "${cursor_args[@]+"${cursor_args[@]}"}" 2>/dev/null) \
+      || ! next_cursor=$(printf '%s' "$page" | jq -er '
+        .data.repository.pullRequest.commits.pageInfo
+        | if .hasNextPage == false then ""
+          elif .hasNextPage == true and (.endCursor | type) == "string" and .endCursor != ""
+          then .endCursor else error("missing commit cursor") end' 2>/dev/null) \
+      || { [ -n "$next_cursor" ] && [ "$next_cursor" = "$cursor" ]; }; then
+      echo "error: could not read the GitHub pull request body and commits before merging" >&2
+      return 1
+    fi
+    json=$(printf '%s\n%s' "$json" "$page" | jq -cs '.[0] + [.[1]]') || return 1
+    [ -n "$next_cursor" ] || break
+    cursor=$next_cursor
+    cursor_args=(-f "endCursor=$cursor")
+  done
   if ! text=$(printf '%s' "$json" | jq -r '
       if type == "array" and length > 0
         and all(.[]; (.data.repository.pullRequest.commits.nodes | type) == "array")
@@ -907,6 +922,37 @@ github_verify_closing_refs() {
     return 1
   fi
 
+  # Merge-message overrides are forwarded to gh unchanged, but scanned here
+  # alongside the live PR body and every commit message.
+  while [ "$#" -gt 0 ]; do
+    arg=$1
+    shift
+    case "$arg" in
+      --body|--subject|--body-file|-b|-t|-F)
+        if [ "$#" -eq 0 ]; then
+          echo "error: missing merge-message value for $arg" >&2
+          return 1
+        fi
+        value=$1
+        shift
+        ;;
+      --body=*|--subject=*|--body-file=*) value=${arg#*=} ;;
+      -b?*|-t?*|-F?*) value=${arg#??}; value=${value#=} ;;
+      --) break ;;
+      *) continue ;;
+    esac
+    case "$arg" in
+      --body-file|--body-file=*|-F|-F?*)
+        if ! value=$(cat -- "$value" 2>/dev/null); then
+          echo "error: could not read merge-message body file before merging" >&2
+          return 1
+        fi
+        ;;
+    esac
+    text="$text
+$value"
+  done
+
   if ! matches=$(printf '%s' "$text" | jq -Rs -r --arg o "$PR_OWNER" --arg r "$PR_REPO" '
       [match("(?i)\\b((?:close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\b:?[ \\t]+(?:#[0-9]+|[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[0-9]+|https://github\\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/(?:issues|pull)/[0-9]+))"; "g")
         | .string]
@@ -915,11 +961,11 @@ github_verify_closing_refs() {
       | ($match
         | capture("(?i)^(?<kw>close[sd]?|fix(?:e[sd])?|resolve[sd]?)\\b:?[ \\t]+(?:#(?<n>[0-9]+)|(?<or>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(?<on>[0-9]+)|(?<url>https://github\\.com/(?<uo>[A-Za-z0-9_.-]+)/(?<ur>[A-Za-z0-9_.-]+)/(?:issues|pull)/(?<un>[0-9]+)))"))
       | if (.n // "") != "" then
-          "\($phrase)\t\($o)\t\($r)\t\(.n)"
+          "\($phrase)\t\($o)\t\($r)\t\(.n | tonumber)"
         elif (.or // "") != "" then
-          "\($phrase)\t\(.or | split("/") | .[0])\t\(.or | split("/") | .[1])\t\(.on)"
+          "\($phrase)\t\(.or | split("/") | .[0])\t\(.or | split("/") | .[1])\t\(.on | tonumber)"
         else
-          "\($phrase)\t\(.uo)\t\(.ur)\t\(.un)"
+          "\($phrase)\t\(.uo)\t\(.ur)\t\(.un | tonumber)"
         end' 2>/dev/null); then
     echo "error: could not scan the GitHub pull request body and commits for closing references" >&2
     return 1
@@ -935,8 +981,9 @@ ROW
       return 1
     }
     # The PR may close itself in prose; that is not another open PR.
-    if [ "$owner" = "$PR_OWNER" ] && [ "$repo" = "$PR_REPO" ] \
-      && [ "$number" = "$PR_NUMBER" ]; then
+    if [ "$(printf '%s/%s' "$owner" "$repo" | tr '[:upper:]' '[:lower:]')" = \
+      "$(printf '%s/%s' "$PR_OWNER" "$PR_REPO" | tr '[:upper:]' '[:lower:]')" ] \
+      && [ "$number" -eq "$PR_NUMBER" ]; then
       continue
     fi
 
@@ -1500,7 +1547,7 @@ case "$PROVIDER" in
       fi
       exit 1
     fi
-    github_verify_closing_refs || exit 1
+    github_verify_closing_refs "$@" || exit 1
     # The away record is locked first, so this last presence and authority read
     # and the forge command below share one live-owner critical section.
     hold_away_record_for_merge || exit 1
