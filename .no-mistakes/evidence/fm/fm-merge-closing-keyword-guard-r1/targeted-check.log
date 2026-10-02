@@ -1,0 +1,10 @@
+ok - fm-pr-merge refuses when a closing keyword precedes a full URL of an open pull request
+ok - fm-pr-merge refuses the Related fix: label form against an open pull request
+ok - fm-pr-merge refuses Closes #N when #N is an open pull request
+ok - fm-pr-merge still merges when a pull URL has no closing keyword
+ok - fm-pr-merge still merges when a closing keyword targets an Issue
+ok - fm-pr-merge still merges when a closing keyword targets an already-merged pull request
+ok - fm-pr-merge refuses when the live body and commits read fails
+ok - fm-pr-merge refuses a closing reference in a commit past the first page of 100
+ok - fm-pr-merge refuses when GitHub lists fewer commits than the pull request has
+ok - fm-pr-merge still merges when a tab separates a closing keyword from an Issue

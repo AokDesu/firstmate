@@ -1,0 +1,1487 @@
+
+=== matrix-allowed-37 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --rebase
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-allowed-38 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --rebase
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-allowed-39 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --rebase
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-allowed-40 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --rebase
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-allowed-41 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --rebase
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-allowed-42 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --rebase
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-commit-cross-repo (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "Resolved example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-commit-url (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "Closed https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-1 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "close #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-10 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closed example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-11 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closed https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-12 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closed https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-13 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fix #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-14 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fix example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-15 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fix https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-16 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fix https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-17 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixes #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-18 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixes example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-19 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixes https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-2 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "close example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-20 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixes https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-21 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixed #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-22 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixed example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-23 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixed https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-24 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "fixed https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-25 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolve #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-26 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolve example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-27 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolve https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-28 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolve https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-29 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolves #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-3 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "close https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-30 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolves example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-31 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolves https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-32 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolves https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-33 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolved #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-34 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolved example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-35 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolved https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-36 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "resolved https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-4 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "close https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-5 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closes #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-6 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closes example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-7 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closes https://github.com/example/repo/pull/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-8 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closes https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-open-9 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "closed #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-tab-issue-43 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --merge
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-tab-issue-45 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --merge
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-tab-issue-47 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+pr merge 9 --repo example/repo --match-head-commit aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --merge
+api graphql -f query=query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){pullRequest(number:$number){state merged isInMergeQueue baseRefName}}} -F owner=example -F repo=repo -F number=9 --jq .data.repository.pullRequest | "state=" + (.state // ""), "merged=" + (.merged | tostring), "queued=" + (.isInMergeQueue | tostring), "base=" + (.baseRefName // "")
+
+=== matrix-tab-open-44 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "Fixes #12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-tab-open-46 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "Fixes example/repo#12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-tab-open-48 (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: refusing to merge https://github.com/example/repo/pull/9
+  - closing reference "Fixes https://github.com/example/repo/issues/12" targets open pull request https://github.com/example/repo/pull/12; reword (for example related: https://github.com/example/repo/pull/12)
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
+
+=== matrix-unresolved (stub-backed executable test; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+error: could not resolve closing reference Fixes #12 (example/repo#12) before merging
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+api graphql --paginate --slurp -f query=query($owner:String!,$name:String!,$number:Int!,$endCursor:String){repository(owner:$owner,name:$name){pullRequest(number:$number){body commits(first:100,after:$endCursor){totalCount nodes{commit{message}} pageInfo{hasNextPage endCursor}}}}} -F owner=example -F name=repo -F number=9
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=example -F name=repo -F number=12 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end

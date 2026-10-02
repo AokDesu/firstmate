@@ -1,0 +1,28 @@
+
+=== github-closing-keyword-tab-issue-allows (stub-backed BASELINE; NOT LIVE) ===
+
+--- stdout ---
+armed: state/task-x1.check.sh
+
+--- stderr ---
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVK8BH9R6VNAZ7J43EZ6Q9/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every unwaived required check reported and every unwaived check green at head 7878787878787878787878787878787878787878
+error: could not resolve closing reference Fixes (#34/example#repo	34) before merging
+
+--- gh.log ---
+pr view https://github.com/example/repo/pull/9 --json headRefOid -q .headRefOid
+pr view https://github.com/example/repo/pull/9 --json state,isDraft,mergeable,mergeStateStatus,headRefOid,baseRefName,statusCheckRollup
+api repos/example/repo/branches/main
+api --paginate repos/example/repo/rules/branches/main
+pr view https://github.com/example/repo/pull/9 --json body,commits
+api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){issueOrPullRequest(number:$number){__typename ... on Issue { state url } ... on PullRequest { state url }}}} -F owner=#34 -F name=example -F number=repo	34 --jq 
+        .data.repository.issueOrPullRequest
+        | if . == null then empty
+          else ((.__typename // "") + "\t" + (.state // "") + "\t" + (.url // ""))
+          end
