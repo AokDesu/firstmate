@@ -122,6 +122,12 @@ case "${1:-} ${2:-}" in
     ;;
   "pr merge") printf 'merged:\n  number: %s\n  status: ok\n' "${3:-}" ;;
   "api graphql")
+    case "$*" in
+      *"commits(first:"*)
+        printf '%s\n' '[{"data":{"repository":{"pullRequest":{"body":"","commits":{"totalCount":0,"nodes":[],"pageInfo":{"hasNextPage":false,"endCursor":null}}}}}}]'
+        exit 0
+        ;;
+    esac
     printf '%s\n' 'state=MERGED' 'merged=true' 'queued=false' 'base=main'
     ;;
   "api --paginate")
