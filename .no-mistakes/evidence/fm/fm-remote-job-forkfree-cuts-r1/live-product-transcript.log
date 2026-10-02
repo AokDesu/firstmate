@@ -1,0 +1,51 @@
+=== Atomic rotation to different same-length contents ===
+schema=fm-remote-delta.v1
+status=continuity-broken
+path=state/replies
+from_offset=11
+to_offset=11
+from_prefix_sha256=e49c81e2d2f84e259d40e2fb8192f3bcd198b355184845d76d8f58807d0d78ee
+to_prefix_sha256=105574d777006ec9bddf92f16dae3a0b7aaec1a3161e63033aa041014ec15223
+payload_sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+payload_bytes=0
+reason=prefix-changed
+
+
+=== Unchanged log closes its wait without payload ===
+empty-log exit=75 output_bytes=       0
+
+=== Consumer runs real worker lane and collects delta ===
+job=job-cR2HV3 state=done exit=0
+schema=fm-remote-delta.v1
+status=delta
+path=state/replies
+from_offset=0
+to_offset=18
+from_prefix_sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+to_prefix_sha256=a333cbfd274b0daad5d7313c00237b1a4aeed44a013ebebbab8bea99b431f9db
+payload_sha256=a333cbfd274b0daad5d7313c00237b1a4aeed44a013ebebbab8bea99b431f9db
+payload_bytes=18
+reason=
+
+live lane payload
+
+=== Waiting consumer invokes date once, not per sample ===
+consumer exit=0 date_calls=       1
+
+=== Expired consumer deadline refuses further waiting ===
+exit=1 error=remote job did not complete within its bounded wait
+
+=== Consumer actively rejects malformed serialized state ===
+multiline: consumer exit=1 error=remote job state is invalid
+oversize: consumer exit=1 error=remote job state is invalid
+unknown: consumer exit=1 error=remote job state is invalid
+unterminated: consumer exit=1 error=remote job state is invalid
+nul: consumer exit=1 error=remote job state is invalid
+utf8: consumer exit=1 error=remote job state is invalid
+
+=== Disconnected consumer cancels queued job ===
+consumer exit=1 error=remote job caller disconnected; the job was cancelled cancel_marker=present
+
+=== UTF-8 state regression: original versus fixed reader ===
+old: bytes=67 exit=0 value=queued
+fixed: bytes=67 exit=1 value=

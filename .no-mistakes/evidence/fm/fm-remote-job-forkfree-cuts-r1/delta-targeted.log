@@ -1,0 +1,8 @@
+ok - an appended line produces a delta with exact offsets, hashes, and payload
+ok - an unchanged log costs one stat per poll and exits 75 at the window
+ok - the capture and hashing path runs exactly once a real change lands
+ok - a shrunk log breaks continuity as truncated with the remaining hash
+ok - a same-size in-place rewrite breaks continuity as prefix-changed
+ok - a same-second same-size rewrite of the same inode breaks continuity
+error: log could not be captured safely: state/replies.status
+not ok - the missing-file read did not exit 0
