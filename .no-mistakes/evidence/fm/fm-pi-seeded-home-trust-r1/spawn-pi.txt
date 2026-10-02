@@ -1,0 +1,2 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/home
+spawned trust-pi-lab harness=pi kind=secondmate mode=secondmate yolo=off window=lab:fm-trust-pi-lab worktree=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi

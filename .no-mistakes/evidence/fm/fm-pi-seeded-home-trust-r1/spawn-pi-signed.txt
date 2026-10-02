@@ -1,0 +1,3 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/home
+WARNING: watcher still down (same stale episode; last beat: 13s ago, grace 300s) - full banner already printed this episode.
+spawned trust-pi-signed-lab harness=pi-signed kind=secondmate mode=secondmate yolo=off window=lab:fm-trust-pi-signed-lab worktree=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed

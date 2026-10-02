@@ -1,0 +1,40 @@
+kunchen@Kuns-Mac-mini:/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-si
+gned/ > export GOTMPDIR=/tmp/fm-trust-pi-signed-lab/gotmp
+kunchen@Kuns-Mac-mini:/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-si
+gned/ > export COMPACT_ADVISER_DISABLE=1
+kunchen@Kuns-Mac-mini:/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-si
+gned/ > . '/tmp/fm-trust-pi-signed-lab+27eb8549ccfb32ae6964724a3b0312a902646f9b559be9fa907e33be5da81e1f/launch.s17909300
+57.72986.30731.sh'
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+ Trust project folder?
+ /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed
+
+ This allows pi to load .pi settings and resources, install missing project packages, and execute project extensions.
+
+ → Trust
+   Trust parent folder (/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp)
+   Trust (this session only)
+   Do not trust
+   Do not trust (this session only)
+
+ ↑↓ navigate  enter select  escape/ctrl+c cancel
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

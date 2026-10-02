@@ -1,0 +1,9 @@
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/home
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no live watcher process holds this home lock (last beat: 10s ago).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  repair a missing or failed watcher cycle with the Pi tool fm_watch_arm_pi, or restart Pi with -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/product/.pi/extensions/fm-primary-turnend-guard.ts -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/product/.pi/extensions/fm-primary-pi-watch.ts if the extensions are not loaded.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+spawned trust-pi-signed-lab harness=pi-signed kind=secondmate mode=secondmate yolo=off window=lab:fm-trust-pi-signed-lab worktree=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed

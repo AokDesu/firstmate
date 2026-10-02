@@ -1,0 +1,14 @@
+window=lab:fm-trust-pi-signed-lab
+endpoint_task_id=trust-pi-signed-lab
+worktree=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed
+project=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed
+harness=pi-signed
+kind=secondmate
+mode=secondmate
+yolo=off
+tasktmp=/tmp/fm-trust-pi-signed-lab
+model=default
+effort=default
+spawn_gen=s1790930061.78437.25386
+home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed
+projects=

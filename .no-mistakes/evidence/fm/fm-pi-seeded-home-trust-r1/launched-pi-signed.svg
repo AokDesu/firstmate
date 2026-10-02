@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1220" height="710" viewBox="0 0 1220 710">
+<rect width="1220" height="710" fill="#171717"/>
+<g fill="#e5e5e5" font-family="monospace" font-size="14" xml:space="preserve">
+<text x="12" y="20" textLength="107.80000000000001" lengthAdjust="spacingAndGlyphs"> pi v0.82.0</text>
+<text x="12" y="37" textLength="784.0" lengthAdjust="spacingAndGlyphs"> escape interrupt · ctrl+c/ctrl+d clear/exit · / commands · ! bash · ctrl+o more</text>
+<text x="12" y="54" textLength="597.8000000000001" lengthAdjust="spacingAndGlyphs"> Press ctrl+o to show full startup help and loaded resources.</text>
+
+<text x="12" y="88" textLength="842.8000000000001" lengthAdjust="spacingAndGlyphs"> Pi can explain its own features and look up its docs. Ask it how to use or extend Pi.</text>
+
+
+<text x="12" y="139" textLength="88.2" lengthAdjust="spacingAndGlyphs">[Context]</text>
+<text x="12" y="156" textLength="1136.8000000000002" lengthAdjust="spacingAndGlyphs">  /Users/kunchen/AGENTS.md, /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/AGENTS.md,</text>
+<text x="12" y="173" textLength="88.2" lengthAdjust="spacingAndGlyphs">AGENTS.md</text>
+
+<text x="12" y="207" textLength="78.4" lengthAdjust="spacingAndGlyphs">[Skills]</text>
+<text x="12" y="224" textLength="1136.8000000000002" lengthAdjust="spacingAndGlyphs">  afk, agent-skill-trigger-index, ahoy, ask-user-authority, away-quiet-supervision, bearings, bootstrap-diagnostics,</text>
+<text x="12" y="241" textLength="1166.2" lengthAdjust="spacingAndGlyphs">captain-hold-lifecycle, decision-hold-lifecycle, diagnostic-reasoning, firstmate-codexapp, firstmate-coding-guidelines,</text>
+<text x="12" y="258" textLength="1117.2" lengthAdjust="spacingAndGlyphs">firstmate-orca, fmx-respond, harness-adapters, operational-home-layout, process-event-sources, project-management,</text>
+<text x="12" y="275" textLength="1127.0" lengthAdjust="spacingAndGlyphs">quiet, quota-array-dispatch, scout-completion, secondmate-provisioning, session-start-recovery, ship-landing, stow,</text>
+<text x="12" y="292" textLength="627.2" lengthAdjust="spacingAndGlyphs">stuck-crewmate-recovery, updatefirstmate, validation-supervision</text>
+
+<text x="12" y="326" textLength="117.60000000000001" lengthAdjust="spacingAndGlyphs">[Extensions]</text>
+<text x="12" y="343" textLength="891.8000000000001" lengthAdjust="spacingAndGlyphs">  fm-branch-supervision.ts, fm-calm.ts, fm-primary-pi-watch.ts, fm-primary-turnend-guard.ts</text>
+
+
+<text x="12" y="394" textLength="891.8000000000001" lengthAdjust="spacingAndGlyphs"> Warning: No models available. Use /login to log into a provider via OAuth or API key. See:</text>
+<text x="12" y="411" textLength="705.6" lengthAdjust="spacingAndGlyphs">   /Applications/Pi Launcher.app/Contents/Resources/pi/docs/providers.md</text>
+<text x="12" y="428" textLength="676.2" lengthAdjust="spacingAndGlyphs">   /Applications/Pi Launcher.app/Contents/Resources/pi/docs/models.md</text>
+
+<text x="12" y="462" textLength="470.40000000000003" lengthAdjust="spacingAndGlyphs"> Error: No API key found for the selected model.</text>
+
+<text x="12" y="496" textLength="597.8000000000001" lengthAdjust="spacingAndGlyphs"> Use /login to log into a provider via OAuth or API key. See:</text>
+<text x="12" y="513" textLength="705.6" lengthAdjust="spacingAndGlyphs">   /Applications/Pi Launcher.app/Contents/Resources/pi/docs/providers.md</text>
+<text x="12" y="530" textLength="676.2" lengthAdjust="spacingAndGlyphs">   /Applications/Pi Launcher.app/Contents/Resources/pi/docs/models.md</text>
+
+<text x="12" y="564" textLength="1136.8000000000002" lengthAdjust="spacingAndGlyphs"> Warning: tmux extended-keys is off. Modified Enter keys may not work. Add `set -g extended-keys on` to ~/.tmux.conf</text>
+<text x="12" y="581" textLength="176.4" lengthAdjust="spacingAndGlyphs"> and restart tmux.</text>
+
+<text x="12" y="615" textLength="1176.0" lengthAdjust="spacingAndGlyphs">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</text>
+
+<text x="12" y="649" textLength="1176.0" lengthAdjust="spacingAndGlyphs">────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</text>
+<text x="12" y="666" textLength="1068.2" lengthAdjust="spacingAndGlyphs">/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M3XVFN3SMD5SSXBTPDBXVGJ3/.live-tmp/mate-pi-signed (main)</text>
+<text x="12" y="683" textLength="1176.0" lengthAdjust="spacingAndGlyphs">0.0%/0 (auto)                                                                                                    unknown</text>
+</g></svg>
