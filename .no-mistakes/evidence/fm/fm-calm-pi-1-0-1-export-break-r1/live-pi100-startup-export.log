@@ -1,0 +1,5 @@
+/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M427NZ9EP4YYXMMVX8798JGC/.validation/tmp/fm-calm-pi-extension.yFNNPQ/e2e-home
+call_grep_e2e: stock call and expanded result HTML preserved
+call_find_e2e: stock call and expanded result HTML preserved
+call_watch_e2e: stock call and expanded result HTML preserved
+ok - Calm-on startup hides grep/find/watcher; remapped export retains stock HTML without leaking back into TUI

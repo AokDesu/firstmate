@@ -1,0 +1,10 @@
+not ok - Pi calm renderer and lifecycle contract failed: file:///Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M427NZ9EP4YYXMMVX8798JGC/.validation/tmp/fm-calm-pi-extension.RMH8kV/renderer/[eval1]:546
+      throw new Error(`${name} disappeared from ${command} HTML while calm mode was on`);
+            ^
+
+Error: grep disappeared from /export calm.html HTML while calm mode was on
+    at assertStockHtmlRendering (file:///Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M427NZ9EP4YYXMMVX8798JGC/.validation/tmp/fm-calm-pi-extension.RMH8kV/renderer/[eval1]:546:13)
+    at file:///Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M427NZ9EP4YYXMMVX8798JGC/.validation/tmp/fm-calm-pi-extension.RMH8kV/renderer/[eval1]:553:7
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+
+Node.js v24.13.1
