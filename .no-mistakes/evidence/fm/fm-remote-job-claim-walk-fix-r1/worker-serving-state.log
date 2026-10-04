@@ -1,0 +1,21 @@
+{
+  "job_id": "job-HkIMyr",
+  "state": "done",
+  "exit": "0",
+  "sequence": "17461",
+  "argv": [
+    "fm-touch-job.sh",
+    "/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M447XA82K0HSFN5VMT2JWQMP/.test-claim-validation/tmp/fm-remote-job-claim-reap.WFhtS7/served",
+    ""
+  ],
+  "side_effect": "ran",
+  "serving_elapsed_seconds": 2,
+  "serve_budget_seconds": 15,
+  "seeded_claims": 17460,
+  "remaining_claims": 8731,
+  "expired_boundary_exists": false,
+  "fresh_boundary_exists": true,
+  "hourly_sweep_marker": "1791144429",
+  "worker_ready": "12899"
+}
+ok - a due claim sweep over ~17460 dirs does not starve job serving

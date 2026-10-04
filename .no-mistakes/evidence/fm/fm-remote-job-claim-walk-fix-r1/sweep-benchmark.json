@@ -1,0 +1,22 @@
+[
+  {
+    "implementation": "current",
+    "claim_count_before": 17460,
+    "expired_claims": 8730,
+    "sweep_seconds": 0.4017,
+    "claim_count_after": 8730,
+    "expired_removed": true,
+    "fresh_preserved": true,
+    "stderr": ""
+  },
+  {
+    "implementation": "base",
+    "claim_count_before": 17460,
+    "expired_claims": 8730,
+    "sweep_seconds": 86.2364,
+    "claim_count_after": 8730,
+    "expired_removed": true,
+    "fresh_preserved": true,
+    "stderr": ""
+  }
+]

@@ -1,0 +1,4 @@
+PRODUCT JOB: id=job-5j8QAV state=done elapsed_seconds=2 exit=0 side_effect=ran
+PERSISTED JOB STATE: done
+PRODUCT CLAIMS: seeded=17460 expired=8730 remaining=8731 fresh_expected=8730
+ok - a due claim sweep over ~17460 dirs does not starve job serving

@@ -1,0 +1,3 @@
+{"scenario": "17460-claim sweep", "elapsed_seconds": 0.411, "expired_removed": 8730, "fresh_remaining": 8730}
+{"scenario": "hourly throttle", "expired_added_after_sweep": "preserved", "marker": "unchanged"}
+{"scenario": "retention and adversarial guards", "removed": ["20001", "20003", "00", "01", "17461"], "preserved": ["20002", "0", "notes", "1x", ".private", "20004", "20005"], "symlink_target": "intact", "temporary_beacons": "removed"}
