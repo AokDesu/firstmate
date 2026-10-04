@@ -1,0 +1,4 @@
+live worker job_id=job-1PaZhm state=done elapsed_seconds=1 exit=0 side_effect=ran
+persisted job record:
+seed_claim_count=17460 expired_seed_count=8730 remaining_claim_count=8731 fresh_boundary_preserved=8731
+ok - a due claim sweep over ~17460 dirs does not starve job serving
