@@ -1,0 +1,722 @@
++ set -eu
++ ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
+++ mktemp -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.XXXXXX
++ LAB=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++ PID=
++ trap cleanup EXIT
++ mkdir -p /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ cp /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/bin/fm-remote-job-lib.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/bin/fm-remote-job-worker.sh /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/
++ printf 'disposable worker fixture\n'
++ export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null
++ GIT_CONFIG_NOSYSTEM=1
++ GIT_CONFIG_GLOBAL=/dev/null
++ unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root init -q -b main
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root -c user.name=Test -c user.email=test@example.com add .
++ git -C /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root -c user.name=Test -c user.email=test@example.com commit -qm fixture
++ export FM_ROOT_OVERRIDE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root FM_REMOTE_JOB_STATE_ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ FM_ROOT_OVERRIDE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root
++ FM_REMOTE_JOB_STATE_ROOT=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ unset FM_REMOTE_JOB_PLATFORM_OVERRIDE
++ . /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/bin/fm-remote-job-lib.sh
+++ FM_REMOTE_JOB_LABEL=dev.firstmate.remote-job
+++ FM_REMOTE_JOB_MAX_BYTES=1048576
+++ FM_REMOTE_JOB_QUEUE_TIMEOUT=360
+++ FM_REMOTE_JOB_TIMEOUT=360
+++ FM_REMOTE_JOB_WAIT_GRACE=30
+++ FM_REMOTE_JOB_ACTIVE_POLL_SECONDS=0.25
+++ FM_REMOTE_JOB_POLL_SECONDS=0.05
+++ FM_REMOTE_JOB_REAP_SECONDS=3600
+++ FM_REMOTE_JOB_STAGE_REAP_SECONDS=600
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_SECONDS=86400
+++ FM_REMOTE_JOB_SEQ_CLAIM_REAP_INTERVAL=3600
+++ FM_REMOTE_JOB_PREEMPTED_EXIT=76
+++ FM_REMOTE_JOB_OPERATOR_PATH=
+++ FM_REMOTE_JOB_CHILD_PATH=
+++ FM_REMOTE_JOB_STATE=
+++ FM_REMOTE_JOB_JOBS=
+++ FM_REMOTE_JOB_SEQ_CLAIMS=
+++ FM_REMOTE_JOB_ID=
+++ FM_REMOTE_JOB_STDOUT=
+++ FM_REMOTE_JOB_STDERR=
+++ FM_REMOTE_JOB_EXIT=
+++ FM_REMOTE_JOB_ERROR=
+++ FM_REMOTE_JOB_REPAIRED=0
++ fm_remote_job_prepare_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account root parent base firstmate
++ fm_remote_job_validate_settings
++ case "$FM_REMOTE_JOB_MAX_BYTES" in
++ '[' 1048576 -le 1048576 ']'
++ case "$FM_REMOTE_JOB_QUEUE_TIMEOUT" in
++ '[' 360 -le 3600 ']'
++ case "$FM_REMOTE_JOB_TIMEOUT" in
++ '[' 360 -le 3600 ']'
++ case "$FM_REMOTE_JOB_WAIT_GRACE" in
++ '[' 30 -le 300 ']'
++ case "$FM_REMOTE_JOB_REAP_SECONDS" in
++ case "$FM_REMOTE_JOB_STAGE_REAP_SECONDS" in
++ return 0
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=$' \t\n'
++++ IFS=/
++++ for part in $path
++++ case "$part" in
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++++ IFS=$' \t\n'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state part old_ifs out=/
+++ case "$path" in
+++ case "$path" in
+++ old_ifs=$' \t\n'
+++ IFS=/
+++ for part in $path
+++ case "$part" in
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' / = / ']'
+++ out=/Users
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users = / ']'
+++ out=/Users/kunchen
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen = / ']'
+++ out=/Users/kunchen/.no-mistakes
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ IFS=$' \t\n'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ dirname /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ basename /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ base=state
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=$' \t\n'
++++ IFS=/
++++ for part in $path
++++ case "$part" in
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ IFS=$' \t\n'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod state
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod base=state candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ umask 077
+++ mkdir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ FM_REMOTE_JOB_STATE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state jobs
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state base=jobs candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ '[' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ umask 077
+++ mkdir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
++ FM_REMOTE_JOB_JOBS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state .seq-claims
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state base=.seq-claims candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ '[' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ umask 077
+++ mkdir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++ FM_REMOTE_JOB_SEQ_CLAIMS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state logs
++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state base=logs candidate physical
++ case "$base" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ '[' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ umask 077
++ mkdir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
+++ CDPATH=
+++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
+++ pwd -P
++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
++ python3 - /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++ printf 'Starting real worker with 17400 expired claim directories; no launchctl or filesystem-command stubs.\n'
+Starting real worker with 17400 expired claim directories; no launchctl or filesystem-command stubs.
++ PID=943
++ HOME=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh
+++ seq 1 100
++ for i in $(seq 1 100)
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims-reaped ']'
++ sleep 0.1
++ for i in $(seq 1 100)
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims-reaped ']'
++ sleep 0.1
++ for i in $(seq 1 100)
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims-reaped ']'
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.ready ']'
++ break
++ fm_remote_job_lock_owner_matches_process /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ fm_remote_job_prepare_state /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ local account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account root parent base firstmate
++ fm_remote_job_validate_settings
++ case "$FM_REMOTE_JOB_MAX_BYTES" in
++ '[' 1048576 -le 1048576 ']'
++ case "$FM_REMOTE_JOB_QUEUE_TIMEOUT" in
++ '[' 360 -le 3600 ']'
++ case "$FM_REMOTE_JOB_TIMEOUT" in
++ '[' 360 -le 3600 ']'
++ case "$FM_REMOTE_JOB_WAIT_GRACE" in
++ '[' 30 -le 300 ']'
++ case "$FM_REMOTE_JOB_REAP_SECONDS" in
++ case "$FM_REMOTE_JOB_STAGE_REAP_SECONDS" in
++ return 0
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=$' \t\n'
++++ IFS=/
++++ for part in $path
++++ case "$part" in
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++++ IFS=$' \t\n'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ account_home=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/account
++ '[' -n /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state part old_ifs out=/
+++ case "$path" in
+++ case "$path" in
+++ old_ifs=$' \t\n'
+++ IFS=/
+++ for part in $path
+++ case "$part" in
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' / = / ']'
+++ out=/Users
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users = / ']'
+++ out=/Users/kunchen
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen = / ']'
+++ out=/Users/kunchen/.no-mistakes
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ for part in $path
+++ case "$part" in
+++ case "$part" in
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod = / ']'
+++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ IFS=$' \t\n'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ dirname /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ basename /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ base=state
+++ fm_remote_job_canonical_existing_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod normalized physical
++++ fm_remote_job_normalize_absolute_path /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ local path=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod part old_ifs out=/
++++ case "$path" in
++++ case "$path" in
++++ old_ifs=$' \t\n'
++++ IFS=/
++++ for part in $path
++++ case "$part" in
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' / = / ']'
++++ out=/Users
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users = / ']'
++++ out=/Users/kunchen
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen = / ']'
++++ out=/Users/kunchen/.no-mistakes
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7 = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp
++++ for part in $path
++++ case "$part" in
++++ case "$part" in
++++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp = / ']'
++++ out=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ IFS=$' \t\n'
++++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ normalized=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod '!=' / ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++ parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod state
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod base=state candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ root=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
++ FM_REMOTE_JOB_STATE=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state jobs
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state base=jobs candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
++ FM_REMOTE_JOB_JOBS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/jobs
+++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state .seq-claims
+++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state base=.seq-claims candidate physical
+++ case "$base" in
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
+++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
+++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++++ CDPATH=
++++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++++ pwd -P
+++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
+++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims ']'
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++ FM_REMOTE_JOB_SEQ_CLAIMS=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims
++ fm_remote_job_safe_child_dir /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state logs
++ local parent=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state base=logs candidate physical
++ case "$base" in
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state ']'
++ candidate=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
++ '[' -e /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ chmod 700 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
+++ CDPATH=
+++ cd -- /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
+++ pwd -P
++ physical=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
++ '[' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs = /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs ']'
++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/logs
+++ fm_remote_job_worker_lock_path
+++ printf '%s\n' /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock
++ fm_remote_job_recorded_owner_alive /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock
++ local dir=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock pid recorded_start actual_start recorded_command actual_command
++ '[' -d /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock ']'
++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock ']'
+++ fm_remote_job_read_single_line /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid 64
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid max=64 value extra
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid 64
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid max=64 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=4
+++ case "$bytes" in
+++ '[' 4 -le 64 ']'
+++ IFS=
+++ read -r value
+++ IFS=
+++ read -r extra
++++ tail -n +2 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/pid
+++ '[' -n 943 ']'
+++ printf '%s\n' 943
++ pid=943
++ case "$pid" in
++ '[' 943 -gt 1 ']'
+++ fm_remote_job_read_single_line /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start 256
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start max=256 value extra
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start 256
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start max=256 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=29
+++ case "$bytes" in
+++ '[' 29 -le 256 ']'
+++ IFS=
+++ read -r value
+++ IFS=
+++ read -r extra
++++ tail -n +2 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/start
+++ '[' -n 'Sat Oct  3 16:51:33 2026    ' ']'
+++ printf '%s\n' 'Sat Oct  3 16:51:33 2026    '
++ recorded_start='Sat Oct  3 16:51:33 2026    '
+++ fm_remote_job_process_start 943
+++ local pid=943 ps_bin value
+++ '[' -x /bin/ps ']'
+++ ps_bin=/bin/ps
++++ /bin/ps -p 943 -o lstart=
+++ value='Sat Oct  3 16:51:33 2026    '
+++ '[' -n 'Sat Oct  3 16:51:33 2026    ' ']'
+++ case "$value" in
+++ printf '%s\n' 'Sat Oct  3 16:51:33 2026    '
++ actual_start='Sat Oct  3 16:51:33 2026    '
++ '[' 'Sat Oct  3 16:51:33 2026    ' = 'Sat Oct  3 16:51:33 2026    ' ']'
+++ fm_remote_job_read_single_line /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command 8192
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command max=8192 value extra
+++ fm_remote_job_regular_bounded /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command 8192
+++ local file=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command max=8192 bytes
+++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command ']'
+++ '[' '!' -L /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command ']'
++++ LC_ALL=C
++++ wc -c
++++ tr -d ' '
+++ bytes=150
+++ case "$bytes" in
+++ '[' 150 -le 8192 ']'
+++ IFS=
+++ read -r value
+++ IFS=
+++ read -r extra
++++ tail -n +2 /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/worker.lock/command
+++ '[' -n '/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh' ']'
+++ printf '%s\n' '/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh'
++ recorded_command='/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh'
+++ fm_remote_job_process_command 943
+++ local pid=943 ps_bin value
+++ '[' -x /bin/ps ']'
+++ ps_bin=/bin/ps
++++ /bin/ps -p 943 -o command=
+++ value='/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh'
+++ '[' -n '/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh' ']'
+++ case "$value" in
+++ printf '%s\n' '/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh'
++ actual_command='/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh'
++ '[' '/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh' = '/bin/bash /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/root/bin/fm-remote-job-worker.sh' ']'
++ FM_REMOTE_JOB_RECORDED_PID=943
++ FM_REMOTE_JOB_OWNER_PID=943
++ '[' 943 = 943 ']'
++ '[' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/state/.seq-claims/9999 ']'
++ cleanup
++ '[' '!' -f /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/worker.log ']'
++ printf 'Cleanup worker log:\n'
+Cleanup worker log:
++ cat /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod/worker.log
++ '[' -n 943 ']'
++ kill -0 943
++ kill -CONT 943
++ kill -TERM 943
++ wait 943
++ rm -rf /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M422JV7T4AP9DTWMHAF6W0RS/.test-tmp/live-worker.jkUbod

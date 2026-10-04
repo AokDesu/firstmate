@@ -1,0 +1,14 @@
+Starting real worker with 17400 expired claim directories; no launchctl or filesystem-command stubs.
+Actual sweep underway: verified lock owner PID=4688 ready-owner=4688
+Removed worker.ready during actual sweep: independent heartbeat recreated PID record, mode=600; public probe succeeds.
+sweep elapsed=2s same-owner=4688 heartbeat-age=1s public-probe=available
+sweep elapsed=22s same-owner=4688 heartbeat-age=1s public-probe=available
+sweep elapsed=46s same-owner=4688 heartbeat-age=1s public-probe=available
+sweep elapsed=68s same-owner=4688 heartbeat-age=1s public-probe=available
+sweep elapsed=89s same-owner=4688 heartbeat-age=0s public-probe=available
+sweep elapsed=111s same-owner=4688 heartbeat-age=1s public-probe=available
+sweep elapsed=133s same-owner=4688 heartbeat-age=0s public-probe=available
+Full 17400-claim sweep completed in 133s; unchanged PID=4688; maximum sampled heartbeat age=1s.
+Adversarial lost lock ownership: heartbeat timestamp stopped advancing; public probe refuses readiness.
+Worker output:
+Cleanup worker log:
