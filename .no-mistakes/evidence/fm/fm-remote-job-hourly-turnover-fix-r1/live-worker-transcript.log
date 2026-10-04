@@ -1,26 +1,66 @@
-{"phase": "17400-claim-sweep", "elapsed_seconds": 0.16, "claims_remaining": 17400, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.08, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 5.21, "claims_remaining": 16464, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.9, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 10.32, "claims_remaining": 15501, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.62, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 15.48, "claims_remaining": 14577, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.36, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 20.52, "claims_remaining": 13656, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 1.05, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 25.68, "claims_remaining": 12663, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.7, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 30.85, "claims_remaining": 11727, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.23, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 35.89, "claims_remaining": 10744, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.86, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 41.06, "claims_remaining": 9743, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.54, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 46.1, "claims_remaining": 8779, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.25, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 51.22, "claims_remaining": 7778, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.89, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 56.26, "claims_remaining": 6790, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.56, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 61.44, "claims_remaining": 5798, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.35, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 66.55, "claims_remaining": 4806, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.15, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 71.73, "claims_remaining": 3847, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.91, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 76.9, "claims_remaining": 2978, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.54, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 82.07, "claims_remaining": 1972, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 1.14, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 87.11, "claims_remaining": 998, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.64, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 92.26, "claims_remaining": 10, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.36, "probe_exit": 0}
-{"phase": "17400-claim-sweep", "elapsed_seconds": 97.44, "claims_remaining": 0, "worker_pid": 63313, "lock_owner": "63313", "heartbeat_age_seconds": 0.78, "probe_exit": 0}
-{"phase": "main-loop-paused", "worker_pid": 63313, "heartbeat_age_seconds": 0.08, "probe_exit": 0}
-{"phase": "main-loop-paused", "worker_pid": 63313, "heartbeat_age_seconds": 0.78, "probe_exit": 0}
-{"phase": "main-loop-paused", "worker_pid": 63313, "heartbeat_age_seconds": 1.1, "probe_exit": 0}
-{"phase": "main-loop-paused", "worker_pid": 63313, "heartbeat_age_seconds": 0.18, "probe_exit": 0}
-{"phase": "main-loop-paused", "worker_pid": 63313, "heartbeat_age_seconds": 0.67, "probe_exit": 0}
-{"phase": "main-loop-paused", "worker_pid": 63313, "heartbeat_age_seconds": 0.98, "probe_exit": 0}
+Launching real worker from /Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M42J0Z1HCF8ARJVYD33JKGJD; state=/Users/kunchen/.no-mistakes/worktrees/52b07e9083e7/01M42J0Z1HCF8ARJVYD33JKGJD/.test-validation/live/state; 17400 expired sequence claims
+Serving PID=68558; start=Sat Oct  3 21:36:37 2026    
+Paused serving PID=68558 during actual claim removal; independent heartbeat must remain available
+Missing worker.ready recreated: content=68558; mode=600; public probe=available
+Blocked-pass sample 1: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 2: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 3: serving=68558; ready=68558; age=0s; probe=available
+Blocked-pass sample 4: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 5: serving=68558; ready=68558; age=0s; probe=available
+Blocked-pass sample 6: serving=68558; ready=68558; age=0s; probe=available
+Blocked-pass sample 7: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 8: serving=68558; ready=68558; age=0s; probe=available
+Blocked-pass sample 9: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 10: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 11: serving=68558; ready=68558; age=0s; probe=available
+Blocked-pass sample 12: serving=68558; ready=68558; age=1s; probe=available
+Blocked-pass sample 13: serving=68558; ready=68558; age=1s; probe=available
+Resumed actual 17400-directory sweep
+Sweep sample: remaining=17003; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=16617; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=16214; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=15825; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=15447; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=15076; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=14739; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=14380; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=13982; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=13617; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=13233; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=12863; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=12532; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=12168; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=11798; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=11430; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=11026; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=10657; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=10263; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=9892; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=9523; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=9115; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=8707; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=8308; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=7943; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=7556; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=7134; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=6758; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=6373; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=5989; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=5580; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=5179; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=4792; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=4398; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=4003; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=3624; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=3238; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=2860; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=2502; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=2120; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=1757; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=1383; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=1017; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=667; owner=68558; ready=68558; age=0s; probe=available
+Sweep sample: remaining=327; owner=68558; ready=68558; age=1s; probe=available
+Sweep sample: remaining=0; owner=68558; ready=68558; age=1s; probe=available
+All expired claims removed; unchanged owner=68558; public probe=available
+Removed ownership record: serving PID still alive=yes; public probe=unavailable; readiness age=12s
