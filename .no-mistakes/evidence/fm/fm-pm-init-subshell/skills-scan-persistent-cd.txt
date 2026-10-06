@@ -1,0 +1,12 @@
+# Real cd-guard policy owner (bin/fm-cd-command-policy.mjs @ 2438d3d1) over every command line in fenced shell/untyped blocks
+## (a) all 45 .md files under .agents/skills at target 2438d3d1
+scanned 45 skill files, 18 shell/untyped fenced blocks, 130 command lines; persistent-cd denies: 0
+## (b) scanner control: base 5838f105 project-management/SKILL.md (must report the old Initialize line)
+DENY base:.agents/skills/project-management/SKILL.md:87: cd projects/<name> && no-mistakes init && no-mistakes doctor
+scanned 1 skill files, 1 shell/untyped fenced blocks, 1 command lines; persistent-cd denies: 1
+## (c) every cd/pushd/popd token in .agents/skills prose or code at target
+.agents/skills/project-management/SKILL.md:87:(cd projects/<name> && no-mistakes init && no-mistakes doctor)
+## (d) top-level skills/ tree (1 .md files) at target
+scanned 1 skill files, 0 shell/untyped fenced blocks, 0 command lines; persistent-cd denies: 0
+(no cd/pushd/popd tokens in skills/)
+# NOTE: the base-control DENY line number above was hand-corrected from :86 to :87 after fixing an off-by-one in the scanner's line-number reporting; the re-run of the fixed scanner on the base file printed SKILL.md:87 (matching the diff hunk). Deny/allow verdicts were unaffected.

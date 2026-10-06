@@ -1,0 +1,8 @@
+{"command":"(cd projects/demo && no-mistakes init && no-mistakes doctor)","lexerError":"","decision":"allow"}
+{"command":"cd projects/demo && no-mistakes init && no-mistakes doctor","lexerError":"","decision":"deny"}
+{"command":"(cd projects/<name> && no-mistakes init && no-mistakes doctor)","lexerError":"","decision":"allow"}
+{"command":"cd projects/<name> && no-mistakes init && no-mistakes doctor","lexerError":"","decision":"deny"}
+{"command":"(cd projects/demo && no-mistakes init) && cd projects/demo","lexerError":"","decision":"deny"}
+{"command":"(cd projects/demo && no-mistakes init && no-mistakes doctor); cd projects/demo","lexerError":"","decision":"deny"}
+# contrast (malformed -> fail-open): {"command":"cd \"unterminated","lexerError":"unsupported token at byte 16","decision":"allow"}
+# contrast (malformed -> fail-open): {"command":"(cd x","lexerError":"unclosed (","decision":"allow"}

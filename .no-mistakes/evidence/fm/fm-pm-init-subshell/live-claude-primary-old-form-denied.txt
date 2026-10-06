@@ -1,0 +1,26 @@
+# Live lab Claude Code 2.1.291 primary, cwd = disposable PLAIN firstmate checkout (2438d3d1 snapshot), FM_HOME = marked lab home, tmux -L fm-lab
+# Step 1: OLD skill Initialize form, verbatim
+ ▐▛███▛█   Claude Code v2.1.291
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Team
+ ▝▝   ▝▝   /tmp/fm-lab.gWIqGS/fm
+❯ Lab test of the cd-guard hook. Run exactly this single Bash command verbatim as one tool call, do not modify it, do not retry it in any other form, and run nothing else: cd projects/demo && no-mistakes init &&
+  no-mistakes doctor   -- then reply with the exact tool result text you received.
+● Bash(cd projects/demo && no-mistakes init && no-mistakes doctor)
+  ⎿  Error: PreToolUse:Bash hook error: [[ -z "${GROK_AGENT:-}${GROK_HOOK_EVENT:-}" ] || exit 0; exec "$CLAUDE_PROJECT_DIR"/bin/fm-cd-pretool-check.sh --claude]:
+     {"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny"},"systemMessage":"[persistent-cd] a persistent top-level directory change in the primary firstmate checkout is blocked; it would move
+     the shell out of the home so a later firstmate-owned command runs inside a project clone. Reach the target without moving the shell - use git -C <dir> or an absolute path on the command itself - or scope the cd to a
+     subshell like (cd <dir> && ...)."}
+● Captain, cd-guard hook blocked command before it ran. No retry, nothing else run. Exact tool result:
+  PreToolUse:Bash hook error: [[ -z "${GROK_AGENT:-}${GROK_HOOK_EVENT:-}" ] || exit 0; exec "$CLAUDE_PROJECT_DIR"/bin/fm-cd-pretool-check.sh --claude]:
+  {"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny"},"systemMessage":"[persistent-cd] a persistent top-level directory change in the primary firstmate checkout is blocked; it would move the
+  shell out of the home so a later firstmate-owned command runs inside a project clone. Reach the target without moving the shell - use git -C <dir> or an absolute path on the command itself - or scope the cd to a
+  subshell like (cd <dir> && ...)."}
+  Hook denied it because of the top-level cd, so no-mistakes init and no-mistakes doctor never ran. Demo project untouched, shell still in firstmate home.
+✻ Cooked for 35s · done 7:09 PM
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ 
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents
+
+# no-mistakes shim invocations after step 1 (expect none):
+(none - shim.log absent)

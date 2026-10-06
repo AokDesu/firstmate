@@ -1,0 +1,37 @@
+# Live lab Claude Code 2.1.291 primary, cwd = disposable PLAIN firstmate checkout (2438d3d1 snapshot), FM_HOME = marked lab home, tmux -L fm-lab
+# Step 2: primary reads the FIXED project-management SKILL.md and runs its Initialize command for projects/demo, then pwd
+# NOTE: the PATH shim did not reach Claude's Bash tool shell, so the REAL no-mistakes binary ran; it exited at its own
+# precondition check (lab fixture repo has no origin remote) before creating any gate. Verified afterwards: no repo row,
+# hooks, or config for the lab path in ~/.no-mistakes state or the demo repo. The init outcome is a fixture property, not this change.
+❯ Next lab step. Read .agents/skills/project-management/SKILL.md, find the no-mistakes initialization command in its Initialize section, and run that command verbatim (substituting only <name> with demo) as one Bash
+  tool call for the local project projects/demo, which already exists; treat demo as a no-mistakes project. Run nothing else from the skill. Then run pwd as a separate Bash tool call. Reply with the exact command you
+  ran and both exact tool results.
+  Searched for 1 pattern (ctrl+o to expand)
+● Bash((cd projects/demo && no-mistakes init && no-mistakes doctor))
+  ⎿  Error: Exit code 1
+     init: no 'origin' remote in /tmp/fm-lab.gWIqGS/fm/projects/demo
+     no-mistakes pushes your branch and opens a pull request, so it needs a remote to push to.
+     Add one, then re-run:
+       git remote add origin <url>
+● Bash(pwd)
+  ⎿  /tmp/fm-lab.gWIqGS/fm
+  ⎿  Allowed by auto mode classifier
+● Captain, the hook let the subshell form through this time, but the setup step failed. The demo project has no remote to push to.
+  Command run (copied from the Initialize section of the skill, with <name> replaced by demo):
+  (cd projects/demo && no-mistakes init && no-mistakes doctor)
+  Result 1:
+  Exit code 1
+  init: no 'origin' remote in /tmp/fm-lab.gWIqGS/fm/projects/demo
+  no-mistakes pushes your branch and opens a pull request, so it needs a remote to push to.
+  Add one, then re-run:
+    git remote add origin <url>
+  Result 2 (pwd):
+  /tmp/fm-lab.gWIqGS/fm
+  - Hook: it allowed the cd because it ran inside a subshell. The shell stayed in the firstmate home afterward, as pwd shows.
+  - Setup: no-mistakes init stopped because the demo project has no origin remote, so doctor never ran (the && chain stopped it). Demo still isn't set up for no-mistakes.
+  - Next step: demo needs a remote before setup can succeed. I didn't add one because you didn't ask for it. Give me a URL if you want it added.
+✻ Brewed for 35s · done 7:09 PM
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ Next lab step.
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ auto mode on (shift+tab to cycle) · ← for agents
