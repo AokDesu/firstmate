@@ -1,0 +1,38 @@
+     ├ superpowers:brainstorming: ~80 tokens
+     ├ superpowers:executing-plans: ~70 tokens
+     ├ superpowers:using-superpowers: ~60 tokens
+     ├ superpowers:dispatching-parallel-agents: ~50 tokens
+     ├ superpowers:finishing-a-development-branch: ~50 tokens
+     ├ superpowers:requesting-code-review: ~50 tokens
+     ├ superpowers:subagent-driven-development: ~40 tokens
+     ├ superpowers:systematic-debugging: ~40 tokens
+     ├ superpowers:writing-skills: ~40 tokens
+     ├ superpowers:test-driven-development: ~40 tokens
+     └ superpowers:writing-plans: ~40 tokens
+
+     Plugin (typesafe)
+     └ typesafe:typesafe-ai: ~230 tokens
+
+     Built-in
+     ├ dataviz: ~480 tokens
+     ├ claude-api: ~360 tokens
+     ├ artifact-capabilities: ~250 tokens
+     ├ update-config: ~240 tokens
+     ├ code-review: ~210 tokens
+     ├ schedule: ~130 tokens
+     ├ run: ~120 tokens
+     ├ loop: ~120 tokens
+     ├ workflow-authoring: ~80 tokens
+     ├ keybindings-help: ~80 tokens
+     ├ plugin-authoring: ~80 tokens
+     ├ artifact-diagramming: ~70 tokens
+     ├ artifact-design: ~70 tokens
+     ├ fewer-permission-prompts: ~60 tokens
+     ├ simplify: ~60 tokens
+     ├ security-review: ~30 tokens
+     └ init: ~20 tokens
+
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯
+──────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← for agents             ◉ xhigh · /effort

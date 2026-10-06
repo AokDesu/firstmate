@@ -1,0 +1,5 @@
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 reports empty and renders the requested reply in isolated session fm-lab-herdr-submit-con-745821-6519
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 submits a U+2063 away-supervisor payload whose read-back drops the mark
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /context behind its command popup
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /exit behind its command popup
+rc=0

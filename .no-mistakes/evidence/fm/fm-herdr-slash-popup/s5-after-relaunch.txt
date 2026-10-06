@@ -1,0 +1,38 @@
+
+
+
+wt wkr ? ❯
+
+wt wkr ? ❯ cd -- '/tmp/fm-popup-scn.ZhUmsx/wt'
+󱞩 /tmp/fm-popup-scn.ZhUmsx/wt
+
+wt wkr ? ❯ export GOTMPDIR=/tmp/fm-wkr/gotmp
+export COMPACT_ADVISER_DISABLE=1
+
+wt wkr ? ❯ export COMPACT_ADVISER_DISABLE=1
+
+wt wkr ? ❯ export FM_TASK_ID=wkr
+
+wt wkr ? ❯ . '/tmp/fm-wkr+1ea6da867b5feca1228902a743aaa6a6f3ec86cb73e301eadcd368c299b52efd/lau
+nch.s1791283806.796534.18303.sh'
+ ▐▛███▛█   Claude Code v2.1.291
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Team
+ ▝▝   ▝▝   /tmp/fm-popup-scn.ZhUmsx/wt
+
+
+❯ : Firstmate operational input waiting: read
+  '/tmp/fm-popup-scn.ZhUmsx/home/state/operational-inbox/1791283807-a06454761af547db.msg' and
+  handle its contents as Firstmate operational input.
+
+  Read 1 file (ctrl+o to expand)
+
+● RELAUNCH-OK
+
+✻ Crunched for 11s · done 5:50 PM
+
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯
+──────────────────────────────────────────────────────────────────────────────────────────────
+  ⚠ Transcript saving is off — inherited CLAUDE_CODE_CHILD_SESSION marker · restart with CL…
+  ⏵⏵ bypass permissions on (shift+tab to cycle)
+                        Advisor Tool (experimental) is on and may use more tokens · /advisor

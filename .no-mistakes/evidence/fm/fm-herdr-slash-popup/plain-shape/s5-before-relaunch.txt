@@ -1,0 +1,38 @@
+    /edit-article                        Edit and improve articles by restructuring
+                                         sections, improving clarity, and tightening prose.…
+    /context                             Visualize current context usage as a colored grid
+    /usage-credits                       Configure usage credits or request them from your
+                                         admin when you hit a limit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resume this session with:
+claude --resume 9167a048-cbb4-4fe4-90ba-fabd1b05c597
+
+wt wkr ? ❯
+
+wt wkr ? ❯ unset CLAUDE_CODE_CHILD_SESSION CLAUDE_CODE_SESSION_ID CLAUDE_PID CLAUDE_EFFORT CLA
+UDE_CODE_MESSAGING_SOCKET CLAUDECODE CLAUDE_CODE_SESSION_ATTENDED CLAUDE_CODE_ENTRYPOINT CLAUD
+E_CODE_EXECPATH CLAUDE_CODE_MESSAGING_TOKEN; cd /tmp/fm-popup-scn.a3m6W0/wt && CLAUDE_CODE_ENA
+BLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions
+--settings '{"feedbackDrafts":"off"}'
+ ▐▛███▛█   Claude Code v2.1.291
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Team
+ ▝▝   ▝▝   /tmp/fm-popup-scn.a3m6W0/wt
+
+
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯
+──────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ bypass permissions on (shift+tab to cycle) · ← for agents             ◉ xhigh · /effort

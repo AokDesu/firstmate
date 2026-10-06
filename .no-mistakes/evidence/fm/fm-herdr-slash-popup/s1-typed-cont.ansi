@@ -1,0 +1,33 @@
+cd /tmp/fm-popup-scn.ZhUmsx/wt && CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_
+FEEDBACK=0 claude --dangerously-skip-permissions --settings '{"feedbackDrafts":"off"}'
+
+[0m[1m[38;5;6mwt[0m [0m[3m[38;5;6mwkr[0m [0m[38;5;6m? [0m[1m[38;5;6m❯[0m cd /tmp/fm-popup-scn.ZhUmsx/wt && CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE
+_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings '{"feedbackDrafts":"off
+"}'
+[0m[38;2;215;119;87m ▐[0m[38;2;215;119;87m[48;2;0;0;0m▛███▛█   [0m[1mClaude Code [0m[38;2;153;153;153mv2.1.291[0m
+[0m[38;2;215;119;87m▝▜[0m[38;2;215;119;87m[48;2;0;0;0m█████[0m[38;2;215;119;87m█▀  [0m[38;2;153;153;153mOpus 5.5 with xhigh effort · Claude Team[0m
+[0m[38;2;215;119;87m ▝▝   ▝▝   [0m[38;2;153;153;153m/tmp/fm-popup-scn.ZhUmsx/wt[0m
+
+
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+❯ /cont
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+  [0m[38;2;255;193;7m⚠ Transcript saving is off — inherited CLAUDE_CODE_CHILD_SESSION marker[0m[38;2;153;153;153m · restart with CL…[0m
+  [0m[38;2;177;185;249m❯ /[0m[1m[38;2;177;185;249mcont[0m[38;2;177;185;249mext                             Visualize current [0m[1m[38;2;177;185;249mcont[0m[38;2;177;185;249mext usage as a colored grid[0m
+  [0m[38;2;153;153;153m  /resume ([0m[1mcont[0m[38;2;153;153;153minue)                   Resume a previous conversation[0m
+  [0m[38;2;153;153;153m  /remote-[0m[1mcont[0m[38;2;153;153;153mrol                      [0m[1mCont[0m[38;2;153;153;153mrol this session from your phone or[0m
+                                         [0m[38;2;153;153;153mclaude.ai/code[0m
+  [0m[38;2;153;153;153m  /frontend-design:frontend-design     (frontend-design) Guidance for distinctive,[0m
+                                         [0m[38;2;153;153;153mintentional visual design when building new UI or …[0m
+  [0m[38;2;153;153;153m  /config                              Open settings[0m
+  [0m[38;2;153;153;153m  /figma:figma-[0m[1mco[0m[38;2;153;153;153mde-co[0m[1mn[0m[38;2;153;153;153mnec[0m[1mt[0m[38;2;153;153;153m            (figma) Creates and maintains Figma Code Connect[0m
+                                         [0m[38;2;153;153;153mtemplate files that map Figma components to code s…[0m
+  [0m[38;2;153;153;153m  /update-config                       Use this skill to configure the Claude Code harness[0m
+                                         [0m[38;2;153;153;153mvia settings.json. Automated behaviors ("from now …[0m
+  [0m[38;2;153;153;153m  /usage                               Show session cost, plan usage, and activity stats[0m
+  [0m[38;2;153;153;153m  /doctor                              Health-check the user's Claude Code setup and fix[0m
+                                         [0m[38;2;153;153;153missues: diagnose installation health — what the `c…[0m
+  [0m[38;2;153;153;153m  /grill-with-docs                     Grilling session that challenges your plan against[0m
+                                         [0m[38;2;153;153;153mthe existing domain model, sharpens terminology, a…[0m
+  [0m[38;2;153;153;153m  /improve-codebase-architecture       Find deepening opportunities in a codebase,[0m
+                                         [0m[38;2;153;153;153minformed by the domain language in [0m[1mCONT[0m[38;2;153;153;153mEXT.md and …[0m

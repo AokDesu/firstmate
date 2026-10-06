@@ -1,0 +1,16 @@
+cd /tmp/fm-popup-scn.ZhUmsx/wt && CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_
+FEEDBACK=0 claude --dangerously-skip-permissions --settings '{"feedbackDrafts":"off"}'
+
+wt wkr ? ❯ cd /tmp/fm-popup-scn.ZhUmsx/wt && CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE
+_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings '{"feedbackDrafts":"off
+"}'
+ ▐▛███▛█   Claude Code v2.1.291
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Team
+ ▝▝   ▝▝   /tmp/fm-popup-scn.ZhUmsx/wt
+
+
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯
+──────────────────────────────────────────────────────────────────────────────────────────────
+  ⚠ Transcript saving is off — inherited CLAUDE_CODE_CHILD_SESSION marker · restart with CL…
+  ⏵⏵ bypass permissions on (shift+tab to cycle)                 Ctrl+Y to paste deleted text

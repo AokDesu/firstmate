@@ -1,0 +1,33 @@
+cd /tmp/fm-popup-scn.ZhUmsx/wt && CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_
+FEEDBACK=0 claude --dangerously-skip-permissions --settings '{"feedbackDrafts":"off"}'
+
+wt wkr ? ❯ cd /tmp/fm-popup-scn.ZhUmsx/wt && CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE
+_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings '{"feedbackDrafts":"off
+"}'
+ ▐▛███▛█   Claude Code v2.1.291
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Team
+ ▝▝   ▝▝   /tmp/fm-popup-scn.ZhUmsx/wt
+
+
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯ /cont
+──────────────────────────────────────────────────────────────────────────────────────────────
+  ⚠ Transcript saving is off — inherited CLAUDE_CODE_CHILD_SESSION marker · restart with CL…
+  ❯ /context                             Visualize current context usage as a colored grid
+    /resume (continue)                   Resume a previous conversation
+    /remote-control                      Control this session from your phone or
+                                         claude.ai/code
+    /frontend-design:frontend-design     (frontend-design) Guidance for distinctive,
+                                         intentional visual design when building new UI or …
+    /config                              Open settings
+    /figma:figma-code-connect            (figma) Creates and maintains Figma Code Connect
+                                         template files that map Figma components to code s…
+    /update-config                       Use this skill to configure the Claude Code harness
+                                         via settings.json. Automated behaviors ("from now …
+    /usage                               Show session cost, plan usage, and activity stats
+    /doctor                              Health-check the user's Claude Code setup and fix
+                                         issues: diagnose installation health — what the `c…
+    /grill-with-docs                     Grilling session that challenges your plan against
+                                         the existing domain model, sharpens terminology, a…
+    /improve-codebase-architecture       Find deepening opportunities in a codebase,
+                                         informed by the domain language in CONTEXT.md and …

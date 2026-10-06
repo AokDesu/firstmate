@@ -1,0 +1,10 @@
+S1 /exit	pass	notice-rows=0; head reads typed command; base reads popup (/exit Exit the CLI /edit-article Edit and improve articles by restructuring sections, improving clarity, and tightening prose.… /context Visualize current context usage as a colored grid /usage-credits Configure usage credits or request them from your admin when you hit a limit)
+S1 /no-mistakes	pass	notice-rows=0; head reads typed command; base reads popup (/no-mistakes Validate your code changes through the no-mistakes pipeline - automated code review, tests, lint, doc…)
+S1 /cont	pass	notice-rows=0; head reads typed command; base reads popup (/context Visualize current context usage as a colored grid /resume (continue) Resume a previous conversation /remote-control Control this session from your phone or claude.ai/code /frontend-design:frontend-design (frontend-design) Guidance for distinctive, intentional visual design when building new UI or … /config Open settings /figma:figma-code-connect (figma) Creates and maintains Figma Code Connect template files that map Figma components to code s… /update-config Use this skill to configure the Claude Code harness via settings.json. Automated behaviors ("from now … /usage Show session cost, plan usage, and activity stats /doctor Health-check the user's Claude Code setup and fix issues: diagnose installation health — what the `c… /grill-with-docs Grilling session that challenges your plan against the existing domain model, sharpens terminology, a… /improve-codebase-architecture Find deepening opportunities in a codebase, informed by the domain language in CONTEXT.md and …)
+S2 base fm-send /context	reproduced	rc=1
+S2 head fm-send /context	pass	rc=0, /context rendered, agent alive, composer empty
+S2b head fm-send /fmprobe	pass	rc=0 and the command's reply FMPROBE-OK rendered
+S3 draft guard	pass	typed send refused, doorbell skipped, exit refused; draft '/cont' intact; agent alive
+S4 base fm-control exit	reproduced	rc=1 agent=idle
+S4 head fm-control exit	pass	stopped; agent deregistered
+S5 head fm-control relaunch	pass	rc=0; replacement Claude registered (idle); brief reply rendered=1

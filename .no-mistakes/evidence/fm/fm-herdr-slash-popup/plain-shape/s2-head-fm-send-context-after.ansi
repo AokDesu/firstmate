@@ -1,0 +1,38 @@
+     [0m[38;2;153;153;153m├ [0msuperpowers:brainstorming: [0m[38;2;153;153;153m~80 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:executing-plans: [0m[38;2;153;153;153m~70 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:using-superpowers: [0m[38;2;153;153;153m~60 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:dispatching-parallel-agents: [0m[38;2;153;153;153m~50 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:finishing-a-development-branch: [0m[38;2;153;153;153m~50 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:requesting-code-review: [0m[38;2;153;153;153m~50 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:subagent-driven-development: [0m[38;2;153;153;153m~40 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:systematic-debugging: [0m[38;2;153;153;153m~40 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:writing-skills: [0m[38;2;153;153;153m~40 tokens[0m
+     [0m[38;2;153;153;153m├ [0msuperpowers:test-driven-development: [0m[38;2;153;153;153m~40 tokens[0m
+     [0m[38;2;153;153;153m└ [0msuperpowers:writing-plans: [0m[38;2;153;153;153m~40 tokens[0m
+
+     [0m[38;2;153;153;153mPlugin (typesafe)[0m
+     [0m[38;2;153;153;153m└ [0mtypesafe:typesafe-ai: [0m[38;2;153;153;153m~230 tokens[0m
+
+     [0m[38;2;153;153;153mBuilt-in[0m
+     [0m[38;2;153;153;153m├ [0mdataviz: [0m[38;2;153;153;153m~480 tokens[0m
+     [0m[38;2;153;153;153m├ [0mclaude-api: [0m[38;2;153;153;153m~360 tokens[0m
+     [0m[38;2;153;153;153m├ [0martifact-capabilities: [0m[38;2;153;153;153m~250 tokens[0m
+     [0m[38;2;153;153;153m├ [0mupdate-config: [0m[38;2;153;153;153m~240 tokens[0m
+     [0m[38;2;153;153;153m├ [0mcode-review: [0m[38;2;153;153;153m~210 tokens[0m
+     [0m[38;2;153;153;153m├ [0mschedule: [0m[38;2;153;153;153m~130 tokens[0m
+     [0m[38;2;153;153;153m├ [0mrun: [0m[38;2;153;153;153m~120 tokens[0m
+     [0m[38;2;153;153;153m├ [0mloop: [0m[38;2;153;153;153m~120 tokens[0m
+     [0m[38;2;153;153;153m├ [0mworkflow-authoring: [0m[38;2;153;153;153m~80 tokens[0m
+     [0m[38;2;153;153;153m├ [0mkeybindings-help: [0m[38;2;153;153;153m~80 tokens[0m
+     [0m[38;2;153;153;153m├ [0mplugin-authoring: [0m[38;2;153;153;153m~80 tokens[0m
+     [0m[38;2;153;153;153m├ [0martifact-diagramming: [0m[38;2;153;153;153m~70 tokens[0m
+     [0m[38;2;153;153;153m├ [0martifact-design: [0m[38;2;153;153;153m~70 tokens[0m
+     [0m[38;2;153;153;153m├ [0mfewer-permission-prompts: [0m[38;2;153;153;153m~60 tokens[0m
+     [0m[38;2;153;153;153m├ [0msimplify: [0m[38;2;153;153;153m~60 tokens[0m
+     [0m[38;2;153;153;153m├ [0msecurity-review: [0m[38;2;153;153;153m~30 tokens[0m
+     [0m[38;2;153;153;153m└ [0minit: [0m[38;2;153;153;153m~20 tokens[0m
+
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+❯ 
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+  [0m[38;2;255;107;128m⏵⏵ bypass permissions on[0m[38;2;153;153;153m (shift+tab to cycle) · ← for agents             ◉ xhigh · /effort[0m

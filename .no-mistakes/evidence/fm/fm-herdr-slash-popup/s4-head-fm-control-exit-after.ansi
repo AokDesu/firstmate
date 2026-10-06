@@ -1,0 +1,39 @@
+     [0m[38;2;153;153;153m├ [0mplugin-authoring: [0m[38;2;153;153;153m~80 tokens[0m
+     [0m[38;2;153;153;153m├ [0mfewer-permission-prompts: [0m[38;2;153;153;153m~60 tokens[0m
+     [0m[38;2;153;153;153m├ [0msimplify: [0m[38;2;153;153;153m~60 tokens[0m
+     [0m[38;2;153;153;153m├ [0minit: [0m[38;2;153;153;153m~20 tokens[0m
+     [0m[38;2;153;153;153m└ [0msecurity-review: [0m[38;2;153;153;153m< 20 tokens[0m
+
+[0m[38;2;153;153;153m[48;2;55;55;55m❯[0m[48;2;55;55;55m [0m[38;2;255;255;255m[48;2;55;55;55m/fmprobe[0m[48;2;55;55;55m                                                                                    [0m
+
+[0m[38;2;255;255;255m●[0m FMPROBE-OK
+
+[0m[38;2;153;153;153m✻[0m [0m[38;2;153;153;153mCrunched for 2s · done 5:49 PM[0m
+
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+❯ [0m[38;2;177;185;249m/exit[0m
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+  [0m[38;2;255;193;7m⚠ Transcript saving is off — inherited CLAUDE_CODE_CHILD_SESSION marker[0m[38;2;153;153;153m · restart with CL…[0m
+  [0m[38;2;177;185;249m❯ /[0m[1m[38;2;177;185;249mexit[0m[38;2;177;185;249m                                [0m[1m[38;2;177;185;249mExit[0m[38;2;177;185;249m the CLI[0m           
+  [0m[38;2;153;153;153m  /edit-article                        Edit and improve articles by restructuring[0m
+                                         [0m[38;2;153;153;153msections, improving clarity, and tightening prose.…[0m
+  [0m[38;2;153;153;153m  /context                             Visualize current context usage as a colored grid[0m
+  [0m[38;2;153;153;153m  /usage-credits                       Configure usage credits or request them from your[0m
+                                         [0m[38;2;153;153;153madmin when you hit a limit[0m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[0m[1m[38;5;6mwt[0m [0m[3m[38;5;6mwkr[0m [0m[38;5;6m? [0m[1m[38;5;6m❯[0m 
+
+[0m[1m[38;5;6mwt[0m [0m[3m[38;5;6mwkr[0m [0m[38;5;6m? [0m[1m[38;5;6m❯[0m 

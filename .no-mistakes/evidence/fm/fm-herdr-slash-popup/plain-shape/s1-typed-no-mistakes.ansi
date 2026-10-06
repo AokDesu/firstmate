@@ -1,0 +1,21 @@
+unset CLAUDE_CODE_CHILD_SESSION CLAUDE_CODE_SESSION_ID CLAUDE_PID CLAUDE_EFFORT CLAUDE_CODE_ME
+SSAGING_SOCKET CLAUDECODE CLAUDE_CODE_SESSION_ATTENDED CLAUDE_CODE_ENTRYPOINT CLAUDE_CODE_EXEC
+PATH CLAUDE_CODE_MESSAGING_TOKEN; cd /tmp/fm-popup-scn.a3m6W0/wt && CLAUDE_CODE_ENABLE_PROMPT_
+SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings 
+'{"feedbackDrafts":"off"}'
+
+[0m[1m[38;5;6mwt[0m [0m[3m[38;5;6mwkr[0m [0m[38;5;6m? [0m[1m[38;5;6m❯[0m unset CLAUDE_CODE_CHILD_SESSION CLAUDE_CODE_SESSION_ID CLAUDE_PID CLAUDE_EFFORT CLA
+UDE_CODE_MESSAGING_SOCKET CLAUDECODE CLAUDE_CODE_SESSION_ATTENDED CLAUDE_CODE_ENTRYPOINT CLAUD
+E_CODE_EXECPATH CLAUDE_CODE_MESSAGING_TOKEN; cd /tmp/fm-popup-scn.a3m6W0/wt && CLAUDE_CODE_ENA
+BLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions 
+--settings '{"feedbackDrafts":"off"}'
+[0m[38;2;215;119;87m ▐[0m[38;2;215;119;87m[48;2;0;0;0m▛███▛█   [0m[1mClaude Code [0m[38;2;153;153;153mv2.1.291[0m
+[0m[38;2;215;119;87m▝▜[0m[38;2;215;119;87m[48;2;0;0;0m█████[0m[38;2;215;119;87m█▀  [0m[38;2;153;153;153mOpus 5.5 with xhigh effort · Claude Team[0m
+[0m[38;2;215;119;87m ▝▝   ▝▝   [0m[38;2;153;153;153m/tmp/fm-popup-scn.a3m6W0/wt[0m
+
+
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+❯ [0m[38;2;177;185;249m/no-mistakes[0m
+[0m[38;2;136;136;136m──────────────────────────────────────────────────────────────────────────────────────────────[0m
+  [0m[38;2;177;185;249m❯ /[0m[1m[38;2;177;185;249mno-mistakes[0m[38;2;177;185;249m                         Validate your code changes through the [0m[1m[38;2;177;185;249mno-mistakes[0m
+                                         [0m[38;2;177;185;249mpipeline - automated code review, tests, lint, doc…[0m

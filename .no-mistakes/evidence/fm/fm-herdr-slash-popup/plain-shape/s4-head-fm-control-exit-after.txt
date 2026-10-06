@@ -1,0 +1,39 @@
+     ├ simplify: ~60 tokens
+     ├ security-review: ~30 tokens
+     └ init: ~20 tokens
+
+❯ /fmprobe
+
+● FMPROBE-OK
+
+✻ Sautéed for 2s · done 5:54 PM
+
+──────────────────────────────────────────────────────────────────────────────────────────────
+❯ /exit
+──────────────────────────────────────────────────────────────────────────────────────────────
+  ❯ /exit                                Exit the CLI
+    /edit-article                        Edit and improve articles by restructuring
+                                         sections, improving clarity, and tightening prose.…
+    /context                             Visualize current context usage as a colored grid
+    /usage-credits                       Configure usage credits or request them from your
+                                         admin when you hit a limit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resume this session with:
+claude --resume 9167a048-cbb4-4fe4-90ba-fabd1b05c597
+
+wt wkr ? ❯
+
+wt wkr ? ❯
