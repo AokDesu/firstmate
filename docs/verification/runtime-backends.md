@@ -1239,9 +1239,60 @@ The pre-Enter payload proof then judged the typed command unsent, pressed Ctrl+U
 
 The fix captures the FULL VISIBLE VIEWPORT for every herdr adapter composer read (`pane read --source visible [--format ansi]`, `fm_backend_herdr_composer_state` and `fm_backend_herdr_composer_content`): the composer is by definition inside the viewport, and the viewport is the one bound that always contains it.
 The shared inbox pending-line confirmation read (`bin/fm-task-inbox-lib.sh`) stays a bounded tail on every backend, herdr included; its payloads are task lines, not slash commands, so the popup shape does not arise there.
-The popup rows sit below the composer's closing rule, which is a structural edge row, so the shared classifier still selects only the composer and the menu rows never read as typed text.
+The popup rows sit below the composer's closing rule, which is a structural edge row, so the shared classifier still selects only the composer and the unmarked menu rows never read as typed text (Claude Code 2.1.283 through 2.1.289; 2.1.291 marks the selected row, see below).
 Verified live in the lab: with the popup up the state read answers `pending` (previously `empty`) and the payload proof returns `/exit` (previously empty), the submit presses Enter, and the Claude process exits, leaving the shell prompt.
 Growing the window only adds rows above the composer, so the bottom-most-shape selection, the footer zone, and every previously passing verdict are unchanged.
+
+#### Claude Code 2.1.291 marks the popup's selected row
+
+Measured 2026-10-06 against Herdr 0.8.2 and Claude Code 2.1.289 and 2.1.291 on Haiku 4.5 in isolated `fm-lab-` sessions.
+
+Claude Code 2.1.283, 2.1.284, 2.1.285, 2.1.286, 2.1.288 and 2.1.289 draw the popup's selected row unmarked.
+Claude Code 2.1.291 (2.1.290 is not installed here) draws it as `  ❯ /exit    Exit the CLI`, with the `❯` its composer uses, and indents the other rows to match.
+That row lies below the composer's closing rule, so it became the bottom-most bare agent-glyph row.
+The footer-zone rule deliberately keeps a row that leads with the envelope's own glyph as a live composer, so the popup's first row won the selection and the typed command's read-back was the whole popup list.
+The pre-Enter payload proof then judged `/exit` unsent, pressed Ctrl+U, and reported `send-failed`, so `bin/fm-control.sh exit` and every slash command sent through `bin/fm-send.sh` failed on Herdr.
+The notification row Claude draws under the composer when it runs inside another Claude session is not involved: the failure reproduces without it.
+
+`_fm_composer_select_cursorless` now demotes that row to the envelope above it, through `_fm_composer_bare_is_popup_selection`, only when every condition holds.
+The row lies below the closing row of a glyph-proven envelope.
+That envelope's own glyph row holds typed text opening with `/`, so the read it falls back to is never empty.
+The row opens with `/` (or `…`, a name truncated to its column) and carries a gap of two or more spaces before its description, which a numbered-choice dialog row lacks.
+The selected popup row is not always the typed text (typing `/` selects the first command, and a long plugin command name is truncated), so no equality check is made.
+Any other row keeps its previous reading, and none of these can read `empty`.
+The other cursorless backends (cmux, orca, zellij) share this classifier and inherit the change without a live check here.
+
+Portable regressions run against real captures (`tests/captures/claude-2.1.291-slash-popup`); they fail against the previous classifier and pass against this one:
+
+```sh
+tests/fm-composer-lib.test.sh
+tests/fm-backend-herdr.test.sh
+```
+
+```text
+ok - fm_composer_extract_selected_content: Claude 2.1.291's marked popup row is not read as the composer
+ok - fm_composer_classify_screen: the popup demotion needs typed slash text and the popup row shape, and never reads empty
+ok - fm_backend_herdr_composer_content: Claude 2.1.291's marked popup row is not read as the typed command
+ok - fm_backend_herdr_send_text_submit: a slash command behind Claude 2.1.291's marked popup row is proven and submitted
+ok - fm_backend_herdr_send_text_submit: with Claude 2.1.291's popup on screen a suffix, a placeholder plus remainder, or a prefix is still refused and cleared
+```
+
+Live guard, which fails against the previous classifier on 2.1.291 at the `/exit` scenario, with `ANTHROPIC_MODEL=claude-haiku-4-5-20251001` selecting the model (the pane banner reads `Haiku 4.5`):
+
+```sh
+FM_HERDR_SUBMIT_CONFIRM_LIVE=1 tests/fm-herdr-submit-confirm-live-e2e.test.sh
+```
+
+```text
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 reports empty and renders the requested reply in isolated session fm-lab-herdr-submit-con-502851-32147
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 submits a U+2063 away-supervisor payload whose read-back drops the mark
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /context behind its command popup
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /exit behind its command popup
+```
+
+The real control and steer paths, run by hand against Claude Code 2.1.291 in the lab with a scratch home whose task record names the pane, answered as follows.
+`bin/fm-control.sh <id> exit` answered `error: the exit command could not be sent to task <id> on herdr` before the change and `stopped <id> harness=claude backend=herdr ...` after it.
+`bin/fm-send.sh <id> /context` answered `error: text not sent to <endpoint> (herdr send failed; ...)` with exit 1 before the change, and exit 0 after it with Claude's `/context` output rendered.
 
 Portable regressions (they fail against the bounded-tail reads and pass against the viewport reads):
 
