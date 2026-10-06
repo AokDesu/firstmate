@@ -1281,6 +1281,8 @@ That envelope's own glyph row leads with the agent glyph, with no side border to
 The row opens with `/` (or `…`, a name truncated to its column) and carries a gap of two or more spaces before its description, which a numbered-choice dialog row lacks.
 The selected popup row is not always the typed text (typing `/` selects the first command, and a long plugin command name is truncated), so no equality check is made.
 Any other row keeps its previous reading, and none of these can read `empty`.
+Unverified follow-up: a bordered-box composer with the marked popup row below it is out of scope here.
+Its state read still refuses with `pending`, but its payload read still returns the popup list, so a slash command typed into a boxed Claude 2.1.291 composer would still fail the pre-Enter proof; no capture or live run here shows 2.1.291 drawing the box with the popup up.
 The other cursorless backends (cmux, orca, zellij) share this classifier and inherit the change without a live check here.
 
 Portable regressions run against real captures (`tests/captures/claude-2.1.291-slash-popup`); they fail against the previous classifier and pass against this one:

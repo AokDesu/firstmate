@@ -412,15 +412,10 @@ test_claude_slash_popup_demotion_only_ever_refuses() {
     assert_screen "a ghost-styled typed command on zellij" pending "$CAPS_STYLED_NOID" "$screen"
   done
   # 6. A bordered box is no borderless row to fall back to, so a marked row
-  #    directly below one keeps the reading it had before the demotion.
+  #    directly below one still reads pending.
   screen=$'transcript line\n╭───────────────────────────╮\n│ ❯ /exit                   │\n╰───────────────────────────╯\n  ❯ /exit    Exit the CLI\n    /context    Visualize context'
   assert_screen "a typed command in a box above a marked row on herdr" pending "$CAPS_STYLED" "$screen" '' "$claude_idle"
   assert_screen "a typed command in a box above a marked row on zellij" pending "$CAPS_STYLED_NOID" "$screen"
-  out=$(fm_composer_extract_selected_content "$CAPS_STYLED_NOID" "$screen")
-  case "$out" in
-    '/exit Exit the CLI'*) ;;
-    *) fail "a box envelope must not license the popup demotion, got '$out'" ;;
-  esac
   pass "fm_composer_classify_screen: the popup demotion needs typed slash text and the popup row shape, and never reads empty"
 }
 
