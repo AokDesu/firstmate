@@ -1471,10 +1471,12 @@ _fm_composer_locate_footer_zone() {  # <plain>
 # popup sits under. Every condition must hold, so that the demotion can only
 # swap one non-empty read for another and never move a verdict toward `empty`:
 #   - the row lies below the closing row of a glyph-proven envelope;
-#   - that envelope's own glyph row holds typed text opening with `/`, the only
-#     input that opens the popup, so the envelope it falls back to is non-empty.
-#     It is read from <screen> through _fm_composer_row_content, the same
-#     ghost-stripped view the verdict and the extractor read;
+#   - that envelope's own glyph row leads with its agent glyph on <plain-screen>,
+#     the borderless row the caller falls back to;
+#   - that glyph row holds typed text opening with `/`, the only input that
+#     opens the popup, so the envelope it falls back to is non-empty. It is read
+#     from <screen> through _fm_composer_row_content, the same ghost-stripped
+#     view the verdict and the extractor read;
 #   - the row opens `/` (or `…`, a name truncated to its column) and carries a
 #     gap of two or more spaces before its description. A numbered-choice
 #     dialog row (`❯ 1. Yes`) has neither, and stays a bare candidate.
@@ -1482,10 +1484,12 @@ _fm_composer_bare_is_popup_selection() {  # <plain-screen> <screen> <styled> <ro
   local plain=$1 screen=$2 styled=$3 row=$4 trimmed glyph='' rest
   [ "$row" -ge 0 ] && [ "$FM_COMPOSER_FOOTER_GLYPH" -ge 0 ] \
     && [ "$row" -gt "$FM_COMPOSER_FOOTER_AFTER" ] || return 1
-  trimmed=$(_fm_composer_screen_row "$FM_COMPOSER_FOOTER_GLYPH" "$screen")
-  trimmed=$(_fm_composer_row_content "$trimmed" "$styled")
+  trimmed=$(_fm_composer_screen_row "$FM_COMPOSER_FOOTER_GLYPH" "$plain")
+  fm_composer_normalize_trim_var trimmed
   fm_composer_leading_agent_glyph_var glyph "$trimmed" || return 1
-  rest=${trimmed#*"$glyph"}
+  rest=$(_fm_composer_screen_row "$FM_COMPOSER_FOOTER_GLYPH" "$screen")
+  rest=$(_fm_composer_row_content "$rest" "$styled")
+  rest=${rest#"$glyph"}
   fm_composer_normalize_trim_var rest
   case "$rest" in /*) ;; *) return 1 ;; esac
   trimmed=$(_fm_composer_screen_row "$row" "$plain")

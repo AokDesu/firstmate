@@ -1277,7 +1277,7 @@ The notification row Claude draws under the composer when it runs inside another
 
 `_fm_composer_select_cursorless` now demotes that row to the envelope above it, through `_fm_composer_bare_is_popup_selection`, only when every condition holds.
 The row lies below the closing row of a glyph-proven envelope.
-That envelope's own glyph row holds typed text opening with `/`, read under the ghost-strip threshold of the calling read (the state read or the payload read), so the read it falls back to is never empty: typed text that read strips as ghost cannot license the demotion.
+That envelope's own glyph row leads with the agent glyph, with no side border to strip (a bordered box keeps its previous reading), and holds typed text opening with `/`, read under the ghost-strip threshold of the calling read (the state read or the payload read), so the read it falls back to is never empty: typed text that read strips as ghost cannot license the demotion.
 The row opens with `/` (or `…`, a name truncated to its column) and carries a gap of two or more spaces before its description, which a numbered-choice dialog row lacks.
 The selected popup row is not always the typed text (typing `/` selects the first command, and a long plugin command name is truncated), so no equality check is made.
 Any other row keeps its previous reading, and none of these can read `empty`.

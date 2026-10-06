@@ -364,11 +364,12 @@ test_claude_slash_popup_demotion_only_ever_refuses() {
   # may only fire when that envelope holds typed `/` text and the row has the
   # popup shape (`/name` or a truncated `…name`, a gap, then a description).
   # Anything else keeps the old reading, and none of these may ever read empty.
-  local screen out style claude_idle
+  local screen out style claude_idle original
   local rule='────────────────────────'
   local dir=$ROOT/tests/captures/claude-2.1.291-slash-popup
   local typed=$'\e[38;2;177;185;249m/exit\e[0m'
   claude_idle=$(printf 'claude\tidle')
+  original=$(cat "$dir/exit-typed.ansi")
   # 1. An EMPTY composer with a popup-shaped row below it: a popup cannot be
   #    open over an empty composer, so the row is not demoted to the empty
   #    envelope above it.
@@ -405,11 +406,21 @@ test_claude_slash_popup_demotion_only_ever_refuses() {
   #    112;112;112 Claude 2.1.283 drew it in) or SGR 2 dim strips to a bare
   #    `❯`, so that envelope is no fallback and the marked row keeps its read.
   for style in $'\e[38;2;112;112;112m' $'\e[2m'; do
-    screen=$(cat "$dir/exit-typed.ansi")
-    screen=${screen/"$typed"/"$style/exit"$'\e[0m'}
+    screen=${original/"$typed"/"$style/exit"$'\e[0m'}
+    [ "$screen" != "$original" ] || fail "the capture's typed /exit was not restyled"
     assert_screen "a ghost-styled typed command on herdr" pending "$CAPS_STYLED" "$screen" '' "$claude_idle"
     assert_screen "a ghost-styled typed command on zellij" pending "$CAPS_STYLED_NOID" "$screen"
   done
+  # 6. A bordered box is no borderless row to fall back to, so a marked row
+  #    directly below one keeps the reading it had before the demotion.
+  screen=$'transcript line\n╭───────────────────────────╮\n│ ❯ /exit                   │\n╰───────────────────────────╯\n  ❯ /exit    Exit the CLI\n    /context    Visualize context'
+  assert_screen "a typed command in a box above a marked row on herdr" pending "$CAPS_STYLED" "$screen" '' "$claude_idle"
+  assert_screen "a typed command in a box above a marked row on zellij" pending "$CAPS_STYLED_NOID" "$screen"
+  out=$(fm_composer_extract_selected_content "$CAPS_STYLED_NOID" "$screen")
+  case "$out" in
+    '/exit Exit the CLI'*) ;;
+    *) fail "a box envelope must not license the popup demotion, got '$out'" ;;
+  esac
   pass "fm_composer_classify_screen: the popup demotion needs typed slash text and the popup row shape, and never reads empty"
 }
 
