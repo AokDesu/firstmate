@@ -8,9 +8,10 @@
 # idle steer. It then requires the same submit path to prove and submit typed
 # slash commands behind the command popup Claude renders below the composer
 # (the fm-control exit breakage on 2.1.283, and on 2.1.291 the popup's selected
-# row carrying a `❯` marker of its own): /context must confirm delivered with
-# the agent still alive, and /exit must actually exit the agent. It fails naming
-# the harness and version rather than degrading quietly.
+# row carrying a `❯` marker of its own): /context must confirm delivered,
+# render its report, and leave the agent alive, and /exit must actually exit
+# the agent. It fails naming the harness and version rather than degrading
+# quietly.
 #
 # Run explicitly with FM_HERDR_SUBMIT_CONFIRM_LIVE=1 after a Herdr or Claude
 # upgrade, and before trusting a refreshed docs/verification/runtime-backends.md
@@ -182,9 +183,10 @@ pass "live Herdr submit confirm: Claude Code ($VERSION) on $HERDR_VER submits a 
 # fm-send routes any text with a leading `/` through this same typed submit, so
 # a slash command that does not end the session must also be proven behind the
 # popup and confirm delivered. /context is a local command that spends no model
-# tokens; the agent must stay registered afterwards and its composer must be
-# empty again. Claude Code 2.1.291 marks the popup's selected row with a `❯` of
-# its own, which the composer read must not take for the typed command.
+# tokens; its report must render, the agent must stay registered afterwards,
+# and its composer must be empty again. Claude Code 2.1.291 marks the popup's
+# selected row with a `❯` of its own, which the composer read must not take for
+# the typed command.
 i=0
 while [ "$i" -lt 45 ]; do
   st=$(lab agent get "$PANE" 2>/dev/null | jq -r '.result.agent.agent_status // empty')
@@ -196,11 +198,27 @@ verdict=$(fm_backend_herdr_send_text_submit "$TARGET" '/context' 3 0.4 1.2) \
   || fail "send_text_submit failed to run the /context submission against Claude Code ($VERSION) on $HERDR_VER"
 [ "$verdict" = empty ] \
   || fail "Claude Code ($VERSION) on $HERDR_VER: a typed /context behind its command popup must confirm empty, got '$verdict'"
+# Confirm /context ran, not merely that the composer cleared: its report opens
+# with a `Context Usage` heading, which the popup's lowercase description does
+# not match. The report can run to hundreds of rows, so the read reaches far
+# enough back to keep its heading.
+rendered=0
+i=0
+while [ "$i" -lt 45 ]; do
+  screen=$(lab pane read "$PANE" --source recent --lines 1000 2>/dev/null || true)
+  case "$screen" in
+    *'Context Usage'*) rendered=1; break ;;
+  esac
+  i=$((i + 1))
+  sleep 1
+done
+[ "$rendered" = 1 ] \
+  || fail "Claude Code ($VERSION) on $HERDR_VER: /context reported '$verdict' but its Context Usage report never rendered"
 lab agent get "$PANE" >/dev/null 2>&1 \
   || fail "Claude Code ($VERSION) on $HERDR_VER: the agent is no longer registered after /context"
 [ "$(fm_backend_herdr_composer_state "$TARGET")" = empty ] \
   || fail "Claude Code ($VERSION) on $HERDR_VER: the composer did not read empty after the /context submission"
-pass "live Herdr submit confirm: Claude Code ($VERSION) on $HERDR_VER proves and submits a typed /context behind its command popup"
+pass "live Herdr submit confirm: Claude Code ($VERSION) on $HERDR_VER proves and submits a typed /context behind its command popup and renders its report"
 
 # The fm-control exit regression: a typed slash command (/exit) makes Claude
 # Code 2.1.283 render its command popup between the composer and the pane

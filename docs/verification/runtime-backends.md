@@ -1286,31 +1286,38 @@ Unverified follow-up: a bordered-box composer with the marked popup row below it
 Its state read still refuses with `pending`, but its payload read still returns the popup list, so a slash command typed into a boxed Claude 2.1.291 composer would still fail the pre-Enter proof; no capture or live run here shows 2.1.291 drawing the box with the popup up.
 The other cursorless backends (cmux, orca, zellij) share this classifier and inherit the change without a live check here.
 
-Portable regressions run against real captures (`tests/captures/claude-2.1.291-slash-popup`); they fail against the previous classifier and pass against this one:
+Portable tests run against real captures (`tests/captures/claude-2.1.291-slash-popup`):
 
 ```sh
 tests/fm-composer-lib.test.sh
 tests/fm-backend-herdr.test.sh
 ```
 
+These three are before-and-after regressions: each fails against the previous classifier and passes against this one.
+
 ```text
 ok - fm_composer_extract_selected_content: Claude 2.1.291's marked popup row is not read as the composer
-ok - fm_composer_classify_screen: the popup demotion needs typed slash text and the popup row shape, and never reads empty
 ok - fm_backend_herdr_composer_content: Claude 2.1.291's marked popup row is not read as the typed command
 ok - fm_backend_herdr_send_text_submit: a slash command behind Claude 2.1.291's marked popup row is proven and submitted
+```
+
+These two are guards, not regressions: they already pass against the previous classifier, and check that the demotion keeps the refusals that classifier made.
+
+```text
+ok - fm_composer_classify_screen: the popup demotion needs typed slash text and the popup row shape, and never reads empty
 ok - fm_backend_herdr_send_text_submit: with Claude 2.1.291's popup on screen a suffix, a placeholder plus remainder, or a prefix is still refused and cleared
 ```
 
-Live guard, which fails against the previous classifier on 2.1.291 at the `/exit` scenario, with `ANTHROPIC_MODEL=claude-haiku-4-5-20251001` selecting the model (the pane banner reads `Haiku 4.5`):
+Live guard, which fails against the previous classifier on 2.1.291 at the `/context` scenario (`send-failed`), with `ANTHROPIC_MODEL=claude-haiku-4-5-20251001` selecting the model (the pane banner reads `Haiku 4.5`):
 
 ```sh
 FM_HERDR_SUBMIT_CONFIRM_LIVE=1 tests/fm-herdr-submit-confirm-live-e2e.test.sh
 ```
 
 ```text
-ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 reports empty and renders the requested reply in isolated session fm-lab-herdr-submit-con-502851-32147
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 reports empty and renders the requested reply in isolated session fm-lab-herdr-submit-con-1098793-23839
 ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 submits a U+2063 away-supervisor payload whose read-back drops the mark
-ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /context behind its command popup
+ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /context behind its command popup and renders its report
 ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8.2 proves and submits a typed /exit behind its command popup
 ```
 
