@@ -1243,6 +1243,27 @@ The popup rows sit below the composer's closing rule, which is a structural edge
 Verified live in the lab: with the popup up the state read answers `pending` (previously `empty`) and the payload proof returns `/exit` (previously empty), the submit presses Enter, and the Claude process exits, leaving the shell prompt.
 Growing the window only adds rows above the composer, so the bottom-most-shape selection, the footer zone, and every previously passing verdict are unchanged.
 
+Portable regressions (they fail against the bounded-tail reads and pass against the viewport reads):
+
+```sh
+tests/fm-backend-herdr.test.sh
+```
+
+```text
+ok - fm_backend_herdr_composer_state: a slash-command popup cannot hide a typed composer
+ok - fm_backend_herdr_send_text_submit: a typed slash command hidden behind its popup is still proven and submitted
+```
+
+Live guard (the `/exit` scenario of the opt-in guard, verifying the agent actually exited):
+
+```sh
+FM_HERDR_SUBMIT_CONFIRM_LIVE=1 tests/fm-herdr-submit-confirm-live-e2e.test.sh
+```
+
+```text
+ok - live Herdr submit confirm: Claude Code (2.1.283 (Claude Code)) on herdr 0.9.0 proves and submits a typed /exit behind its command popup
+```
+
 #### Claude Code 2.1.291 marks the popup's selected row
 
 Measured 2026-10-06 against Herdr 0.8.2 and Claude Code 2.1.289 and 2.1.291 on Haiku 4.5 in isolated `fm-lab-` sessions.
@@ -1256,7 +1277,7 @@ The notification row Claude draws under the composer when it runs inside another
 
 `_fm_composer_select_cursorless` now demotes that row to the envelope above it, through `_fm_composer_bare_is_popup_selection`, only when every condition holds.
 The row lies below the closing row of a glyph-proven envelope.
-That envelope's own glyph row holds typed text opening with `/`, so the read it falls back to is never empty.
+That envelope's own glyph row holds typed text opening with `/`, read under the ghost-strip threshold of the calling read (the state read or the payload read), so the read it falls back to is never empty: typed text that read strips as ghost cannot license the demotion.
 The row opens with `/` (or `…`, a name truncated to its column) and carries a gap of two or more spaces before its description, which a numbered-choice dialog row lacks.
 The selected popup row is not always the typed text (typing `/` selects the first command, and a long plugin command name is truncated), so no equality check is made.
 Any other row keeps its previous reading, and none of these can read `empty`.
@@ -1293,27 +1314,6 @@ ok - live Herdr submit confirm: Claude Code (2.1.291 (Claude Code)) on herdr 0.8
 The real control and steer paths, run by hand against Claude Code 2.1.291 in the lab with a scratch home whose task record names the pane, answered as follows.
 `bin/fm-control.sh <id> exit` answered `error: the exit command could not be sent to task <id> on herdr` before the change and `stopped <id> harness=claude backend=herdr ...` after it.
 `bin/fm-send.sh <id> /context` answered `error: text not sent to <endpoint> (herdr send failed; ...)` with exit 1 before the change, and exit 0 after it with Claude's `/context` output rendered.
-
-Portable regressions (they fail against the bounded-tail reads and pass against the viewport reads):
-
-```sh
-tests/fm-backend-herdr.test.sh
-```
-
-```text
-ok - fm_backend_herdr_composer_state: a slash-command popup cannot hide a typed composer
-ok - fm_backend_herdr_send_text_submit: a typed slash command hidden behind its popup is still proven and submitted
-```
-
-Live guard (third scenario of the opt-in guard, verifying the agent actually exited):
-
-```sh
-FM_HERDR_SUBMIT_CONFIRM_LIVE=1 tests/fm-herdr-submit-confirm-live-e2e.test.sh
-```
-
-```text
-ok - live Herdr submit confirm: Claude Code (2.1.283 (Claude Code)) on herdr 0.9.0 proves and submits a typed /exit behind its command popup
-```
 
 ### Claude background-task exit picker
 
