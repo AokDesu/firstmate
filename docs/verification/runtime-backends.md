@@ -2616,6 +2616,8 @@ A throwaway scout was spawned through `bin/fm-spawn.sh --scout --harness omp --m
 
 Verified 2026-10-15 on omp 18.11.0 (Linux x64): `bash.patterns` `deny` rules in the `--config` overlay refuse the matching bash-tool call under `--auto-approve`, whose yolo mode still enforces an explicit deny.
 A rule matches the whole command or a segment split on `&&`, `||`, `;`, `|`, `&`, a newline, and subshells, each of which the guard exercises with `git push origin main`; the push rules name the ref exactly, so the guard also pushes task branches `maintenance-x` and `mastery-y` and the refspec `fm/omp-deny-task:main-fix`; `env sudo true`, `SUDO=1 sudo true`, and `bash -c "sudo true"` were not refused, and neither was a command that only quotes a pattern, such as `echo "gh pr merge"`.
+Also not refused: `git --no-pager push origin HEAD:main` (it moved origin's `main`), `git -c k=v push`, and `git push --all`, which pushes the shared local `main`; these are accepted limits because the rules read the command text as typed.
+A push chained with a command whose last argument is `main` or `master`, such as `git push -u origin fm/omp-deny-task && gh pr create --base main` or `git push origin fm/omp-deny-task && git fetch origin main`, is refused with `Blocked by bash pattern: git push* main`, because the whole-command match sees the trailing ref; the worker recovers by running the push as its own command.
 The default-on guard replays the launch flags `bin/fm-spawn.sh` builds against the installed omp with a scripted local model, so it spends no tokens:
 
 ```sh
