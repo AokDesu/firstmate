@@ -245,8 +245,9 @@
 #   that still refuse a PR merge, sudo, or a push to a main/master default
 #   branch under --auto-approve (which otherwise owns approval). Those rules
 #   read the bash tool's command text only: omp's eval tool, a script,
-#   `bash -c`, or a wrapper such as `env` sidesteps them, and they bind omp
-#   workers alone; the overlay's comments own the exact rules. The captain's
+#   `bash -c`, or a wrapper such as `env` sidesteps them, and they bind every omp
+#   session launched with the overlay (workers and secondmates; bin/fm-pr-merge.sh
+#   and bin/fm-merge-local.sh are not matched); the overlay's comments own the exact rules. The captain's
 #   own ~/.omp/agent/config.yml (model roles, providers, theme) is never
 #   written.
 #   A model written as <provider>/<id> is validated against `omp models --json`

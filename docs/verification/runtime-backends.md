@@ -2615,7 +2615,7 @@ A throwaway scout was spawned through `bin/fm-spawn.sh --scout --harness omp --m
 ### Worker refusals
 
 Verified 2026-10-15 on omp 18.11.0 (Linux x64): `bash.patterns` `deny` rules in the `--config` overlay refuse the matching bash-tool call under `--auto-approve`, whose yolo mode still enforces an explicit deny.
-A rule matches the whole command or a segment split on `&&`, `;`, `|`, and subshells; `env sudo true`, `SUDO=1 sudo true`, and `bash -c "sudo true"` were not refused, and neither was a command that only quotes a pattern, such as `echo "gh pr merge"`.
+A rule matches the whole command or a segment split on `&&`, `||`, `;`, `|`, `&`, a newline, and subshells, each of which the guard exercises with `git push origin main`; the push rules name the ref exactly, so the guard also pushes task branches `maintenance-x` and `mastery-y` and the refspec `fm/omp-deny-task:main-fix`; `env sudo true`, `SUDO=1 sudo true`, and `bash -c "sudo true"` were not refused, and neither was a command that only quotes a pattern, such as `echo "gh pr merge"`.
 The default-on guard replays the launch flags `bin/fm-spawn.sh` builds against the installed omp with a scripted local model, so it spends no tokens:
 
 ```sh
@@ -2628,6 +2628,7 @@ ok - omp omp/18.11.0 still runs the worker task-branch push and other gh command
 # all fm-omp-worker-deny-live-e2e tests passed
 ```
 
+The overlay is passed on every Firstmate-launched omp session, so omp secondmates carry the same rules; `bin/fm-pr-merge.sh` and `bin/fm-merge-local.sh` do not match them.
 Against the overlay without the rules, the same guard failed on its first case, `gh pr merge 7 --squash`, which reached its program.
 A real `openai-codex/gpt-6-astra` worker under the captain's own config and the overlay, asked to run each command, got `Tool "bash" is blocked by tool policy` for `gh pr merge`, `gh-axi pr merge`, `sudo true`, and `git push origin HEAD:main`, while `git push -u origin fm/live-proof` created the branch on origin and `gh pr view 7` ran.
 

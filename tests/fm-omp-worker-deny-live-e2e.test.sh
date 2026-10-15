@@ -44,6 +44,10 @@ capture_omp_flags() {
   FM_FAKE_LAUNCH_LOG="$launchlog" fm_test_run_spawn "$home" "$case_dir/wt" "$fakebin" "$id" "$proj" --scout >/dev/null ||
     fail "omp $OMP_VERSION: fm-spawn could not build a worker launch"
   launch=$(cat "$launchlog")
+  case "$launch" in
+    *"/omp' "*) ;;
+    *) fail "could not find the quoted omp path in the captured launch: $launch" ;;
+  esac
   flags=${launch#*"/omp' "}
   flags=${flags%% -e *}
   case "$flags" in
@@ -155,7 +159,18 @@ test_merge_sudo_and_default_branch_push_are_refused() {
     'git push origin HEAD:main' \
     'git push --force origin +HEAD:refs/heads/main' \
     "git -C '$WT' push origin HEAD:master" \
-    'git fetch -q origin && git push origin main'; do
+    'git push origin main' \
+    'git push origin :main' \
+    'git push origin master' \
+    'git push origin main --force' \
+    'git fetch -q origin && git push origin main' \
+    'false || git push origin main' \
+    'true ; git push origin main' \
+    'sleep 0 & git push origin main' \
+    'true | git push origin main' \
+    '(git push origin main)' \
+    "true
+git push origin main"; do
     expect_refused "$cmd"
   done
   [ ! -s "$CASE/stub.log" ] || fail "a refused command still reached its program: $(cat "$CASE/stub.log")"
@@ -171,6 +186,16 @@ test_task_branch_push_and_other_commands_still_run() {
   out=$(worker_bash "git push -u origin $BRANCH")
   [ "$(git -C "$ORIGIN" rev-parse -q --verify "refs/heads/$BRANCH")" = "$(git -C "$WT" rev-parse HEAD)" ] ||
     fail "omp $OMP_VERSION refused the worker's own task-branch push: $out"
+  local branch
+  for branch in maintenance-x mastery-y; do
+    git -C "$WT" branch -q "$branch"
+    out=$(worker_bash "git push origin $branch")
+    [ "$(git -C "$ORIGIN" rev-parse -q --verify "refs/heads/$branch")" = "$(git -C "$WT" rev-parse HEAD)" ] ||
+      fail "omp $OMP_VERSION refused the push of task branch $branch: $out"
+  done
+  out=$(worker_bash "git push origin $BRANCH:main-fix")
+  [ "$(git -C "$ORIGIN" rev-parse -q --verify refs/heads/main-fix)" = "$(git -C "$WT" rev-parse HEAD)" ] ||
+    fail "omp $OMP_VERSION refused a refspec whose destination only starts with main: $out"
   out=$(worker_bash 'gh pr view 7 -R owner/repo')
   grep -qx 'gh pr view 7 -R owner/repo' "$CASE/stub.log" ||
     fail "omp $OMP_VERSION refused a non-merge gh command: $out"

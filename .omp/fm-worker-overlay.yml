@@ -14,12 +14,17 @@ bash:
   # absolute in every approval mode), so a worker's bash tool cannot merge a PR,
   # run sudo, or push to a main/master default branch; its own task-branch push
   # still runs. A rule matches the whole command or any segment split on &&, ||,
-  # ;, |, & and subshells, with `*` as the only wildcard. Known limits: the
-  # rules cover the bash tool only (omp's eval tool can still spawn a shell),
-  # they read the command text as typed (a script, `bash -c "..."`, `env sudo`,
-  # an assignment prefix, or a default branch named other than main/master
-  # sidesteps them), they apply only to omp workers, and this list replaces any
-  # `bash.patterns` of the captain's own for the worker session.
+  # ;, |, & and subshells, with `*` as the only wildcard. A push rule names the
+  # ref exactly (main or master as a bare argument, after `:` or `+`, or as
+  # refs/heads/<name>), as an end-of-segment and a followed-by-space variant, so
+  # a task branch such as maintenance-x or a refspec such as fm/x:main-fix still
+  # pushes. Known limits: the rules cover the bash tool only (omp's eval tool can
+  # still spawn a shell), they read the command text as typed (a script,
+  # `bash -c "..."`, `env sudo`, an assignment prefix, or a default branch named
+  # other than main/master sidesteps them), they reach every omp session
+  # launched with this overlay (workers and secondmates; the sanctioned
+  # bin/fm-pr-merge.sh and bin/fm-merge-local.sh paths do not match them), and
+  # this list replaces any `bash.patterns` of the captain's own for the session.
   patterns:
     - {match: "sudo", approval: deny}
     - {match: "sudo *", approval: deny}
@@ -29,22 +34,38 @@ bash:
     - {match: "gh* api*/merge*PUT*", approval: deny}
     - {match: "gh* api*mergePullRequest*", approval: deny}
     - {match: "gh* api*PullRequestAutoMerge*", approval: deny}
-    - {match: "git push* main*", approval: deny}
-    - {match: "git push*:main*", approval: deny}
-    - {match: "git push*+main*", approval: deny}
-    - {match: "git push*/heads/main*", approval: deny}
-    - {match: "git push* master*", approval: deny}
-    - {match: "git push*:master*", approval: deny}
-    - {match: "git push*+master*", approval: deny}
-    - {match: "git push*/heads/master*", approval: deny}
-    - {match: "git -C * push* main*", approval: deny}
-    - {match: "git -C * push*:main*", approval: deny}
-    - {match: "git -C * push*+main*", approval: deny}
-    - {match: "git -C * push*/heads/main*", approval: deny}
-    - {match: "git -C * push* master*", approval: deny}
-    - {match: "git -C * push*:master*", approval: deny}
-    - {match: "git -C * push*+master*", approval: deny}
-    - {match: "git -C * push*/heads/master*", approval: deny}
+    - {match: "git push* main", approval: deny}
+    - {match: "git push* main *", approval: deny}
+    - {match: "git push*:main", approval: deny}
+    - {match: "git push*:main *", approval: deny}
+    - {match: "git push*+main", approval: deny}
+    - {match: "git push*+main *", approval: deny}
+    - {match: "git push*refs/heads/main", approval: deny}
+    - {match: "git push*refs/heads/main *", approval: deny}
+    - {match: "git push* master", approval: deny}
+    - {match: "git push* master *", approval: deny}
+    - {match: "git push*:master", approval: deny}
+    - {match: "git push*:master *", approval: deny}
+    - {match: "git push*+master", approval: deny}
+    - {match: "git push*+master *", approval: deny}
+    - {match: "git push*refs/heads/master", approval: deny}
+    - {match: "git push*refs/heads/master *", approval: deny}
+    - {match: "git -C * push* main", approval: deny}
+    - {match: "git -C * push* main *", approval: deny}
+    - {match: "git -C * push*:main", approval: deny}
+    - {match: "git -C * push*:main *", approval: deny}
+    - {match: "git -C * push*+main", approval: deny}
+    - {match: "git -C * push*+main *", approval: deny}
+    - {match: "git -C * push*refs/heads/main", approval: deny}
+    - {match: "git -C * push*refs/heads/main *", approval: deny}
+    - {match: "git -C * push* master", approval: deny}
+    - {match: "git -C * push* master *", approval: deny}
+    - {match: "git -C * push*:master", approval: deny}
+    - {match: "git -C * push*:master *", approval: deny}
+    - {match: "git -C * push*+master", approval: deny}
+    - {match: "git -C * push*+master *", approval: deny}
+    - {match: "git -C * push*refs/heads/master", approval: deny}
+    - {match: "git -C * push*refs/heads/master *", approval: deny}
 composer:
   # Renders a bare `❯` (U+276F) row, a glyph the shared composer classifier
   # already reads; the shipped default `band` and six other shapes are not in
