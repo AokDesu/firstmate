@@ -241,9 +241,14 @@
 #   directory with --cwd, and passes the tracked worker posture overlay
 #   .omp/fm-worker-overlay.yml through --config. That overlay pins composer
 #   shape, plan mode off, prewalk off, and the non-interactive usage-reserve
-#   policy for the one session only (--auto-approve alone owns approval); the
-#   captain's own ~/.omp/agent/config.yml (model roles, providers, theme) is
-#   never written.
+#   policy for the one session only, and carries `bash.patterns` deny rules
+#   that still refuse a PR merge, sudo, or a push to a main/master default
+#   branch under --auto-approve (which otherwise owns approval). Those rules
+#   read the bash tool's command text only: omp's eval tool, a script,
+#   `bash -c`, or a wrapper such as `env` sidesteps them, and they bind omp
+#   workers alone; the overlay's comments own the exact rules. The captain's
+#   own ~/.omp/agent/config.yml (model roles, providers, theme) is never
+#   written.
 #   A model written as <provider>/<id> is validated against `omp models --json`
 #   only when that provider appears in the listing; a provider absent from the
 #   listing (an extension-registered provider such as claude-bridge, which omp

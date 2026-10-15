@@ -4,10 +4,47 @@
 # analogue of the Pi adapter's `--tui-mode regular` pin: a per-launch overlay,
 # never a write to the captain's own ~/.omp/agent/config.yml, which stays
 # exactly as the captain set it (model roles, theme, providers, compaction).
-# Each key below pins one setting whose captain-facing value would park an
+# Most keys below pin one setting whose captain-facing value would park an
 # unattended worker on an interactive prompt, change its pinned model under it,
 # or make its composer unreadable to bin/fm-composer-lib.sh. Verified against
-# omp 18.1.11's own settings schema (`omp config list`).
+# omp 18.1.11's own settings schema (`omp config list`). `bash.patterns` is the
+# exception: it adds the worker's hard refusals.
+bash:
+  # Deny rules hold under --auto-approve (omp 18.11.0: a pattern `deny` is
+  # absolute in every approval mode), so a worker's bash tool cannot merge a PR,
+  # run sudo, or push to a main/master default branch; its own task-branch push
+  # still runs. A rule matches the whole command or any segment split on &&, ||,
+  # ;, |, & and subshells, with `*` as the only wildcard. Known limits: the
+  # rules cover the bash tool only (omp's eval tool can still spawn a shell),
+  # they read the command text as typed (a script, `bash -c "..."`, `env sudo`,
+  # an assignment prefix, or a default branch named other than main/master
+  # sidesteps them), they apply only to omp workers, and this list replaces any
+  # `bash.patterns` of the captain's own for the worker session.
+  patterns:
+    - {match: "sudo", approval: deny}
+    - {match: "sudo *", approval: deny}
+    - {match: "gh*pr merge*", approval: deny}
+    - {match: "gh*stack merge*", approval: deny}
+    - {match: "gh* api*PUT*/merge*", approval: deny}
+    - {match: "gh* api*/merge*PUT*", approval: deny}
+    - {match: "gh* api*mergePullRequest*", approval: deny}
+    - {match: "gh* api*PullRequestAutoMerge*", approval: deny}
+    - {match: "git push* main*", approval: deny}
+    - {match: "git push*:main*", approval: deny}
+    - {match: "git push*+main*", approval: deny}
+    - {match: "git push*/heads/main*", approval: deny}
+    - {match: "git push* master*", approval: deny}
+    - {match: "git push*:master*", approval: deny}
+    - {match: "git push*+master*", approval: deny}
+    - {match: "git push*/heads/master*", approval: deny}
+    - {match: "git -C * push* main*", approval: deny}
+    - {match: "git -C * push*:main*", approval: deny}
+    - {match: "git -C * push*+main*", approval: deny}
+    - {match: "git -C * push*/heads/main*", approval: deny}
+    - {match: "git -C * push* master*", approval: deny}
+    - {match: "git -C * push*:master*", approval: deny}
+    - {match: "git -C * push*+master*", approval: deny}
+    - {match: "git -C * push*/heads/master*", approval: deny}
 composer:
   # Renders a bare `❯` (U+276F) row, a glyph the shared composer classifier
   # already reads; the shipped default `band` and six other shapes are not in

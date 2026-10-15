@@ -2612,6 +2612,25 @@ A throwaway scout was spawned through `bin/fm-spawn.sh --scout --harness omp --m
 
 `FM_OMP_LIVE_E2E=1 tests/fm-omp-primary-live-e2e.test.sh` refreshes the primary evidence; the worker path above is refreshed by repeating the scout dispatch after any omp upgrade.
 
+### Worker refusals
+
+Verified 2026-10-15 on omp 18.11.0 (Linux x64): `bash.patterns` `deny` rules in the `--config` overlay refuse the matching bash-tool call under `--auto-approve`, whose yolo mode still enforces an explicit deny.
+A rule matches the whole command or a segment split on `&&`, `;`, `|`, and subshells; `env sudo true`, `SUDO=1 sudo true`, and `bash -c "sudo true"` were not refused, and neither was a command that only quotes a pattern, such as `echo "gh pr merge"`.
+The default-on guard replays the launch flags `bin/fm-spawn.sh` builds against the installed omp with a scripted local model, so it spends no tokens:
+
+```sh
+bash tests/fm-omp-worker-deny-live-e2e.test.sh
+```
+
+```text
+ok - omp omp/18.11.0 refuses PR merge, sudo, and default-branch pushes for a firstmate worker under --auto-approve
+ok - omp omp/18.11.0 still runs the worker task-branch push and other gh commands
+# all fm-omp-worker-deny-live-e2e tests passed
+```
+
+Against the overlay without the rules, the same guard failed on its first case, `gh pr merge 7 --squash`, which reached its program.
+A real `openai-codex/gpt-6-astra` worker under the captain's own config and the overlay, asked to run each command, got `Tool "bash" is blocked by tool policy` for `gh pr merge`, `gh-axi pr merge`, `sudo true`, and `git push origin HEAD:main`, while `git push -u origin fm/live-proof` created the branch on origin and `gh pr view 7` ran.
+
 ## Busy inbox escalation
 
 Verified at `2026-10-03T19:20:07Z` on commit `23b0232908a5adc7fbf7339ef48c34a091a7a799` with Claude Code `2.1.288 (Claude Code)` on Herdr `0.9.1`, protocol `22`, in a named isolated lab session through `bin/fm-herdr-lab.sh`.
