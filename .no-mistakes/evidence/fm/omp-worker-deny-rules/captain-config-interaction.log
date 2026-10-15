@@ -1,0 +1,8 @@
+FLAGS=--config '/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M4ZJAHKJXZFQXC44Y66XBC1F/.omp/fm-worker-overlay.yml' --auto-approve --cwd '/tmp/fm-omp-worker-deny-live.nfpGeT/case/wt'
+== with overlay + captain allow config
+REFUSED: gh pr merge 7 --squash
+RAN: echo captain-deny x (stub: )
+== without overlay (captain config only)
+FLAGS(no overlay)=--auto-approve --cwd '/tmp/fm-omp-worker-deny-live.nfpGeT/case/wt'
+RAN: gh pr merge 7 --squash (stub: gh pr merge 7 --squash)
+REFUSED: echo captain-deny x

@@ -1,0 +1,3 @@
+ok - omp omp/18.11.0 refuses PR merge, sudo, and default-branch pushes for a firstmate worker under --auto-approve
+ok - omp omp/18.11.0 still runs the worker task-branch push and other gh commands
+# all fm-omp-worker-deny-live-e2e tests passed

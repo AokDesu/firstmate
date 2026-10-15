@@ -1,0 +1,32 @@
+OK | expect=refused got=refused | gh pr merge 7 --auto
+OK | expect=refused got=refused | sudo -n true
+OK | expect=refused got=refused | cd /tmp && git push origin main
+OK | expect=refused got=refused | gh api graphql -f query='mutation{mergePullRequest(input:{pullRequestId:"x"})}'
+OK | expect=refused got=refused | git push origin :main
+MISMATCH | expect=refused got=run | gh api -X put repos/o/r/pulls/7/merge
+OK | expect=refused got=refused | gh api --method=PUT repos/o/r/pulls/7/merge
+OK | expect=refused got=refused | gh api -XPUT repos/o/r/pulls/7/merge
+OK | expect=refused got=refused | git push origin 'main'
+OK | expect=refused got=refused | git push origin HEAD:'main'
+OK | expect=refused got=refused |    git push origin main
+MISMATCH | expect=refused got=run | if true; then git push origin main; fi
+MISMATCH | expect=refused got=run | timeout 5 git push origin main
+MISMATCH | expect=refused got=run | nohup git push origin main
+MISMATCH | expect=refused got=run | /usr/bin/git push origin main
+MISMATCH | expect=refused got=run | git --git-dir=.git push origin main
+OK | expect=run got=run | git push -u origin HEAD
+OK | expect=run got=run | git push no-mistakes fm/x
+OK | expect=run got=run | git push --force-with-lease origin fm/omp-deny-task
+OK | expect=run got=run | git fetch origin main && git rebase origin/main
+OK | expect=run got=run | git pull --rebase origin main
+OK | expect=run got=run | git diff origin/main...HEAD
+OK | expect=run got=run | git log main..HEAD
+OK | expect=run got=run | gh pr create --base main --title t --body b
+OK | expect=run got=run | gh pr view 7 --json mergeable,mergeStateStatus
+OK | expect=run got=run | gh pr checks 7
+OK | expect=run got=run | grep -r pseudo .
+OK | expect=run got=run | bin/fm-pr-merge.sh --help
+OK | expect=run got=run | git push origin fm/main-fix
+OK | expect=run got=run | git push origin maintenance-x
+OK | expect=run got=run | git push origin main:fm/x
+stub.log final:
