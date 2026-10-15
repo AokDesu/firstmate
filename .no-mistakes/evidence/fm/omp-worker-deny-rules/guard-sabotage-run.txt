@@ -1,0 +1,4 @@
+ok - omp omp/18.11.0 refuses PR merge, sudo, and default-branch pushes for a firstmate worker under --auto-approve
+not ok - omp omp/18.11.0 refused the worker's push of its task branch to the no-mistakes gate: Working...
+TOOL_RESULT<<Tool "bash" is blocked by tool policy.
+Reason: Blocked by bash pattern: git push no-mistakes*>>

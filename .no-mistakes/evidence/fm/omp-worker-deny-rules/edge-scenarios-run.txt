@@ -1,0 +1,12 @@
+refused ok: git push no-mistakes main
+refused ok: git push no-mistakes HEAD:main
+refused ok: git push -u no-mistakes HEAD:master
+refused ok: git push no-mistakes +fm/x:refs/heads/main
+allowed ok: git push no-mistakes fm/omp-deny-task
+allowed ok: git push no-mistakes
+allowed ok: git push -u no-mistakes HEAD
+allowed ok: git push no-mistakes fm/fix-main
+allowed ok: git push no-mistakes main-x
+allowed ok: git push no-mistakes fm/master-fix
+allowed ok: git push no-mistakes mastery-y
+ALL EDGE OK
