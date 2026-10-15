@@ -14,7 +14,7 @@ bash:
   # absolute in every approval mode), so a worker's bash tool cannot merge a PR,
   # run sudo, or push to a main/master default branch; its own task-branch push
   # still runs. A rule matches the whole command or any segment split on &&, ||,
-  # ;, |, & and subshells, with `*` as the only wildcard. A push rule names the
+  # ;, |, &, a newline and subshells, with `*` as the only wildcard. A push rule names the
   # ref exactly (main or master as a bare argument, after `:` or `+`, or as
   # refs/heads/<name>), as an end-of-segment and a followed-by-space variant, so
   # a task branch such as maintenance-x or a refspec such as fm/x:main-fix still
