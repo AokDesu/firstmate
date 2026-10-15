@@ -196,8 +196,9 @@ test_task_branch_push_and_other_commands_still_run() {
   out=$(worker_bash "git push origin $BRANCH:main-fix")
   [ "$(git -C "$ORIGIN" rev-parse -q --verify refs/heads/main-fix)" = "$(git -C "$WT" rev-parse HEAD)" ] ||
     fail "omp $OMP_VERSION refused a refspec whose destination only starts with main: $out"
-  # The push every no-mistakes worker makes goes to the gate's own remote.
-  git clone -q --bare "$ORIGIN" "$CASE/gate.git"
+  # A worker also pushes its task branch to the no-mistakes gate's own remote.
+  # The gate starts empty, so only a push that ran can create the branch there.
+  git init -q --bare "$CASE/gate.git"
   git -C "$WT" remote add no-mistakes "$CASE/gate.git"
   out=$(worker_bash "git push no-mistakes $BRANCH")
   [ "$(git -C "$CASE/gate.git" rev-parse -q --verify "refs/heads/$BRANCH")" = "$(git -C "$WT" rev-parse HEAD)" ] ||
