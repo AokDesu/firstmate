@@ -248,7 +248,9 @@
 #   `bash -c`, a wrapper such as `env`, `git -c k=v push`, `git --no-pager push`,
 #   or `git push --all`/`--mirror` sidesteps them, a push chained with a command
 #   ending in main or master (`git push origin fm/x && gh pr create --base main`)
-#   is refused whole so the worker runs the push as its own command, and they
+#   is refused whole so the worker runs the push as its own command, a gh call
+#   that merely mentions `pr merge` or an api PUT whose path contains /merge is
+#   refused likewise so the worker rewords or splits it, and they
 #   bind every omp session launched with the overlay (workers and secondmates;
 #   bin/fm-pr-merge.sh and bin/fm-merge-local.sh are not matched); the overlay's
 #   comments own the exact rules. The captain's
