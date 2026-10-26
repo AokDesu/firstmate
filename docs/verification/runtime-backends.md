@@ -1539,7 +1539,7 @@ The selected popup row is not always the typed text (typing `/` selects the firs
 Any other row keeps its previous reading, and none of these can read `empty`.
 Unverified follow-up: a bordered-box composer with the marked popup row below it is out of scope here.
 Its state read still refuses with `pending`, but its payload read still returns the popup list, so a slash command typed into a boxed Claude 2.1.291 composer would still fail the pre-Enter proof; no capture or live run here shows 2.1.291 drawing the box with the popup up.
-The other cursorless backends (cmux, orca, zellij) share this classifier and inherit the change without a live check here.
+The other cursorless backends (cmux, orca, tern, zellij) share this classifier and inherit the change without a live check here.
 
 Portable tests run against real captures (`tests/captures/claude-2.1.291-slash-popup`):
 
