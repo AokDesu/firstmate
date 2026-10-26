@@ -1,0 +1,274 @@
+CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings
+'{"disableAllHooks":true,"feedbackDrafts":"off"}'
+
+01M5W4BVV35QDEMTPR1Y1SJ8PZ HEAD ? ❯ CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dang
+erously-skip-permissions --settings '{"disableAllHooks":true,"feedbackDrafts":"off"}'
+ ▐▛███▛█   Claude Code v2.1.310
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Pro
+ ▝▝   ▝▝   ~/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ
+
+
+❯ /context
+  ⎿  Context Usage
+     ⛀ ⛁ ⛁ ⛀ ⛀ ⛀ ⛁ ⛁ ⛁ ⛀ ⛁ ⛁ ⛀ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   Opus 5.5
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   claude-opus-5-5
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   43.5k/1m tokens (4%)
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   Estimated usage by category
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ System prompt: 3k tokens (0.3%)
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ System tools: 11.3k tokens (1.1%)
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ MCP tools: 656 tokens (0.1%)
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶   ⛁ MCP server instructions: 717 tokens (0.1%)
+     ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝   ⛁ Custom agents: 314 tokens (0.0%)
+                                               ⛁ Memory files: 17.5k tokens (1.8%)
+                                               ⛁ Skills: 10k tokens (1.0%)
+                                               ⛁ Messages: 10 tokens (0.0%)
+                                               ⛶ Free space: 923.5k (92.4%)
+                                               ⛝ Autocompact buffer: 33k tokens (3.3%)
+
+     Auto-compact window: 1m tokens
+
+     MCP tools · /mcp (loaded on-demand)
+
+     Loaded
+     ├ mcp__claude_ai_Claude_Docs__batch: 161 tokens
+     ├ mcp__claude_ai_Claude_Docs__guide: 204 tokens
+     └ mcp__claude_ai_Claude_Docs__update: 291 tokens
+
+     Available
+     ├ mcp__claude_ai_Claude_Docs__create
+     ├ mcp__claude_ai_Claude_Docs__delete
+     ├ mcp__claude_ai_Claude_Docs__export
+     ├ mcp__claude_ai_Claude_Docs__query
+     ├ mcp__claude_ai_Claude_Docs__read
+     ├ mcp__claude_ai_Gmail__authenticate
+     ├ mcp__claude_ai_Gmail__complete_authentication
+     ├ mcp__claude_ai_Google_Calendar__authenticate
+     ├ mcp__claude_ai_Google_Calendar__complete_authentication
+     ├ mcp__claude_ai_Google_Drive__authenticate
+     ├ mcp__claude_ai_Google_Drive__complete_authentication
+     ├ mcp__plugin_context7_context7__authenticate
+     ├ mcp__plugin_context7_context7__complete_authentication
+     ├ mcp__plugin_figma_figma__authenticate
+     ├ mcp__plugin_figma_figma__complete_authentication
+     ├ mcp__plugin_playwright_playwright__browser_click
+     ├ mcp__plugin_playwright_playwright__browser_close
+     ├ mcp__plugin_playwright_playwright__browser_console_messages
+     ├ mcp__plugin_playwright_playwright__browser_drag
+     ├ mcp__plugin_playwright_playwright__browser_drop
+     ├ mcp__plugin_playwright_playwright__browser_emulate_media
+     ├ mcp__plugin_playwright_playwright__browser_evaluate
+     ├ mcp__plugin_playwright_playwright__browser_file_upload
+     ├ mcp__plugin_playwright_playwright__browser_fill_form
+     ├ mcp__plugin_playwright_playwright__browser_find
+     ├ mcp__plugin_playwright_playwright__browser_handle_dialog
+     ├ mcp__plugin_playwright_playwright__browser_hover
+     ├ mcp__plugin_playwright_playwright__browser_navigate
+     ├ mcp__plugin_playwright_playwright__browser_navigate_back
+     ├ mcp__plugin_playwright_playwright__browser_network_request
+     ├ mcp__plugin_playwright_playwright__browser_network_requests
+     ├ mcp__plugin_playwright_playwright__browser_press_key
+     ├ mcp__plugin_playwright_playwright__browser_resize
+     ├ mcp__plugin_playwright_playwright__browser_run_code_unsafe
+     ├ mcp__plugin_playwright_playwright__browser_select_option
+     ├ mcp__plugin_playwright_playwright__browser_snapshot
+     ├ mcp__plugin_playwright_playwright__browser_tabs
+     ├ mcp__plugin_playwright_playwright__browser_take_screenshot
+     ├ mcp__plugin_playwright_playwright__browser_type
+     └ mcp__plugin_playwright_playwright__browser_wait_for
+
+     Custom agents · .claude/agents/
+
+     Plugin
+     ├ feature-dev:code-reviewer: 83 tokens
+     ├ feature-dev:code-architect: 82 tokens
+     ├ feature-dev:code-explorer: 76 tokens
+     └ code-simplifier:code-simplifier: 73 tokens
+
+     Memory files · /memory
+     ├ ~/.claude/CLAUDE.md: 22 tokens
+     ├ ~/.agents/AGENTS.md: 576 tokens
+     ├ CLAUDE.md: 16 tokens
+     └ AGENTS.md: 16.9k tokens
+
+     Skills · /skills
+
+     Project
+     ├ stuck-crewmate-recovery: ~140 tokens
+     ├ bearings: ~140 tokens
+     ├ captain-hold-lifecycle: ~100 tokens
+     ├ harness-adapters: ~80 tokens
+     ├ updatefirstmate: ~70 tokens
+     ├ firstmate-coding-guidelines: ~70 tokens
+     ├ validation-supervision: ~70 tokens
+     ├ session-start-recovery: ~60 tokens
+     ├ project-management: ~50 tokens
+     ├ scout-completion: ~50 tokens
+     ├ operational-home-layout: ~50 tokens
+     ├ away-quiet-supervision: ~50 tokens
+     ├ ship-landing: ~40 tokens
+     ├ ask-user-authority: ~40 tokens
+     ├ diagnostic-reasoning: ~30 tokens
+     ├ agent-skill-trigger-index: < 20 tokens
+     ├ bootstrap-diagnostics: < 20 tokens
+     ├ process-event-sources: < 20 tokens
+     ├ secondmate-provisioning: < 20 tokens
+     ├ firstmate-codexapp: < 20 tokens
+     ├ firstmate-self-repo: < 20 tokens
+     ├ quota-array-dispatch: < 20 tokens
+     ├ firstmate-orca: < 20 tokens
+     ├ fmx-respond: < 20 tokens
+     ├ afk: < 20 tokens
+     ├ ahoy: < 20 tokens
+     ├ quiet: < 20 tokens
+     └ stow: < 20 tokens
+
+     User
+     ├ impeccable: ~300 tokens
+     ├ supabase: ~270 tokens
+     ├ owasp-top-10-testing: ~240 tokens
+     ├ api-security-testing: ~240 tokens
+     ├ design-direction-brief: ~230 tokens
+     ├ design-direction-rethink: ~220 tokens
+     ├ application-security-testing: ~220 tokens
+     ├ find-security-vulnerabilities-in-code: ~210 tokens
+     ├ penetration-testing-with-strix: ~210 tokens
+     ├ ci-security-scanning-with-strix: ~200 tokens
+     ├ omarchy: ~200 tokens
+     ├ fix-security-vulnerabilities-with-strix: ~180 tokens
+     ├ managed-pentesting-with-strix: ~170 tokens
+     ├ diagnose-crash: ~160 tokens
+     ├ review: ~140 tokens
+     ├ security-audit: ~130 tokens
+     ├ no-mistakes: ~120 tokens
+     ├ find-skills: ~110 tokens
+     ├ diagnose: ~100 tokens
+     ├ lavish: ~100 tokens
+     ├ qa: ~100 tokens
+     ├ caveman: ~90 tokens
+     ├ git-guardrails-claude-code: ~90 tokens
+     ├ setup-pre-commit: ~90 tokens
+     ├ to-issues: ~90 tokens
+     ├ request-refactor-plan: ~80 tokens
+     ├ design-an-interface: ~80 tokens
+     ├ scaffold-exercises: ~80 tokens
+     ├ migrate-to-shoehorn: ~60 tokens
+     ├ prototype: ~60 tokens
+     ├ axi: ~60 tokens
+     ├ edit-article: ~60 tokens
+     ├ obsidian-vault: ~60 tokens
+     ├ to-prd: ~60 tokens
+     ├ tdd: ~50 tokens
+     ├ supabase-postgres-best-practices: < 20 tokens
+     ├ web-app-penetration-testing: < 20 tokens
+     └ write-a-skill: < 20 tokens
+
+     claude.ai sync
+     ├ anthropic-skills:design-direction-brief: < 20 tokens
+     ├ anthropic-skills:design-direction-rethink: < 20 tokens
+     ├ built-in-browser: < 20 tokens
+     ├ google-workspace: < 20 tokens
+     ├ chrome-browser: < 20 tokens
+     ├ deep-research: < 20 tokens
+     ├ doc-coauthoring: < 20 tokens
+     ├ import-memory: < 20 tokens
+     ├ anthropic-skills:skill-creator: < 20 tokens
+     ├ computer-use: < 20 tokens
+     ├ morning: < 20 tokens
+     ├ docs: < 20 tokens
+     ├ docx: < 20 tokens
+     ├ pptx: < 20 tokens
+     ├ xlsx: < 20 tokens
+     └ pdf: < 20 tokens
+
+     Plugin (andrej-karpathy-skills)
+     └ andrej-karpathy-skills:karpathy-guidelines: < 20 tokens
+
+     Plugin (caveman)
+     ├ caveman:caveman: ~140 tokens
+     ├ caveman:compress: ~120 tokens
+     ├ caveman:caveman-commit: < 20 tokens
+     ├ caveman:caveman-review: < 20 tokens
+     └ caveman:caveman-help: < 20 tokens
+
+     Plugin (claude-code-setup)
+     └ claude-code-setup:claude-automation-recommender: < 20 tokens
+
+     Plugin (claude-md-management)
+     ├ claude-md-management:claude-md-improver: < 20 tokens
+     └ claude-md-management:revise-claude-md: < 20 tokens
+
+     Plugin (commit-commands)
+     ├ commit-commands:commit-push-pr: ~20 tokens
+     ├ commit-commands:commit: < 20 tokens
+     └ commit-commands:clean_gone: < 20 tokens
+
+     Plugin (feature-dev)
+     └ feature-dev:feature-dev: < 20 tokens
+
+     Plugin (figma)
+     ├ figma:figma-generative-plugins: < 20 tokens
+     ├ figma:figma-create-new-file: < 20 tokens
+     ├ figma:figma-generate-design: < 20 tokens
+     ├ figma:figma-generate-diagram: < 20 tokens
+     ├ figma:figma-generate-library: < 20 tokens
+     ├ figma:figma-implement-motion: < 20 tokens
+     ├ figma:figma-code-connect: < 20 tokens
+     ├ figma:figma-code-workflows: < 20 tokens
+     ├ figma:figma-design-to-code: < 20 tokens
+     ├ figma:figma-use-figjam: < 20 tokens
+     ├ figma:figma-use-motion: < 20 tokens
+     ├ figma:figma-use-slides: < 20 tokens
+     ├ figma:figma-shaders: < 20 tokens
+     ├ figma:figma-swiftui: < 20 tokens
+     ├ figma:figma-spec: < 20 tokens
+     └ figma:figma-use: < 20 tokens
+
+     Plugin (frontend-design)
+     └ frontend-design:frontend-design: < 20 tokens
+
+     Plugin (skill-creator)
+     └ skill-creator:skill-creator: < 20 tokens
+
+     Plugin (superpowers)
+     ├ superpowers:brainstorming: ~80 tokens
+     ├ superpowers:using-git-worktrees: ~80 tokens
+     ├ superpowers:executing-plans: ~70 tokens
+     ├ superpowers:using-superpowers: ~60 tokens
+     ├ superpowers:finishing-a-development-branch: ~50 tokens
+     ├ superpowers:subagent-driven-development: ~40 tokens
+     ├ superpowers:systematic-debugging: ~40 tokens
+     ├ superpowers:test-driven-development: ~40 tokens
+     ├ superpowers:writing-plans: ~40 tokens
+     ├ superpowers:verification-before-completion: < 20 tokens
+     ├ superpowers:dispatching-parallel-agents: < 20 tokens
+     ├ superpowers:diagnosing-superpowers: < 20 tokens
+     ├ superpowers:receiving-code-review: < 20 tokens
+     ├ superpowers:requesting-code-review: < 20 tokens
+     └ superpowers:writing-skills: < 20 tokens
+
+     Plugin (typesafe)
+     └ typesafe:typesafe-ai: ~230 tokens
+
+     Built-in
+     ├ dataviz: ~480 tokens
+     ├ claude-api: ~360 tokens
+     ├ code-review: ~330 tokens
+     ├ artifact-capabilities: ~250 tokens
+     ├ update-config: ~240 tokens
+     ├ schedule: ~130 tokens
+     ├ run: ~120 tokens
+     ├ loop: ~120 tokens
+     ├ plugin-authoring: ~90 tokens
+     ├ keybindings-help: ~80 tokens
+     ├ artifact-diagramming: ~70 tokens
+     ├ artifact-design: ~70 tokens
+     ├ fewer-permission-prompts: ~60 tokens
+     ├ simplify: ~60 tokens
+     ├ security-review: < 20 tokens
+     └ init: < 20 tokens
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ⏵⏵ bypass permissions on (shift+tab to cycle)                                           Ctrl+Y to paste deleted text

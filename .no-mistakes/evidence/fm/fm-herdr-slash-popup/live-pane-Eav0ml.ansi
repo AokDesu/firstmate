@@ -1,0 +1,5 @@
+CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings
+'{"disableAllHooks":true,"feedbackDrafts":"off"}'
+
+01M5W4BVV35QDEMTPR1Y1SJ8PZ HEAD ? ❯ CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dang
+erously-skip-permissions --settings '{"disableAllHooks":true,"feedbackDrafts":"off"}'

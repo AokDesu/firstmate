@@ -1,0 +1,100 @@
+     ├ claude-md-management:claude-md-improver: < 20 tokens
+     └ claude-md-management:revise-claude-md: < 20 tokens
+
+     Plugin (commit-commands)
+     ├ commit-commands:commit-push-pr: ~20 tokens
+     ├ commit-commands:commit: < 20 tokens
+     └ commit-commands:clean_gone: < 20 tokens
+
+     Plugin (feature-dev)
+     └ feature-dev:feature-dev: < 20 tokens
+
+     Plugin (figma)
+     ├ figma:figma-generative-plugins: < 20 tokens
+     ├ figma:figma-create-new-file: < 20 tokens
+     ├ figma:figma-generate-design: < 20 tokens
+     ├ figma:figma-generate-diagram: < 20 tokens
+     ├ figma:figma-generate-library: < 20 tokens
+     ├ figma:figma-implement-motion: < 20 tokens
+     ├ figma:figma-code-connect: < 20 tokens
+     ├ figma:figma-code-workflows: < 20 tokens
+     ├ figma:figma-design-to-code: < 20 tokens
+     ├ figma:figma-use-figjam: < 20 tokens
+     ├ figma:figma-use-motion: < 20 tokens
+     ├ figma:figma-use-slides: < 20 tokens
+     ├ figma:figma-shaders: < 20 tokens
+     ├ figma:figma-swiftui: < 20 tokens
+     ├ figma:figma-spec: < 20 tokens
+     └ figma:figma-use: < 20 tokens
+
+     Plugin (frontend-design)
+     └ frontend-design:frontend-design: < 20 tokens
+
+     Plugin (skill-creator)
+     └ skill-creator:skill-creator: < 20 tokens
+
+     Plugin (superpowers)
+     ├ superpowers:brainstorming: ~80 tokens
+     ├ superpowers:using-git-worktrees: ~80 tokens
+     ├ superpowers:executing-plans: ~70 tokens
+     ├ superpowers:using-superpowers: ~60 tokens
+     ├ superpowers:finishing-a-development-branch: ~50 tokens
+     ├ superpowers:subagent-driven-development: ~40 tokens
+     ├ superpowers:systematic-debugging: ~40 tokens
+     ├ superpowers:test-driven-development: ~40 tokens
+     ├ superpowers:writing-plans: ~40 tokens
+     ├ superpowers:verification-before-completion: < 20 tokens
+     ├ superpowers:dispatching-parallel-agents: < 20 tokens
+     ├ superpowers:diagnosing-superpowers: < 20 tokens
+     ├ superpowers:receiving-code-review: < 20 tokens
+     ├ superpowers:requesting-code-review: < 20 tokens
+     └ superpowers:writing-skills: < 20 tokens
+
+     Plugin (typesafe)
+     └ typesafe:typesafe-ai: ~230 tokens
+
+     Built-in
+     ├ dataviz: ~480 tokens
+     ├ claude-api: ~360 tokens
+     ├ code-review: ~330 tokens
+     ├ artifact-capabilities: ~250 tokens
+     ├ update-config: ~240 tokens
+     ├ schedule: ~130 tokens
+     ├ run: ~120 tokens
+     ├ loop: ~120 tokens
+     ├ plugin-authoring: ~90 tokens
+     ├ keybindings-help: ~80 tokens
+     ├ artifact-diagramming: ~70 tokens
+     ├ artifact-design: ~70 tokens
+     ├ fewer-permission-prompts: ~60 tokens
+     ├ simplify: ~60 tokens
+     ├ security-review: < 20 tokens
+     └ init: < 20 tokens
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ /exit
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ❯ /exit                                           Exit the CLI
+    /edit-article                                   Edit and improve articles by restructuring sections, improving
+                                                    clarity, and tightening prose. Use when user wants to edit, revis…
+    /context                                        Visualize current context usage as a colored grid
+    /usage-credits                                  Configure usage credits or request them from your admin when you
+                                                    hit a limit
+    /quiet                                          Enter quiet supervision mode when the captain invokes /quiet or
+                                                    asks for quiet mode, quiet-while-present, or fewer routine wake t…
+
+
+
+
+
+
+
+
+
+
+
+
+
+Resume this session with:
+claude --resume 1292b5dc-4156-4bdf-bc27-c0adf212f176
+bash-5.3$

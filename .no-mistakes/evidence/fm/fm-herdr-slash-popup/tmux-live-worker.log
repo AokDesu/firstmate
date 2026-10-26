@@ -1,0 +1,16 @@
+/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.x
+tmux typed /exit state=unknown
+cursor=9,7 pane=120x40 command=claude
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.x
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the requested message WILL still be sent.
+●  repair missing watcher supervision according to the session-start block for this harness; do not use shell &.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+tmux fm-send /context rendered Context Usage
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.x
+stopped tmuxlive harness=claude backend=tmux endpoint=primary:fm-tmuxlive worktree=/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ
+tmux fm-control exit stopped Claude
+private tmux server teardown rc=0

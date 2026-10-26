@@ -1,0 +1,15 @@
+CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings
+'{"disableAllHooks":true,"feedbackDrafts":"off"}'
+
+01M5W4BVV35QDEMTPR1Y1SJ8PZ HEAD ? ❯ CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dang
+erously-skip-permissions --settings '{"disableAllHooks":true,"feedbackDrafts":"off"}'
+ ▐▛███▛█   Claude Code v2.1.310
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Pro
+ ▝▝   ▝▝   ~/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ /no-mistakes
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ❯ /no-mistakes                                    Validate your code changes through the no-mistakes pipeline -
+                                                    automated code review, tests, lint, docs, push, PR, and CI - befo…

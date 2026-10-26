@@ -1,0 +1,6 @@
+base 127f0f3 — actual live /exit popup captured in this run
+state=pending
+content=/exit Exit the CLI /edit-article Edit and improve articles by restructuring sections, improving clarity, and tightening prose. Use when user wants to edit, revis… /context Visualize current context usage as a colored grid /usage-credits Configure usage credits or request them from your admin when you hit a limit /quiet Enter quiet supervision mode when the captain invokes /quiet or asks for quiet mode, quiet-while-present, or fewer routine wake t…
+target 70911b4 — actual live /exit popup captured in this run
+state=pending
+content=/exit

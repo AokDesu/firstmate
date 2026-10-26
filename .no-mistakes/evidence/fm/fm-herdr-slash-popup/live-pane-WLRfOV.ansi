@@ -1,0 +1,27 @@
+     ├ claude-api: ~360 tokens
+     ├ code-review: ~330 tokens
+     ├ artifact-capabilities: ~250 tokens
+     ├ update-config: ~240 tokens
+     ├ schedule: ~130 tokens
+     ├ run: ~120 tokens
+     ├ loop: ~120 tokens
+     ├ plugin-authoring: ~90 tokens
+     ├ keybindings-help: ~80 tokens
+     ├ artifact-diagramming: ~70 tokens
+     ├ artifact-design: ~70 tokens
+     ├ fewer-permission-prompts: ~60 tokens
+     ├ simplify: ~60 tokens
+     ├ security-review: < 20 tokens
+     └ init: < 20 tokens
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ /exit
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ❯ /exit                                           Exit the CLI                                     
+    /edit-article                                   Edit and improve articles by restructuring sections, improving
+                                                    clarity, and tightening prose. Use when user wants to edit, revis…
+    /context                                        Visualize current context usage as a colored grid
+    /usage-credits                                  Configure usage credits or request them from your admin when you
+                                                    hit a limit
+    /quiet                                          Enter quiet supervision mode when the captain invokes /quiet or
+                                                    asks for quiet mode, quiet-while-present, or fewer routine wake t…

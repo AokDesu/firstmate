@@ -1,0 +1,269 @@
+name herdr-submit-confirm-live 
+provision fm-lab-herdr-submit-con-495314-209 
+run fm-lab-herdr-submit-con-495314-209 workspace create --cwd /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ --label fm-submitlive --no-focus 
+run fm-lab-herdr-submit-con-495314-209 pane run w1:p1 CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false\ CLAUDE_CODE_SEND_FEEDBACK=0\ claude\ --dangerously-skip-permissions\ --settings\ \'\{\"feedbackDrafts\":\"off\"\}\' 
+capture=live-pane-aSWvXw.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+capture=live-pane-QmSlCh.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+capture=live-pane-cE0BIp.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+capture=live-pane-KONbmR.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+capture=live-pane-dIUygE.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+capture=live-pane-C3Nd7A.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+capture=live-pane-CeqZGN.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-Fjpzxx.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-text w1:p1 Reply\ with\ exactly\ FMHERDRPONG495245_27960\ and\ nothing\ else. 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-h9FZff.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-keys w1:p1 enter 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+capture=live-pane-BdN5Ui.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-KUqlLv.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-TkPyLI.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-4Uo280.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-cgsjQ1.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-sNm8e8.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-EgBDrv.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-SopTkE.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-aMw2qG.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-dbzOFd.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-text w1:p1 ⁣FIRSTMATE_OP:\ v1\ away-supervisor:\ Reply\ with\ exactly\ FMHERDROPPONG495245_23426\ and\ nothing\ else. 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-TvXkKv.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-keys w1:p1 enter 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-Ok5fhT.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-keys w1:p1 enter 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+capture=live-pane-B4HYuk.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-yVPIr9.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-jqwDT3.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-w9aBLC.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-PtEXFs.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-v9iZYr.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-xcCqmE.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-OnPzco.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-L3veHE.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-djEAti.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+capture=live-pane-sTwsFm.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 200 rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-nUZG7a.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-text w1:p1 /context 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-AJFrxs.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-keys w1:p1 enter 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+capture=live-pane-lsISN6.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 1000 rc=0
+capture=live-pane-mPaR8h.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source recent --lines 1000 rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-v4JkfB.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-lJIQCd.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-text w1:p1 /exit 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-FHOfHq.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-keys w1:p1 enter 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+capture=live-pane-2Fuphv.ansi command=run fm-lab-herdr-submit-con-495314-209 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 status --json 
+run fm-lab-herdr-submit-con-495314-209 pane send-keys w1:p1 enter 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+run fm-lab-herdr-submit-con-495314-209 agent get w1:p1 
+teardown fm-lab-herdr-submit-con-495314-209 
+name slash-manual 
+provision fm-lab-slash-manual-556650-18274 
+run fm-lab-slash-manual-556650-18274 workspace create --cwd /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ --label fm-slash-manual --no-focus 
+run fm-lab-slash-manual-556650-18274 pane run w1:p1 CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false\ CLAUDE_CODE_SEND_FEEDBACK=0\ claude\ --dangerously-skip-permissions\ --settings\ \'\{\"disableAllHooks\":true\,\"feedbackDrafts\":\"off\"\}\' 
+capture=live-pane-Xr8DyM.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible rc=0
+capture=live-pane-5BzBii.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible rc=0
+capture=live-pane-b8HvQV.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible rc=0
+capture=live-pane-oTwoKz.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible rc=0
+run fm-lab-slash-manual-556650-18274 pane send-text w1:p1 / 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-y7muMW.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-GWyUkX.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-JZ0oGf.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 pane send-keys w1:p1 ctrl+u 
+run fm-lab-slash-manual-556650-18274 pane send-text w1:p1 /no-mistakes 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-cOat7u.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-cJAJ9k.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-Ybi1VU.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-mErzUM.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible rc=0
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-IlCdqW.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-AvMBBi.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-PE5MfI.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible rc=0
+run fm-lab-slash-manual-556650-18274 pane send-keys w1:p1 ctrl+u 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-ALChr2.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-iyIcmx.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 status --json 
+run fm-lab-slash-manual-556650-18274 pane send-text w1:p1 /context 
+run fm-lab-slash-manual-556650-18274 status --json 
+capture=live-pane-w8lttI.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 status --json 
+run fm-lab-slash-manual-556650-18274 pane send-keys w1:p1 enter 
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+capture=live-pane-yAaaKO.ansi command=run fm-lab-slash-manual-556650-18274 pane read w1:p1 --source recent --lines 1000 rc=0
+run fm-lab-slash-manual-556650-18274 agent get w1:p1 
+teardown fm-lab-slash-manual-556650-18274 
+name slash-manual 
+provision fm-lab-slash-manual-570669-31387 
+run fm-lab-slash-manual-570669-31387 workspace create --cwd /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ --label fm-slash-manual --no-focus 
+run fm-lab-slash-manual-570669-31387 pane get w1:p1 
+run fm-lab-slash-manual-570669-31387 pane run w1:p1 CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false\ CLAUDE_CODE_SEND_FEEDBACK=0\ claude\ --dangerously-skip-permissions\ --settings\ \'\{\"disableAllHooks\":true\,\"feedbackDrafts\":\"off\"\}\' 
+capture=live-pane-c3Vvq1.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible rc=0
+capture=live-pane-Eav0ml.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible rc=0
+capture=live-pane-HIE9Mq.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible rc=0
+capture=live-pane-kq7iyV.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible rc=0
+run fm-lab-slash-manual-570669-31387 pane send-text w1:p1 / 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-7fXO7P.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-Pt5ju2.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-LwPhjz.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 pane send-keys w1:p1 ctrl+u 
+run fm-lab-slash-manual-570669-31387 pane send-text w1:p1 /no-mistakes 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-sMRR1z.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-o8VE9T.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-IIP0vV.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-CwuT2a.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible rc=0
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-ILvgLE.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-nZdlBp.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+capture=live-pane-zEXPqt.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible rc=0
+run fm-lab-slash-manual-570669-31387 pane send-keys w1:p1 ctrl+u 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-tCT09N.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-ipxN7v.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 status --json 
+run fm-lab-slash-manual-570669-31387 pane send-text w1:p1 /context 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-OR9968.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+run fm-lab-slash-manual-570669-31387 pane send-keys w1:p1 enter 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+capture=live-pane-EwO2F5.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source recent --lines 1000 rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 pane get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 pane process-info --pane w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-VYYKCw.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-gwfXXq.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-SCKbGn.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 status --json 
+run fm-lab-slash-manual-570669-31387 pane send-text w1:p1 /exit 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-WLRfOV.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+run fm-lab-slash-manual-570669-31387 pane send-keys w1:p1 enter 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+capture=live-pane-PUDypx.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source visible --format ansi rc=0
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 status --json 
+run fm-lab-slash-manual-570669-31387 pane send-keys w1:p1 enter 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 pane get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+run fm-lab-slash-manual-570669-31387 agent get w1:p1 
+capture=live-pane-lszOvh.ansi command=run fm-lab-slash-manual-570669-31387 pane read w1:p1 --source recent --lines 70 rc=0
+run fm-lab-slash-manual-570669-31387 pane get w1:p1 
+teardown fm-lab-slash-manual-570669-31387 

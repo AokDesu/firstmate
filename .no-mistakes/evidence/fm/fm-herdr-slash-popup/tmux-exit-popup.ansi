@@ -1,0 +1,40 @@
+CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_FEEDBACK=0 claude --dangerously-skip-permissions --settings
+'{"disableAllHooks":true,"feedbackDrafts":"off"}'bash-5.3$ CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_SEND_F
+EEDBACK=0 claude --dangerously-skip-permissions --settings '{"disableAllHooks":true,"feedbackDrafts":"off"}'
+ ▐▛███▛█   Claude Code v2.1.310
+▝▜██████▀  Opus 5.5 with xhigh effort · Claude Pro
+ ▝▝   ▝▝   ~/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+❯ /exit
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ❯ /exit                                           Exit the CLI
+    /edit-article                                   Edit and improve articles by restructuring sections, improving
+                                                    clarity, and tightening prose. Use when user wants to edit, revis…
+    /context                                        Visualize current context usage as a colored grid
+    /usage-credits                                  Configure usage credits or request them from your admin when you
+                                                    hit a limit
+    /quiet                                          Enter quiet supervision mode when the captain invokes /quiet or
+                                                    asks for quiet mode, quiet-while-present, or fewer routine wake t…
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

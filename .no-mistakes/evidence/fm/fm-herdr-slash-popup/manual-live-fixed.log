@@ -1,0 +1,22 @@
+/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.test-slash-popup/manual-home-fixed
+typed=/ state=pending content=/
+typed=/no-mistakes state=pending content=/no-mistakes
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.test-slash-popup/manual-home-fixed
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the requested message WILL still be sent.
+●  repair missing watcher supervision according to the session-start block for this harness; do not use shell &.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+error: text not sent to fm-lab-slash-manual-570669-31387:w1:p1 (herdr send failed; tried meta=/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.test-slash-popup/manual-home-fixed/state/slash-live.meta; backend=from-meta)
+fm-send refused an overwrite of the pending slash draft
+pending /no-mistakes draft unchanged; no command executed
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.test-slash-popup/manual-home-fixed
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+fm-send slash-live /context: rendered Context Usage; registered agent survives
+{"id":"cli:agent:get","result":{"agent":{"agent":"claude","agent_status":"working","cwd":"/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ","focused":true,"foreground_cwd":"/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ","pane_id":"w1:p1","revision":2,"state_change_seq":2,"tab_id":"w1:t1","terminal_id":"term_65ebdf930288e1","terminal_title":"✳ Claude Code","terminal_title_stripped":"Claude Code","workspace_id":"w1"},"type":"agent_info"}}
+fm-gate-refuse: gate agent lifecycle permitted only against lab home /home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ/.test-slash-popup/manual-home-fixed
+stopped slash-live harness=claude backend=herdr endpoint=fm-lab-slash-manual-570669-31387:w1:p1 worktree=/home/symphony/.no-mistakes/worktrees/b8ec4349de7f/01M5W4BVV35QDEMTPR1Y1SJ8PZ
+fm-control slash-live exit: agent absent; endpoint preserved
+lab teardown rc=0
