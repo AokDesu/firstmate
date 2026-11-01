@@ -1,0 +1,81 @@
+=== fm-backend-hc
+1..23
+ok - hc: explicit-only, spawn-capable, with its tool set
+ok - hc: the bootstrap tool check resolves hc exactly as the adapter does
+ok - hc: create_task starts an independent labeled terminal and refuses a duplicate
+ok - hc: fm-control interrupt delivers the harness's interrupt key
+ok - hc: another task's, another home's, or an unlabeled terminal gets no input and no close
+ok - hc: an empty session never falls through to the ambient core
+ok - hc: an inherited HC_SOCKET never overrides the session pin
+ok - hc: agent_state maps foreground, finished, not_found and core errors onto the shared vocabulary
+ok - hc: agent_state reads a shell wrapper's process group before calling it dead
+ok - hc: kill ends and removes the terminal and refuses when it survives
+ok - hc: teardown's expected label refuses another task's terminal and closes the matching one
+ok - hc: capture, visible capture, and current path read the recorded terminal
+ok - hc: endpoint validation requires window to equal hc_session:hc_terminal
+ok - hc: container_ensure refuses a misnamed, old, or wrong-generation binary
+ok - hc: send_text_submit proves the turn through send --wait and never forces a blocked terminal
+ok - hc: send text is -- delimited, and FM_HC_BIN/FM_HC_SOCKET pin the call
+ok - hc: exit proves the agent stopped and remains idempotent on its recorded session
+ok - hc: pending input, dialogs, uncertain state, foreign identity and unknown harness all refuse untouched
+ok - hc: exit delivery without a dead-agent read is an explicit failure
+ok - hc: relaunch republishes a live replacement while retaining task, local work, terminal and name
+ok - hc: relaunch refusals preserve the old agent and post-stop failures retain a named recovery state
+ok - hc: task-derived names obey core rules, distinguish truncation collisions, and never hide a naming refusal
+ok - hc: only complete process scans license dead; positive harness evidence remains authoritative
+FM_TEST_COMPLETE
+rc=0
+=== fm-control
+ok - fm-control: a record whose endpoint identity names another task is refused
+ok - fm-control: a remotely placed secondmate is refused by placement, not by a metadata complaint
+ok - fm-control: interrupt and exit lock before task-state resolution
+ok - fm-control: the verb list is closed - no raw keys, arbitrary text, or clear verb
+ok - fm-control: resume is refused with the determinism reason and the alternative
+ok - fm-control: profile and note flags belong to relaunch only
+ok - fm-control exit: an already-stopped agent is idempotent success with no bytes sent
+ok - fm-control exit: an unprovable tmux endpoint refuses instead of claiming the agent stopped
+ok - fm-control interrupt: refuses when no agent is running rather than keying a shell
+ok - fm-control exit: an endpoint whose process cannot be attributed refuses
+ok - fm-control exit: a busy agent receives interrupt delivery before the exit command
+ok - fm-control exit: an idle agent goes straight to its exit command
+ok - fm-control exit: retiring a codex incarnation drops busy_gen with the sidecar
+ok - fm-control exit: an already-open background-task picker is not typed into
+ok - fm-control exit: the Enter that opens the background-task picker is not followed by a confirming Enter
+ok - fm-control exit: a picker that renders after the submit returned is named when the stop wait times out
+ok - fm-control interrupt: unconfirmed delivery preserves observed busy state
+ok - fm-control interrupt: muse confirms cancellation from its session log
+ok - fm-control interrupt: postconditions are revalidated after acknowledgement polling
+ok - fm-control exit: an interrupt-stopped agent satisfies the gone-state postcondition
+ok - fm-control exit: a stubborn agent reports delivered input and an unconfirmed exit
+ok - fm-control interrupt: grok reports delivery without claiming cancellation
+ok - fm-control interrupt: grok's idle footer does not confirm cancellation
+ok - fm-control: a lifecycle command to a secondmate is unmarked and opens no reply expectation
+ok - fm-control's arrival leaves fm-send's from-firstmate marking untouched
+rc=0
+=== fm-control-relaunch
+ok - fm-control relaunch: two control actions on one task serialize instead of interleaving
+ok - fm-spawn relaunch: direct entry participates in lifecycle serialization
+ok - fm-promote: promotion participates in lifecycle serialization
+ok - fm-spawn --relaunch: refuses to launch a second agent into a live endpoint
+ok - fm-spawn --relaunch: symlinked records refuse before inspection
+ok - fm-spawn --relaunch: keeps its early meta lock continuous
+ok - fm-spawn --relaunch: pending closes refuse before replacement begins
+ok - fm-spawn --relaunch: every identity axis comes from the record, and a contradicting flag refuses
+ok - fm-spawn --relaunch: an unrecorded task is refused
+ok - fm-spawn --relaunch: refuses to start a replacement outside the copy holding its work
+ok - tmux: a window absent from its session refuses both verbs rather than being assumed gone
+ok - tmux: an unfindable session refuses both verbs, so a live agent is never duplicated
+ok - tmux: a dead server on this socket refuses both verbs rather than proving absence
+ok - reclaim: an unclassifiable endpoint is still refused, so two agents cannot share one
+ok - fm-spawn --relaunch: resumes the bound Pi session only for a Pi registration
+ok - reclaim: a herdr pane that outlived its stopped server is adopted, never orphaned beside a new tab
+ok - fm-control exit: a herdr pane that outlived its stopped server is already-stopped, not gone
+ok - reclaim: a herdr rebind is created in the session the record names, never the ambient one
+ok - reclaim: a herdr agent that came back with its server refuses, so one worktree keeps one agent
+ok - reclaim: a herdr reclaim rebinds the endpoint and leaves the whole rest of the task alone
+ok - reclaim: a herdr secondmate whose endpoint is gone is sent to its own respawn owner
+ok - reclaim: a rebind refused from a plain shell reports the real cause, not a fabricated session mismatch
+ok - relaunch re-reads the backlog item instead of blindly re-running the transition
+ok - relaunch heals an item that drifted out of In flight while the task stayed live
+ok - away supervision relaunches existing In-flight and queued items under the saturated fresh-spawn spend cap
+rc=0

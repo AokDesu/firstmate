@@ -1,0 +1,9 @@
+fm-install-hc.sh: downloading herdr-core-linux-x86_64.tar.gz from https://releases.herdr.dev/core/0.1.15/herdr-core-linux-x86_64.tar.gz
+fm-install-hc.sh: installed herdr-core 0.1.15 (protocol generation 1) to /tmp/fmhcinst.PlyOdd/bin/herdr-core
+installer rc=0
+herdr-core
+hc 0.1.15
+linux-x86_64 efbb1382da3d5053cb20c60c166a62ec34e73d8299977fb1f5abed28ddec8d66
+linux-aarch64 e4939faa57cd1597eb2a07ea34b84cc8f861992c943a08f5e685b41d4d0bfa4f
+macos-aarch64 47eba8367e0626a1efced8795fcb03d5434b2541c5a84d78c50cc02c8fb49fc8
+macos-x86_64 55acac7e0ba75c829028655cd7e7964d138b10a03946fd73628508a2821b1118

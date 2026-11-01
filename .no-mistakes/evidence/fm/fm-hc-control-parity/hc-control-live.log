@@ -1,0 +1,19 @@
+hc 0.1.15
+omp/18.14.2
+{"started":null,"status":null,"turn":0,"wait":{"children":[],"ended":true,"exit_code":null,"reason":"status","signal":null,"status":"done","terminal":"t1","turn":1}}
+{"started":true,"status":"done","turn":1}
+ok - hc control live: omp remains alive throughout a real shell-tool turn
+stopped hclive984566 harness=omp backend=hc endpoint=fmhc984566:t1 worktree=/tmp/fmhc.DjNkk8/work
+already-stopped hclive984566 harness=omp backend=hc endpoint=fmhc984566:t1 worktree=/tmp/fmhc.DjNkk8/work
+ok - hc control live: omp exits to a shell and repeated exit is idempotent
+notice: hclive984566 ships branch=fm/hc-live while project registers the ship-branch prefix 'fm/' (branch fm/hclive984566) - the task's branch and PR will read as firstmate-authored; proceed only on a current explicit captain instruction or an intake judgment you can state
+relaunched hclive984566 harness=omp from=omp model=default effort=high backend=hc endpoint=fmhc984566:t1 worktree=/tmp/fmhc.DjNkk8/work
+# name=fm-hclive984566-7db54ea6 old-pid=989861 new-pid=1000112
+ok - hc control live: replacement is alive in the same named terminal with local work preserved
+error: task hclive984566's composer state is 'unknown', not proven empty; refusing to type the /quit exit command because it could concatenate onto existing text. Clear the composer, then retry 'exit'
+stopped hclive984566 harness=omp backend=hc endpoint=fmhc984566:t1 worktree=/tmp/fmhc.DjNkk8/work
+error: task hclive984566's endpoint fmhc984566:t1 reads 'missing', but the hc task record has no core or socket identity, so a not-found or finished terminal on a fresh core or another runtime directory cannot prove the recorded endpoint gone; exit will not claim an agent stopped at an address it cannot trust, nor send lifecycle input to one
+error: task hclive984566's endpoint fmhc984566:t1 reads 'missing', but the hc task record has no core or socket identity, so a not-found or finished terminal on a fresh core or another runtime directory cannot prove the recorded endpoint gone; exit will not claim an agent stopped at an address it cannot trust, nor send lifecycle input to one
+error: relaunch of hclive984566 failed while stopping the old agent and its state is 'missing', so it was not proven stopped; its original instructions were restored and the durable record was retained for recovery
+ok - hc control live: pending input and unprovable absence still refuse
+FM_TEST_COMPLETE
