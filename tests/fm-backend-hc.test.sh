@@ -126,7 +126,7 @@ hc_shell() {  # <script>
   FAKE_HC_DIR=$D PATH="$FB:$PATH" FM_HC_BIN=${CASE_HC_BIN:-$FB/hc} \
     FM_HOME=$HOMEDIR FM_ROOT_OVERRIDE=$HOMEDIR HC_TEST_REAL_PS=$HC_TEST_REAL_PS \
     HC_SESSION=fmtest bash -c '
-      unset HC_TERMINAL_ID
+      unset HC_TERMINAL_ID FM_HC_SPACE
       . "'"$FM_TEST_ROOT"'/bin/fm-backend.sh"
       fm_backend_source hc || { echo "source failed" >&2; exit 90; }
       HOMETAG=$(fm_backend_hometag)
@@ -179,9 +179,15 @@ test_create_task_is_independent_labeled_and_refuses_duplicates() {
   tag=$(hometag_of)
   out=$(grep $'\x1frun\x1f' "$D/log")
   for want in HC_SESSION=fmtest --no-parent --outlive-parent --no-notify $'--cwd\x1f/proj' \
-    "firstmate.task=fm-a1" "firstmate.home=$tag" "herdr.space=fm-$tag" "herdr.tab=$tag-fm-a1"; do
+    "firstmate.task=fm-a1" "firstmate.home=$tag" "herdr.space=$tag-fm-a1" "herdr.tab=$tag-fm-a1"; do
     assert_contains "$out" "$want" "hc run must carry $want"
   done
+  : > "$D/log"
+  hc_shell 'FM_HC_SPACE=chosen fm_backend_hc_create_task fmtest fm-a2 /proj' >/dev/null || fail "unparented create with FM_HC_SPACE failed"
+  out=$(run_args)
+  assert_contains "$out" --no-parent "an explicit space must not invent a parent"
+  assert_contains "$out" "herdr.space=chosen" "FM_HC_SPACE wins over the per-task space"
+  assert_contains "$out" "herdr.tab=$tag-fm-a2" "an explicit space does not change the task tab"
   printf '{"terminals":[{"address":"t9"}]}\n' > "$D/ls.json"
   : > "$D/log"
   expect_refused hc_shell 'fm_backend_hc_create_task fmtest fm-a1 /proj'
@@ -599,7 +605,7 @@ test_process_scan_failures_never_prove_dead() {
 }
 
 test_task_names_are_valid_stable_and_collision_safe() {
-  local label name other first log
+  local label name other first log space other_space
   setup_case names
   printf '{"address":"t9"}\n' > "$D/run.json"
   first=
@@ -614,11 +620,14 @@ test_task_names_are_valid_stable_and_collision_safe() {
     [ -z "$first" ] || [ "$first" != "$name" ] || fail "same-prefix task names collided"
     first=$name
   done
+  space=$(run_args | tail -1 | tr '\037' '\n' | grep '^herdr.space=')
   HOMEDIR="$D/another-home"
   mkdir -p "$HOMEDIR"
   hc_shell "fm_backend_hc_create_task fmtest '$label' /proj" >/dev/null || fail "second home create failed"
   other=$(grep $'\x1frun\x1f' "$D/log" | tail -1 | tr '\037' '\n' | grep -A1 '^--name$' | tail -1)
   [ "$other" != "$name" ] || fail "same task id in distinct homes must get distinct names"
+  other_space=$(run_args | tail -1 | tr '\037' '\n' | grep '^herdr.space=')
+  [ "$other_space" != "$space" ] || fail "same task id in distinct homes must get distinct spaces"
   touch "$D/run-fails"
   expect_refused hc_shell 'fm_backend_hc_create_task fmtest fm-conflict /proj'
   pass "hc: task-derived names obey core rules, distinguish truncation collisions, and never hide a naming refusal"
@@ -635,7 +644,7 @@ run_args() {  # -> the logged `hc run` line
   grep $'\x1frun\x1f' "$D/log"
 }
 
-test_create_task_inside_firstmates_terminal_joins_its_space_as_child() {
+test_create_task_inside_firstmates_terminal_is_child_in_own_space() {
   local tag out sleeper
   setup_case caller
   tag=$(hometag_of)
@@ -647,7 +656,7 @@ test_create_task_inside_firstmates_terminal_joins_its_space_as_child() {
   out=$(run_args)
   assert_contains "$out" $'\x1f--parent\x1ft1\x1f' "the task must be the caller terminal's child"
   assert_not_contains "$out" --no-parent "a child must not also ask for no parent"
-  for want in --outlive-parent --no-notify "herdr.space=space-fm" "herdr.tab=$tag-fm-a1"; do
+  for want in --outlive-parent --no-notify "herdr.space=$tag-fm-a1" "herdr.tab=$tag-fm-a1"; do
     assert_contains "$out" "$want" "hc run must carry $want"
   done
 
@@ -655,40 +664,44 @@ test_create_task_inside_firstmates_terminal_joins_its_space_as_child() {
   hc_shell 'HC_TERMINAL_ID=t1 FM_HC_SPACE=chosen fm_backend_hc_create_task fmtest fm-a2 /proj' >/dev/null || fail "create_task failed with FM_HC_SPACE"
   out=$(run_args)
   assert_contains "$out" $'\x1f--parent\x1ft1\x1f' "an explicit space keeps the caller as parent"
-  assert_contains "$out" "herdr.space=chosen" "FM_HC_SPACE wins over the caller's space"
+  assert_contains "$out" "herdr.space=chosen" "FM_HC_SPACE wins over the task's space"
+  assert_contains "$out" "herdr.tab=$tag-fm-a2" "the overridden space keeps the task's tab"
 
   : > "$D/log"
   write_caller "$D" t2 "$$" ""
-  hc_shell 'HC_TERMINAL_ID=t2 fm_backend_hc_create_task fmtest fm-a3 /proj' >/dev/null || fail "create_task failed under an unplaced caller"
+  hc_shell 'HC_TERMINAL_ID=t2 FM_HC_SPACE= fm_backend_hc_create_task fmtest fm-a3 /proj' >/dev/null || fail "create_task failed under an unplaced caller"
   out=$(run_args)
   assert_contains "$out" $'\x1f--parent\x1ft2\x1f' "an unplaced caller is still the parent"
-  assert_contains "$out" "herdr.space=fm-$tag" "an unplaced caller falls back to the home's space"
+  assert_contains "$out" "herdr.space=$tag-fm-a3" "an unplaced caller and an empty override keep the task's own space"
 
-  # A live terminal whose shell is not an ancestor, and an id the core does
-  # not know, are both ignored. The divergence is asserted: t3 is live with a
-  # space, so only the ancestry check can reject it.
+  # Only a live ancestor counts. A live non-ancestor, a finished terminal,
+  # malformed pid data, and an unknown or invalid id must all remain unparented.
   sleep 30 &
   sleeper=$!
   write_caller "$D" t3 "$sleeper" space-other
-  for id in t3 t8; do
+  write_caller "$D" t4 "$$" space-finished
+  jq '.state="finished"' "$D/t4.json" > "$D/new.json"; mv "$D/new.json" "$D/t4.json"
+  write_caller "$D" t5 "$$" space-invalid
+  jq '.pid="invalid"' "$D/t5.json" > "$D/new.json"; mv "$D/new.json" "$D/t5.json"
+  for id in t3 t4 t5 t8 invalid; do
     : > "$D/log"
     hc_shell "HC_TERMINAL_ID=$id fm_backend_hc_create_task fmtest fm-b-$id /proj" >/dev/null || fail "create_task failed with HC_TERMINAL_ID=$id"
     out=$(run_args)
     assert_contains "$out" --no-parent "HC_TERMINAL_ID=$id must not adopt a parent"
     assert_not_contains "$out" --parent$'\x1f' "HC_TERMINAL_ID=$id must not adopt a parent"
-    assert_contains "$out" "herdr.space=fm-$tag" "HC_TERMINAL_ID=$id must not lend its space"
+    assert_contains "$out" "herdr.space=$tag-fm-b-$id" "HC_TERMINAL_ID=$id must not lend its space"
     [ "$id" != t3 ] || assert_contains "$(cat "$D/log")" $'\x1fget\x1f--json\x1ft3' "the non-ancestor case must have read a live record"
   done
   kill "$sleeper" 2>/dev/null || true
   wait "$sleeper" 2>/dev/null || true
-  pass "hc: inside Firstmate's own hc terminal a task joins its space as a child; a non-ancestor or unknown id is ignored"
+  pass "hc: tasks keep their own spaces under Firstmate; explicit overrides and parent refusal remain intact"
 }
 
 fm_test_run \
   test_hc_is_spawn_capable_and_needs_app_signals \
   test_required_tool_check_uses_the_adapter_resolver \
   test_create_task_is_independent_labeled_and_refuses_duplicates \
-  test_create_task_inside_firstmates_terminal_joins_its_space_as_child \
+  test_create_task_inside_firstmates_terminal_is_child_in_own_space \
   test_control_interrupt_delivers_the_harness_keys \
   test_foreign_or_unlabeled_terminal_gets_no_input_and_no_close \
   test_invalid_session_never_reaches_hc \

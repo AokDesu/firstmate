@@ -31,10 +31,10 @@
 # Visibility in Herdr.app: the app shows a terminal that carries
 # herdr.space=<id> and herdr.tab=<id> labels, and an unknown id becomes a new
 # space or tab. create_task sets herdr.tab=<scoped label>, one tab per task,
-# and herdr.space to FM_HC_SPACE when set, else the space of the hc terminal
-# Firstmate itself runs in, else fm-<hometag>. Tabs remain unnamed/numbered;
-# core terminal names label the terminal and agent entry, not the tab.
-# No app window command runs.
+# and herdr.space to FM_HC_SPACE when set, else that same scoped label, so
+# each task has its own space independently of its parent. Tabs remain
+# unnamed/numbered; core terminal names label the terminal and agent entry,
+# not the tab. No app window command runs.
 #
 # Placement beside Firstmate: when Firstmate runs inside a live hc terminal of
 # the task's session (fm_backend_hc_caller_terminal), each task terminal is
@@ -328,7 +328,7 @@ EOF
 # fm_backend_hc_caller_terminal finds one, else --no-parent; --outlive-parent
 # and --no-notify apply either way.
 fm_backend_hc_create_task() {  # <session> <window-label> <cwd>
-  local session=$1 label=$2 cwd=$3 home scoped dup out address caller caller_space space
+  local session=$1 label=$2 cwd=$3 home scoped dup out address caller space
   local -a parent=(--no-parent)
   home=$(fm_backend_hometag)
   scoped=$(fm_backend_hc_scoped_label "$label")
@@ -338,14 +338,11 @@ fm_backend_hc_create_task() {  # <session> <window-label> <cwd>
     echo "error: hc terminal for $label already exists in session '$session'" >&2
     return 1
   fi
-  space=${FM_HC_SPACE:-}
+  space=${FM_HC_SPACE:-$scoped}
   caller=$(fm_backend_hc_caller_terminal "$session")
   if [ -n "$caller" ]; then
     parent=(--parent "${caller%%$'\t'*}")
-    caller_space=${caller#*$'\t'}
-    [ -n "$space" ] || space=$caller_space
   fi
-  [ -n "$space" ] || space=fm-$home
   out=$(fm_backend_hc_cli "$session" run --bg --json "${parent[@]}" --outlive-parent --no-notify \
     --name "$(fm_backend_hc_task_name "$label")" --cwd "$cwd" \
     --label "firstmate.task=$label" --label "firstmate.home=$home" \

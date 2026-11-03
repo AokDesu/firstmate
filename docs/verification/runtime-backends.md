@@ -3668,22 +3668,50 @@ bin/fm-teardown.sh e2e1
 
 Before the launch-line fix the same spawn could not type `+`, which every launch line carries.
 
-### Placement beside Firstmate
+### Child placement and per-task spaces
 
-Measured on 2026-10-30 with `hc 0.1.14` on Linux (7.0.0, `bash` 5.3.9), against a private core as above.
-`tests/fm-backend-hc-smoke.test.sh` started a terminal labeled `herdr.space=smoke-space` as a stand-in for Firstmate's own, ran `fm_backend_hc_create_task` inside it, and ran it once more from outside any hc terminal:
+Measured on 2026-11-03 with `hc 0.1.17` on Linux, using only `bin/fm-hc-lab.sh` private cores, scratch XDG roots, a pinned socket, and the unchanged metadata tripwire.
+The placement refresh entry point is:
+
+```sh
+bash bin/fm-test-run.sh tests/fm-backend-hc.test.sh tests/fm-backend-hc-smoke.test.sh
+```
+
+The fake-hc suite passed all 24 cases, including explicit space overrides, empty overrides, placed and unplaced callers, unrelated or invalid callers, and distinct-home spaces.
+The real smoke started a terminal labeled `herdr.space=smoke-space` as a stand-in for Firstmate, created one task inside it and one outside any hc terminal, and read each task's parent, space, and tab from the core.
+The inside task's parent equaled the stand-in's address; the outside task had no parent.
+Both tasks had distinct `herdr.space` values equal to their own home-scoped `herdr.tab` values rather than the stand-in's space or a shared home space.
+The smoke printed:
 
 ```text
-ok - hc smoke: create_task started fmt562734:t1
 ok - hc smoke: current_path follows the shell's cwd
 ok - hc smoke: send_text_line ran the command and capture shows its output
+ok - hc smoke: send_text_submit delivers through send --wait (verdict unknown)
 ok - hc smoke: agent_state reads dead for a shell and alive for an agent-named foreground
 ok - hc smoke: kill closes and removes the terminal
-ok - hc smoke: a task created inside Firstmate's own hc terminal joins its space as its child
+ok - hc smoke: tasks get separate spaces while only the task created inside Firstmate's terminal is its child
 FM_TEST_COMPLETE
 ```
 
-The task created inside reported `parent` equal to the stand-in's address and `herdr.space=smoke-space`; the one created outside reported no parent and `herdr.space=fm-<hometag>`.
+The behavior assertions passed, but the smoke exited 1 during cleanup verification, not 0:
+
+```text
+fm-hc-lab: FLEET-STATE TRIPWIRE FAILED: real herdr-core state changed during lab work
+fm-hc-lab: before: 15 files; after: 15 files
+```
+
+An unchanged starting-source smoke, run as `bash tests/fm-backend-hc-smoke.test.sh`, failed identically after all its behavior assertions passed.
+The changed file was `/home/symphony/.local/state/herdr-core/default/terminals.json`:
+
+| Smoke | Before inode / mtime | After inode / mtime |
+| --- | --- | --- |
+| Unchanged starting source | `14698731 / 1793679406` | `14699668 / 1793679414` |
+| Updated adapter | `14700511 / 1793679510` | `14700553 / 1793679520` |
+
+A separate Firstmate observation with no lab running established that the live default core rewrote that file approximately every five seconds while its size stayed 4346 bytes: inode `14709836` at epoch `1793680040`, `14709861` at `1793680044`, and `14710025` at `1793680050`.
+That independent activity makes the inode/mtime tripwire fail on this host even without a lab; it is a reproduced pre-existing environmental limitation, not a successful isolation check.
+The tripwire and lab helper remain unchanged, and their failure is not skipped or suppressed.
+No Herdr.app window was driven or space/tab renamed; the evidence above proves core parent and label placement, not a fresh visual app exercise.
 
 ### Live guard
 

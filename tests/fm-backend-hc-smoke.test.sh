@@ -12,8 +12,8 @@
 # Covers one task lifecycle through the bin/fm-backend.sh dispatcher: binary
 # and generation gates, container ensure, create, submitted input, cwd
 # tracking, capture, agent state for a shell and for an agent-named process,
-# and a proven close, plus a task created from inside a stand-in Firstmate
-# hc terminal joining its space as its child.
+# and a proven close, plus tasks in their own spaces created from inside and
+# outside a stand-in Firstmate hc terminal, preserving parent placement.
 #
 # Skips cleanly (exit 0, "skip: hc not found ...") when no herdr-core binary
 # is installed (optional-binary gate); to pin a specific binary run
@@ -138,8 +138,8 @@ fm_backend_kill hc "$T" || fail "closing an already-closed terminal must be a si
 pass "hc smoke: kill closes and removes the terminal"
 
 # A terminal standing in for Firstmate's own, placed in a Herdr.app space.
-# create_task run from inside it must make the task its child in that space,
-# while one run from outside (this script) stays unparented in the home space.
+# create_task run from inside it must make the task its child in its own
+# task space; one run from outside (this script) stays unparented in its own space.
 FM_TERM=$("$ROOT/bin/fm-hc-lab.sh" run "$SES" run --bg --json --no-parent --label herdr.space=smoke-space --cwd "$WORK_DIR" | jq -r '.address // empty')
 fm_backend_hc_address_valid "$FM_TERM" || fail "could not start the stand-in Firstmate terminal"
 cat > "$TMP_ROOT/inside.sh" <<EOF
@@ -152,12 +152,14 @@ fm_backend_hc_cli "$SES" send --json "$FM_TERM" "FM_HOME='$FM_HOME_DIR' FM_ROOT_
 child_made() { [ -s "$TMP_ROOT/child.addr" ]; }
 wait_for 20 child_made || fail "create_task inside the stand-in Firstmate terminal printed no address"
 CHILD=$(cat "$TMP_ROOT/child.addr")
-fields=$(fm_backend_hc_cli "$SES" get --json "$CHILD" | jq -r '[.parent // "", .labels["herdr.space"] // ""] | @tsv')
-assert_equals "$fields" "$FM_TERM"$'\t'smoke-space "a task created inside Firstmate's terminal is its child in its space"
+fields=$(fm_backend_hc_cli "$SES" get --json "$CHILD" | jq -r '[.parent // "", .labels["herdr.space"] // "", .labels["herdr.tab"] // ""] | @tsv')
+CHILD_SPACE="$(fm_backend_hometag)-fm-smoke-child"
+assert_equals "$fields" "$FM_TERM"$'\t'"$CHILD_SPACE"$'\t'"$CHILD_SPACE" "a task created inside Firstmate's terminal is its child in its own space"
 OUTSIDE=$(fm_backend_hc_create_task "$SES" fm-smoke-outside "$WORK_DIR") || fail "create_task from outside failed"
-fields=$(fm_backend_hc_cli "$SES" get --json "$OUTSIDE" | jq -r '[.parent // "none", .labels["herdr.space"] // ""] | @tsv')
-assert_equals "$fields" "none"$'\t'"fm-$(fm_backend_hometag)" "a task created outside any hc terminal stays unparented in the home space"
+fields=$(fm_backend_hc_cli "$SES" get --json "$OUTSIDE" | jq -r '[.parent // "none", .labels["herdr.space"] // "", .labels["herdr.tab"] // ""] | @tsv')
+OUTSIDE_SPACE="$(fm_backend_hometag)-fm-smoke-outside"
+assert_equals "$fields" "none"$'\t'"$OUTSIDE_SPACE"$'\t'"$OUTSIDE_SPACE" "a task created outside any hc terminal stays unparented in its own space"
 fm_backend_kill hc "$SES:$CHILD" "" fm-smoke-child || fail "could not close the child task"
 fm_backend_kill hc "$SES:$OUTSIDE" "" fm-smoke-outside || fail "could not close the outside task"
-pass "hc smoke: a task created inside Firstmate's own hc terminal joins its space as its child"
+pass "hc smoke: tasks get separate spaces while only the task created inside Firstmate's terminal is its child"
 echo FM_TEST_COMPLETE
