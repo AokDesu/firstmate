@@ -1,0 +1,8 @@
+not ok - omp watch extension merged wakes (merged-prompt): file:///tmp/fm-base.9uattn/[eval1]:55
+if (left.join(",") !== scenario.left.join(",")) throw new Error(`${process.env.SCENARIO}: handoff kept [${left}], expected [${scenario.left}]`);
+                                                      ^
+
+Error: merged-prompt: handoff kept [a,b,c], expected []
+    at file:///tmp/fm-base.9uattn/[eval1]:55:55
+
+Node.js v26.12.0: expected exit 0, got 1

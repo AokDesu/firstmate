@@ -1,0 +1,1 @@
+ok - .omp watch extension: every wake omp merged into one message is consumed, and a message without a wake's full text consumes nothing
